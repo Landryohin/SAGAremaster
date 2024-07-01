@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle affectation{% endblock %}
+
+
+{% block list %}
+ 
+
+ <div > <a class="btn btn-success" style="margin-top: 15px;"  href="{{ path('app_Affectations_index') }}">Retour</a></div> 
+ 
+       {{ form_start(form) }}
+
+            <div class="create">                
+                <div class="create__section">
+                  <div class="create__title"><img src={{asset('build/images/icons/iconplus.5ed37a8f.svg')}}>Ajout d'un affectation</div> 
+                </div>
+                <div style=" display: flex;flex-wrap: wrap;" >   
+                    <div  style="margin-top: 20px; width:35% ">
+                        <div class="create__section" >
+                            <label class="create__label" for="title">{{ form_label(form.Document, 'Document', {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.Document, {'attr': {'class': 'form-control', 'value': affectation.Document, 'readonly': true  }}) }}</div> 
+                        </div>  
+       
+                        <div class="create__section" >          
+                            <label class="create__label" for="title">{{ form_label(form.Envoyeur, 'Expéditeur', {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.Envoyeur, {'attr': {'class': 'form-control', 'value': affectation.Envoyeur, 'readonly': true }}) }}</div> 
+
+                        </div>
+                    
+                        <div class="create__section">
+                            <label class="create__label" for="title">{{ form_label(form.Date_Affectation_at, 'Date de affectation', {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.Date_Affectation_at, {'attr': {'class': 'date_time','placeholder': "Insérez la date de affectation" }}) }}</div>  
+                        </div>
+
+                        <style>
+                            .date_time{ 
+                                color: red;
+                                padding: 4px;  
+                                border: solid 1px #e9ecee;
+                                    border-radius: 0;
+                                background-color: #ECECEC;
+                                    color: #181617;
+                                -webkit-box-shadow: none;
+                                    -moz-box-shadow: none;
+                                box-shadow: none;
+                                    display: block;
+                                    width: 100%;
+                            }
+                        </style>                            
+                        
+                        <div class="create__section" >
+                            <label class="create__label" for="title">{{ form_label(form.Receveur, 'Destinataire', {'label_attr': {'class': 'foo'}}) }}</label>
+                            <label class="custom-select">                                              
+                                <div>{{ form_widget(form.Receveur, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérez le destinataire" }}) }}</div> 
+                            </label>
+                        </div>
+                        <div class="create__footer"> 
+                            <button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+                        </div>
+                    </div>
+                    <div style="width:60% ;margin-left:5%;overflow : auto; text-align : center;margin-top:3%;" >
+                        <embed src="../../Documents/{{affectation.Document.DocumentAt ? affectation.Document.DocumentAt|date('Y/m/d') : ''}}/{{affectation.Document.Chemin}}" width="600" height="500" type='application/pdf'></embed>
+                    </div>
+                </div>
+                
+            </div>
+                
+        </div>
+
+        {{ form_end(form) }}
+                             
+{% endblock %}

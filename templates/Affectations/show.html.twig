@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Affectations{% endblock %}
+
+{# {% block body %}
+    <h1>Affectations</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ Affectation.id }}</td>
+            </tr>
+            <tr>
+                <th>Date_Affectation_at</th>
+                <td>{{ Affectation.DateAffectationAt ? Affectation.DateAffectationAt|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_Affectations_index') }}">back to list</a>
+
+    <a href="{{ path('app_Affectations_edit', {'id': Affectation.id}) }}">edit</a>
+
+    {{ include('Affectations/_delete_form.html.twig') }}
+{% endblock %} #}
+{% block list %}
+ 
+
+     <div style="  margin-top: 15px; margin-bottom:15px" >
+   <div style="text-align:left;"> <a class="btn btn-success"  href="{{ path('app_Affectations_index') }}">Retour</a></div>
+ 
+   </div>
+
+     <div class="topic">
+                    {# <div class="topic__head"   style="margin-bottom: -50px;">
+                         <div class="topic__caption">
+                                <div class="topic__name mb-n5 pb-5"> 
+                                 </div>
+                                     
+                                 <div class="topic__date"> <a class="btn btn-warning mt-5"  href="{{ path('app_Affectations_edit', {'id': Affectation.id}) }}">Modifier</a></div>
+                         </div>
+                    </div> #}
+ 
+                     <div class="create">
+                               
+                        <div  class="create__section ">
+
+                            <div style=" display: flex;flex-wrap: wrap;" >   
+                                
+                                <div  style="margin-top: 20px; width:35% ">
+
+                                    <div class="create__section">
+                                        <label class="create__label" for="title"> Date de Affectation</label>
+                                        <input class="form-control" type="text" name="name" value="{{ Affectation.DateAffectationAt ? Affectation.DateAffectationAt|date('Y-m-d') : '' }}"  readonly>    
+                                    </div>
+
+
+                                    <div class="create__section">
+                                        <label class="create__label" for="title"> Expéditeur</label>
+                                        <input class="form-control" type="text" name="name" value="{{ Affectation.Envoyeur }}"readonly> 
+                                    </div> 
+
+                                    <div class="create__section">
+                                        <label class="create__label" for="title">Document</label>
+                                        <input class="form-control" type="text" name="name" value="{{ Affectation.Document }}"readonly>
+                                    </div>
+                                    
+                                    <div class="create__section">
+                                        <label class="create__label" for="title">Destinataire</label>
+                                        <input class="form-control" type="text" name="name" value="{{ Affectation.Receveur }}"readonly> 
+                                    </div>
+
+                                </div>
+
+                                <div style="width:60% ;margin-left:5%;overflow : auto; text-align : center;margin-top:3%;" >
+                                    <embed src="../Documents/{{Affectation.Document.DocumentAt ? Affectation.Document.DocumentAt|date('Y/m/d') : ''}}/{{Affectation.Document.Chemin}}" width="600" height="850" type='application/pdf'></embed>
+                                </div>
+
+                        </div>
+                    </div>
+                               
+                    {% for role in app.user.roles %}
+                        {% if role == "ROLE_USER" %}
+                        
+                        {% else %}
+                            {#<div style="text-align:right; margin-top:17px"> <a class="btn btn-danger"  href=" ">Supprimer</a></div>#} 
+
+                        {% endif %}
+                    {% endfor %}
+
+
+                                 
+ 
+ 
+                    </div>
+                        
+                
+ 
+                    
+    </div>
+                     
+
+{% endblock %}

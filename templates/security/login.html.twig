@@ -1,0 +1,43 @@
+{% extends 'base_login2.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block form %}
+    <div class="fxt-form">    
+        <p>Veuillez entrez vos identifiants de connection </p>
+        <form method="POST">
+            <div class="form-group">                                                
+                <div class="fxt-transformY-50 fxt-transition-delay-1">   
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>                                             
+                    <i class="flaticon-envelope"></i>
+                </div>
+            </div>
+            <div class="form-group">                                                
+                <div class="fxt-transformY-50 fxt-transition-delay-2">    
+                    <label for="inputPassword">Mot de Passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>                                            
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <i class="flaticon-padlock"></i>
+                </div>
+            </div>
+            <div class="form-group">                                                
+                <div class="fxt-transformY-50 fxt-transition-delay-2">    
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+         
+                    <div class="fxt-content-between"> 
+                        <button type="submit"class="form-control col submit px-3 submit px-3">Se Connecter</button>
+                        <!--a href="forgot-password-15.html" class="switcher-text2">Forgot Password</!--a-->
+                    </div>
+              
+            </div>
+        </form>                            
+    </div> 
+{% endblock %}

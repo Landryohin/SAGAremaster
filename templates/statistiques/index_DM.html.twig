@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableaux statistiques de suivi courriers DM{% endblock %}
+
+{% block list %}
+
+ 
+
+    <div style=" margin-top:50px; ">
+        <h5 style="text-align : center">Tableau Général suivi courriers DM </h5> 
+
+        <div style="background-color : white;border-top : 0.5px solid #c4c4c4;margin-top:10px">
+            <table class="table table-responsive table-hover expensive display nowrap dataTable dtr-inline collapsed" id="dm" style="width: 100%;" >
+                    <thead style="background-color : #e9ecee;">
+                        <tr style="font-weight : bold; text-transform : uppercase">
+                            <td style="text-align : center; width : 5%">№</td> 
+                            <td style="text-align : center; width : 10%">Origine</td> 
+                            <td style="text-align : center; width : 10%">Obj</td> 
+                            <td style="text-align : center; width : 10%">Ref </td> 
+                            <td style="text-align : center; width : 15%">Num ENR</td> 
+                            <td style="text-align : center; width : 10%">ST</td> 
+                            <td style="text-align : center; width : 10%">D.AFF</td> 
+                            <td style="text-align : center; width : 10%">NT</td>  
+                            <td style="text-align : center; width : 15%">Obs </td>  
+                        </tr> 
+                    </thead>
+                    <tbody> 
+                     
+                    </body>
+                </table>
+            </div>
+          <span style="font-size:14px"> <span><b>Legende:</b></span>  <b>OBJ :</b> Objet ;  <b>REF :</b> Reference;  <b>NUM ENR :</b> Numero d'enregistrement; <b>ST :</b> Service traitant; <b>D.AFF :</b> Date d'affectation; <b>NT :</b> Niveau de traitement; <b>OBS :</b> Observation;  </span> 
+
+    </div>
+
+ 
+{% endblock %}
+
+{% block footer %}
+
+  <style>
+  
+        .footer {
+        background-color:white;	
+        color:black;
+        }
+        @media only screen and (min-width:1600px) {
+            .footer {
+                bottom:6px;
+                margin-top: 2.5%; 
+                width: 100%;
+            }
+        }
+        @media only screen and (min-width:1900px) {
+            .footer {
+                bottom:6px;
+                margin-top: 8%; 
+                width: 100%;
+            }
+        }
+  
+  </style>
+
+    <div class="footer" >
+                <div class="container">
+                    <div class="footer__logo">
+                        <div>
+                            <h3>SAGA</h3>
+                        </div>
+                    </div>
+                    <div class="footer__nav">
+                        <div class="footer__tline">
+                            
+
+                            <ul class="footer__social" >
+                                <li><a href="#">PRÉSENTATION</a></li>
+                                <li><a href="#">TABLEAU DE BORD</a></li> 
+                                
+                            </ul>
+                            
+                        </div>
+                        <div class="footer__bline">
+                            
+                            <ul class="footer__social">
+                                    <li class="footer__copyright" style="margin-top: 10px; font-size:15px;font-weight:bold; color: blue;"><span>&copy;DGML République du Bénin le {{ "now"|date('d/m/Y') }}</span></li>
+                                
+                            </ul>
+                            {# <div class="footer__language-btn-m" data-dropdown-btn="language">Americas - English<i class="icon-Arrow_Below"></i></div> #}
+                        </div>
+                    </div>
+                </div>
+                <span style="display:flex ;margin-bottom:-5px;top:0:">
+                <i style="width: 100%; height:8px;  padding: 0px; background-color:RGB(16,135,87);"> </i>
+                <i style="width: 100%  ;  height:8px; background-color:#FFD400;"> </i>
+                <i style="width: 100% ; height:8px; background-color:rgb(235, 0, 0);"> </i>
+            
+            </span>
+            </div>
+{% endblock %}
+  

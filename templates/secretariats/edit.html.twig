@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification de point traitement{% endblock %}
+
+{% block list %}
+
+<div style="  margin-top: 15px" >
+  <div > <a class="btn btn-success"  href="{{ path('app_secretariats_index') }}">Retour</a></div>
+  <div style="text-align:right; margin-top:-37px"> <a class="btn btn-danger"  href=" ">Supprimer</a></div>
+</div>
+
+  
+                    {{ form_start(form) }}
+                                <div class="create">
+
+
+                                <div class="create__section">
+                                    <div class="create__title"><img src={{asset('build/images/icons/update.fb0ac4e5.svg')}}>Modification d'un point de traitement de courier</div> 
+                                </div>
+
+
+                               
+
+                                <div style="display:flex; flex-wrap:wrap">
+                                 
+                                        <div style="width: 47.5%; ">
+                                           
+                                                <div class="create__section" >
+                                                <label class="create__label" for="title">{{ form_label(form.Direction, 'Nom de la direction', {'label_attr': {'class': 'foo'}}) }}</label>
+
+                                                    <label class="custom-select">
+                                                                                                        
+                                                        <div>{{ form_widget(form.Direction, {'attr': {'class': 'js-example-basic-single','placeholder': "Nom de la direction" }}) }}</div> 
+
+                                                    </label>
+                                                </div>
+                                          
+                                        </div>
+                                        <div style="width: 47.5%;margin-left:5% ">
+                                            
+                                        
+                                                <div class="create__section" >
+                                                <label class="create__label" for="title">{{ form_label(form.Secretaire, 'Secrétaire de la direction', {'label_attr': {'class': 'foo'}}) }}</label>
+
+                                                    <label class="custom-select">
+                                                                                                        
+                                                        <div>{{ form_widget(form.Secretaire, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérez le chef de la direction" }}) }}</div> 
+
+                                                    </label>
+                                                </div>
+                                       
+                                        </div>
+
+                                </div>
+
+                                <div style="display:flex; flex-wrap:wrap">
+                                 
+                                        <div style="width: 47.5%; ">
+                                           
+                                                <div class="create__section" >
+                                                <label class="create__label" for="title">{{ form_label(form.Type, 'Type de point de traitement', {'label_attr': {'class': 'foo'}}) }}</label>
+
+                                                    <label class="custom-select">
+                                                                                                        
+                                                        <div>{{ form_widget(form.Type, {'attr': {'class': 'js-example-basic-single'}}) }}</div> 
+
+                                                    </label>
+                                                </div>
+                                          
+                                        </div>
+                                     
+
+                                </div>
+                               
+                                <div class="create__footer"> 
+                                    <button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+                                </div>
+                            </div>
+
+                        {{ form_end(form) }}
+                             
+{% endblock %}

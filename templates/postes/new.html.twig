@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Poste{% endblock %}
+
+
+{% block list %}
+ 
+ <div > <a class="btn btn-success" style="margin-top: 15px;"  href="{{ path('app_postes_index') }}">Retour</a></div> 
+ 
+       {{ form_start(form) }}
+
+            <div class="create">
+
+                <div class="create__section">
+                  <div class="create__title"><img src={{asset('build/images/icons/iconplus.5ed37a8f.svg')}}>Ajout d'un poste</div> 
+                </div>
+                <div style="display:flex; flex-wrap:wrap">
+                    
+                    <div class="create__section" style="width: 22.5%; " >
+
+                        <label class="create__label" for="title">{{ form_label(form.Niveau, 'Niveau', {'label_attr': {'class': 'foo'}}) }}</label>
+                        <label class="custom-select">
+                            <div>{{ form_widget(form.Niveau, {'attr': {'class': 'js-example-basic-single', 'value': poste.Niveau }}) }}</div> 
+                        </label>
+
+                    </div> 
+                    
+                    <div class="create__section" style="width: 20%; margin-left:5% " >
+
+                        <label class="create__label" for="title">{{ form_label(form.Type, 'Type de Poste', {'label_attr': {'class': 'foo'}}) }}</label>
+                        <label class="custom-select">
+                            <div>{{ form_widget(form.Type, {'attr': {'class': 'js-example-basic-single', 'value': poste.Type }}) }}</div> 
+                        </label>
+
+                    </div> 
+
+                    <style>
+                        .date_time{  
+                            padding: 1px;  
+                            border: solid 1px #e9ecee;
+                                border-radius: 0;
+                            background-color: #ECECEC;
+                                color: #181617;
+                            -webkit-box-shadow: none;
+                                -moz-box-shadow: none;
+                            box-shadow: none;
+                                display: block;
+                                width: 132%; 
+                        }
+
+                        .date_time1{  
+                        padding: 1px;  
+                        border: solid 1px #e9ecee;
+                            border-radius: 0;
+                        background-color: #ECECEC;
+                            color: #181617;
+                        -webkit-box-shadow: none;
+                            -moz-box-shadow: none;
+                        box-shadow: none;
+                            display: block;
+                            width: 65%; 
+                            padding:5px;
+                        }
+
+                        .date_time2{  
+                            padding: 1px;  
+                            border: solid 1px #e9ecee;
+                                border-radius: 0;
+                            background-color: #ECECEC;
+                                color: #181617;
+                            -webkit-box-shadow: none;
+                                -moz-box-shadow: none;
+                            box-shadow: none;
+                                display: block;
+                                width: 100%; 
+                                padding:5px;
+                        }
+                
+                    </style>
+                    <div class="create__section"  style="width: 20%; margin-left:5%">
+                        
+                        <label class="create__label" for="title">{{ form_label(form.DateDeb, 'Date de début', {'label_attr': {'class': 'foo'}}) }}</label>
+                        
+                        <div >{{ form_widget(form.DateDeb, {'attr': {'class': 'date_time2' }}) }}</div>  
+                    
+                    </div>
+
+                    <div class="create__section"  style="width: 20%; margin-left:5%">
+                        
+                        <label class="create__label" for="title">{{ form_label(form.DateFin, 'Date de Fin', {'label_attr': {'class': 'foo'}}) }}</label>
+                        
+                        <div>{{ form_widget(form.DateFin, {'attr': {'class': 'date_time2' }}) }}</div>  
+                    
+                    </div>
+                </div>
+                <div style="display:flex; flex-wrap:wrap">
+                    <div class="create__section"  style="width: 47.5%">
+
+                        <label class="create__label" for="title">{{ form_label(form.Fonction, 'Fonction', {'label_attr': {'class': 'foo'}}) }}</label>
+                        <label class="custom-select">
+                            <div>{{ form_widget(form.Fonction, {'attr': {'class': 'js-example-basic-single', 'value': poste.Fonction}}) }}</div> 
+                        </label>
+
+                    </div>
+                    <div style="width: 47.5% ; margin-left:5%">
+                            
+                        <div class="create__section" >
+
+                        <label class="create__label" for="title">{{ form_label(form.Agent, 'Agent', {'label_attr': {'class': 'foo'}}) }}</label>
+
+                            <label class="custom-select">
+                                                                                
+                                <div>{{ form_widget(form.Agent, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérez l'agent" }}) }}</div> 
+
+                            </label>
+
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="create__footer"> 
+
+                    <button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+                
+                </div>
+            </div>
+
+        {{ form_end(form) }}
+                             
+{% endblock %}

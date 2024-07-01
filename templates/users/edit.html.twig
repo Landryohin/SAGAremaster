@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification d'utilisateur {% endblock %}
+
+{% block add %}
+    <a href="{{path('app_users_new')}}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+        {#<img src="{{ 'assets/Dashboard/fonts/icons/main/New_Topic.svg'}}" alt="Ajout">#}
+    </a>
+{% endblock %}
+
+{% block list %}
+
+
+ <div style="  margin-top: 15px" >
+   <div style="text-align:left;"> <a class="btn btn-success"  href="{{ path('app_users_index') }}">Retour</a></div>
+  <div style="text-align:right; margin-top:-37px"> <a class="btn btn-danger"  href=" ">Supprimer</a></div>
+   </div>
+ 
+                    {{ form_start(form) }}
+                                <div class="create">
+                                <div class="create__section">
+                                
+                                    <div class="create__title"><img src={{asset('build/images/icons/update.fb0ac4e5.svg')}}>Modification d'un utilisateur</div>
+                                   
+                                </div>
+
+                                <div style="display:flex; flex-wrap:wrap">   
+                                    <div class="create__section" style="width: 47.5%;">
+                                        <label class="create__label" for="title">{{ form_label(form.email, 'Email', {'label_attr': {'class': 'foo'}}) }}</label>
+                                        <div>{{ form_widget(form.email, {'attr': {'class': 'form-control','placeholder': "Insérer le email de l'utilisateur" }}) }}</div> 
+                                    </div>
+                                    <div class="create__section" style="width: 47.5%;margin-left:5% ">
+                                        <label class="create__label" for="title">{{ form_label(form.nom, 'Nom ', {'label_attr': {'class': 'foo'}}) }}</label>
+                                        <div>{{ form_widget(form.nom, {'attr': {'class': 'form-control','placeholder': "Insérer le nom de l'utilisateur" }}) }}</div> 
+                                    </div>
+                               </div>
+                               
+                              
+                              <div style="display:flex; flex-wrap:wrap">   
+                                    <div class="create__section"  <div style="width: 47.5%;">
+                                        <label class="create__label" for="title">{{ form_label(form.prenom, 'Prénom(s)', {'label_attr': {'class': 'foo'}}) }}</label>
+                                        <div>{{ form_widget(form.prenom, {'attr': {'class': 'form-control','placeholder': "Insérer le(s) prenom(s) de l'utilisateur" }}) }}</div> 
+                                    </div>
+                                    <div style="width: 47.5%; margin-left:5%">
+                                     
+                                    <div class="create__section">
+                                      <label class="create__label" for="title">{{ form_label(form.roles, 'Rôles', {'label_attr': {'class': 'foo'}}) }}</label>
+
+                                        <label class="custom-select">
+                                                                                            
+                                             <div>{{ form_widget(form.roles, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérer le rôle de l'utilisateur" }}) }}</div> 
+
+                                        </label>
+                                    </div>
+                                </div>
+
+                                    
+                            </div>
+                            {#
+                              <div style="display:flex; flex-wrap:wrap">  
+                                    <div  style="width: 47.5%;">
+                                   
+                                        <div class="create__section">
+                                          <label class="create__label" for="title">{{ form_label(form.Niveau, 'Niveau', {'label_attr': {'class': 'foo'}}) }}</label>
+
+                                            <label class="custom-select">
+                                                                                                
+                                                     <div>{{ form_widget(form.Niveau, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérer le niveau de l'utilisateur" }}) }}</div> 
+
+                                            </label>
+                                        </div>
+                                    </div>
+                               
+                                    <div style="width: 47.5%;margin-left:5%">
+                                        <div class="create__section">
+                                        <label class="create__label" for="title">{{ form_label(form.Zone, 'Fonction', {'label_attr': {'class': 'foo'}}) }}</label>
+
+                                            <label class="custom-select">
+                                                                                                
+                                                <div>{{ form_widget(form.Zone, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérer la foction de l'agent" }}) }}</div> 
+
+                                            </label>
+                                        </div>
+                                    </div>#}
+                            
+                                
+                               
+                                <div class="create__footer"> 
+                                    <button class=" btn btn-warning">{{ button_label|default('Modifier') }}</button>
+                                </div>
+                            </div>
+
+                        {{ form_end(form) }}
+                             
+{% endblock %}
