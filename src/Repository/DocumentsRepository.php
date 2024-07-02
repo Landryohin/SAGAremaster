@@ -3,16 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Documents;
-use App\Entity\TypeDocuments;
-use App\Entity\Directions;
-use App\Entity\Divisions;
 use App\Entity\Postes;
-use App\Entity\Services;
-use function PHPSTORM_META\type;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Offset;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -140,13 +132,14 @@ class DocumentsRepository extends ServiceEntityRepository
         elseif($begin) $query.= " (d.DateArrivee = :begin or d.Document_at = :begin) and";
         if($key){
             $query.= " (";
-            if(is_string($key)) $query.= " upper(d.Initiateur) like upper('%{$key}%') or upper(d.Poste) like upper('%{$key}%') or upper(d.Objet) like upper('%{$key}%') or upper(d.Reference) like upper('%$key%') or upper(d.Structure) like upper('%$key%') ";
+            if(is_string($key)) $query.= " upper(d.Initiateur) like upper(:key) or upper(d.Poste) like upper(:key) or upper(d.Objet) like upper(:key) or upper(d.Reference) like upper(:key) or upper(d.Structure) like upper(:key) ";
             if(is_integer($key)) $query.= " or d.NumeroEnregistrement = :key ) ";
             $query.= " ) ";
         }
         if(substr($query,-3,3) == "and" ) $query = substr($query,0 ,strlen($query) - 3);
         $entity = $this->getEntityManager()->createQuery($query);
         if(is_integer($key)) $entity->setParameter('key', $key);
+        elseif($key) $entity->setParameter('key', "%$key%");
         if($begin) $entity->setParameter('begin', $begin);
         if($end) $entity->setParameter('end', $end);
         if($poste) $entity->setParameter('poste', $poste)->setParameter('status', true);
@@ -165,13 +158,14 @@ class DocumentsRepository extends ServiceEntityRepository
         elseif($begin) $query.= " (d.DateArrivee = :begin or d.Document_at = :begin) and";
         if($key ){
             $query.= " (";
-            if(is_string($key)) $query.= " upper(d.Poste) like upper('%{$key}%') or upper(d.Initiateur) like upper('%{$key}%') or upper(d.Objet) like upper('%{$key}%') or upper(d.Reference) like upper('%$key%') or upper(d.Structure) like upper('%$key%') ";
+            if(is_string($key)) $query.= " upper(d.Initiateur) like upper(:key) or upper(d.Poste) like upper(:key) or upper(d.Objet) like upper(:key) or upper(d.Reference) like upper(:key) or upper(d.Structure) like upper(:key) ";
             if(is_integer($key)) $query.= " or d.NumeroEnregistrement = :key ";
             $query.= " ) ";
         }
         if(substr($query,-3,3) == "and" ) $query = substr($query,0 ,strlen($query) - 3);
         $entity = $this->getEntityManager()->createQuery($query);
         if(is_integer($key)) $entity->setParameter('key', $key);
+        elseif($key) $entity->setParameter('key', "%$key%");
         if($begin) $entity->setParameter('begin', $begin);
         if($end) $entity->setParameter('end', $end);
         if($poste) $entity->setParameter('poste', $poste)->setParameter("niveau",'PUBLIC');
@@ -183,7 +177,7 @@ class DocumentsRepository extends ServiceEntityRepository
         $query = 'SELECT d from  App\Entity\Documents d, App\Entity\Provenances p where d.status = true and ';
         if($key){
             $query.= " ( ";
-            if(is_string($key)) $query.= "  upper(p.Structure ) like upper('%$key%') ";
+            if(is_string($key)) $query.= "  upper(p.Structure ) like upper(:key) ";
             if(is_integer($key)) $query.= ' or p.Numero = :key ';
             $query.= " ) and ";
         }
@@ -192,6 +186,7 @@ class DocumentsRepository extends ServiceEntityRepository
             ->setParameter(':ids', $this->findBySearchId( $type , $begin , $end, $key, $poste))
             ->setParameter(':ida', $this->findBySearchAffectationId( $type , $begin , $end, $key, $poste));
         if(is_integer($key)) $result->setParameter('key', $key);
+        if(is_string($key)) $result->setParameter('key', "%$key%");
         return $result->getResult();
     }
 
@@ -230,6 +225,7 @@ class DocumentsRepository extends ServiceEntityRepository
         $query = 'SELECT d from App\Entity\Documents d where d.Niveau = :niveau or d.id in (:ids) ';
         if(!$statistique) $query.= ' or d.Reponse in (:ids) ';
         $query.= '  order by d.Document_at desc';
+      
         $result = $this->getEntityManager()->createQuery($query)
         ->setParameter(':ids', $ids)
         ->setParameter("niveau",'PUBLIC');

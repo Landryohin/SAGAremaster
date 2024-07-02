@@ -40,7 +40,8 @@
         </svg> &nbsp; Nouveau Affectation</a></div> #}
 
     <div class="" style=" display: flex; flex-wrap: wrap;justify-content: space-between;margin-top:20px"> 
-    <div class="s002">
+
+ <div class="s002">
       <form action = "{{path('app_Affectations_index' )}}" method= "post">
         
         <div class="inner-form">
@@ -48,19 +49,19 @@
             <div class="icon-wrap">
                
             </div>
-            <input name = "key" id="key" type="hidden" placeholder="Rechercher un document"  />
+            <input name = "key" id="key" type="texte" placeholder="Rechercher un document"  />
           </div>
           <div class="input-field second-wrap">
             <div class="icon-wrap">
               <p style="padding-top:-5px; z-index:1"></p>
             </div>
-           <input title="Date de debut" name ="begin" type="date" placeholder="Date de debut" />
+           <input title="Date de debut" name ="begin" type="date" placeholder="Date de debut" value="{{ begin}}" />
           </div>
           <div class="input-field third-wrap">
             <div class="icon-wrap">
                
             </div>
-            <input title="Date de fin"  name="end" id="return" type="date" placeholder="Date de fin" />
+            <input title="Date de fin"  name="end" id="return" type="date" placeholder="Date de fin" value="{{ end}}" />
           </div>
            
           <div class="input-field fifth-wrap">
@@ -69,6 +70,8 @@
         </div>
       </form>
     </div>
+
+ 
  
 </div>
 
@@ -96,18 +99,20 @@
                 <td style="text-align : center;width : 10%">{{ Affectation.DateAffectationAt ? Affectation.DateAffectationAt|date('d-m-Y') : '' }}</td> 
 
                 <td style="width : 20%"> 
-                    {% if  Affectation.document.Reference|length > 20 %}
+                    {# {% if  Affectation.document.Reference|length > 20 %}
                         {{  Affectation.document.Reference|split('', 20)[0] }} ...
                     {% else %}
                         {{  Affectation.document.Reference }}
-                    {% endif %}                 
+                    {% endif %}#}
+                    {{  Affectation.document.Reference }}
                 </td> 
                 <td style="width : 20%">
-                    {% if Affectation.document.Objet|length > 35 %}
-                        {{ Affectation.document.Objet|split('', 50)[0] }} ...
+                    {# {% if Affectation.document.Objet|length > 100 %}
+                        {{ Affectation.document.Objet|split('', 100)[0] }} ...
                     {% else %}
                         {{ Affectation.document.Objet }}
-                    {% endif %}
+                    {% endif %} #}
+                    {{ Affectation.document.Objet }}
                 </td> 
                 <td style="width : 10%"> {{ Affectation.Envoyeur}}</td> 
                 <td style="width : 10%">{{  Affectation.Agent? Affectation.Agent.Prenom ~"  "~ Affectation.Agent.Nom : Affectation.Receveur ? Affectation.Receveur:""   }}</td>   
@@ -209,7 +214,7 @@
                                 <div class="footer__bline">
                                   
                                     <ul class="footer__social">
-                                         <li class="footer__copyright" style="margin-top: 10px; font-size:15px;font-weight:bold; color: blue;"><span>&copy;DGML République du Bénin le {{ "now"|date('d/m/Y') }}</span></li>
+                                         <li class="footer__copyright" style="margin-top: 10px; font-size:15px;font-weight:bold; color: blue;"><span>&copy;{{ dg }}République du Bénin le {{ "now"|date('d/m/Y') }}</span></li>
                                       
                                     </ul>
                                     {# <div class="footer__language-btn-m" data-dropdown-btn="language">Americas - English<i class="icon-Arrow_Below"></i></div> #}

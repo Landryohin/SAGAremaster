@@ -26,7 +26,7 @@ class AffectationsController extends AbstractController
     #[Route('/', name: 'app_Affectations_index', methods: ['GET','POST'])]
     public function index(AffectationsRepository $AffectationsRepository,PostesRepository $postesRepository, UsersRepository $userRepository, DirectionsRepository $directionsRepository,SecretariatsController $secretariatsController, SecretariatsRepository $secretariatsRepository, ServicesRepository $servicesRepository, DivisionsRepository $divisionsRepository): Response
     {
-        foreach($AffectationsRepository->findAll() as $affectation){
+        /*foreach($AffectationsRepository->findAll() as $affectation){
             if(!$affectation->getPosteOwner()){
                 $affectation->setPosteOwner($affectation->getOwner()->getPostes()[0]);
                 $AffectationsRepository->save($affectation,true);
@@ -36,14 +36,14 @@ class AffectationsController extends AbstractController
                 $AffectationsRepository->save($affectation,true);
             }
         }
-        /*foreach($AffectationsRepository->findAll() as $Affectation){
+        foreach($AffectationsRepository->findAll() as $Affectation){
             if(!$Affectation->getOwner()){
                 $owner = null;
                 $direction = $directionsRepository->findOneByCode($Affectation->getEnvoyeur());
                 if($direction) 
                 {
                     $owner = $direction->getDirecteur();
-                    if($Affectation->getEnvoyeur()=="DGML")
+                    if($Affectation->getEnvoyeur()==$DG)
                         $owner = $Affectation->getDocument()->getOwner();
                     else {
                         $secretariat = $secretariatsRepository->findOneByDirection($direction, "ADMINISTRATIF");
@@ -65,6 +65,8 @@ class AffectationsController extends AbstractController
                 $AffectationsRepository->save($Affectation,true);
             }
         }*/
+        $DG = $this->getParameter('dg');
+        $DGA = $this->getParameter('dga');
         $user = $userRepository->findById($this->getUser()->getUserIdentifier());
         $secretaire = $assistant = $particulier = $administratif = $direction =  false;
         $secretaire = $secretariatsController->verify($postesRepository,$user, $directionsRepository,$secretariatsRepository,$servicesRepository,$divisionsRepository); 
@@ -75,15 +77,17 @@ class AffectationsController extends AbstractController
             $direction = $directionsRepository->findBySecretaire($user->getZone())[0];
         } 
         $Affectations = [];
-        if(isset($_REQUEST['submit'])){
-            $type = $begin = $end = $key = null;
+        $end = date("Y-m-d");
+        $begin = date("Y-m-d", strtotime('-1 month'));
+        if(isset($_REQUEST['submit'])|| $begin ){
+            $type = $key = null;
             //if(isset($_POST['type']) && $_POST['type'] != "ALL") $type = $_POST['type'];
             if(isset($_POST['begin']) && !empty($_POST['begin'])) $begin = $_POST['begin'];
             if(isset($_POST['end']) && !empty($_POST['end'])) $end = $_POST['end'];
             if(isset($_POST['key']) && !empty($_POST['key'])) $key = $_POST['key'];
             if($user->getNiveau() == "Admin" ) $Affectations = $AffectationsRepository->findBySearch($type,$begin,$end,$key);
-            if(($user->getNiveau() == "Directeur"  && $user->getZone() == "DGML") || $particulier) 
-                $Affectations = $AffectationsRepository->findBySearch($type,$begin,$end,$key,['DGML','DGAML',$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]);
+            if(($user->getNiveau() == "Directeur"  && $user->getZone() == $DG) || $particulier) 
+                $Affectations = $AffectationsRepository->findBySearch($type,$begin,$end,$key,[$DG,$DGA,$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]);
             elseif ($assistant || $administratif) $Affectations = $AffectationsRepository->findBySearch($type,$begin,$end,$key,$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire());
             elseif ($secretaire && $direction) $Affectations = $AffectationsRepository->findBySearch($type,$begin,$end,$key,[$user->getZone(),$direction->getCode()]);
             elseif ($secretaire) $Affectations = $AffectationsRepository->findBySearch($type,$begin,$end,$key,$user->getZone());
@@ -93,8 +97,8 @@ class AffectationsController extends AbstractController
             //dd($secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire());
             //dd($Affectations = $AffectationsRepository->findAllDesc());
             if($user->getNiveau() == "Admin")  $Affectations = $AffectationsRepository->findAllDesc();
-            elseif(($user->getNiveau() == "Directeur"  && $user->getZone() == "DGML") || $particulier) 
-                $Affectations = $AffectationsRepository->findByReceveur(['DGML',$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]);
+            elseif(($user->getNiveau() == "Directeur"  && $user->getZone() == $DG) || $particulier) 
+                $Affectations = $AffectationsRepository->findByReceveur([$DG,$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]);
             elseif ($assistant || $administratif) $Affectations = $AffectationsRepository->findByReceveur($secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),null,true);
             elseif ($secretaire && $direction) $Affectations = $AffectationsRepository->findByReceveur([$user->getZone(),$direction->getCode()]);
             elseif ($secretaire) $Affectations = $AffectationsRepository->findByReceveur($user->getZone());
@@ -106,6 +110,8 @@ class AffectationsController extends AbstractController
             'Affectations' => $Affectations,
             'user' => $user,
             'direction' => $direction,
+            'begin' =>$begin,
+            'end' => $end,
         ]);
     
     }
@@ -126,7 +132,7 @@ class AffectationsController extends AbstractController
         }         
         $Affectation = new Affectations();
         $Affectation->setPosteOwner($posteUser);
-        if($speciale) $Affectation->setEnvoyeur("DGML");
+        if($speciale) $Affectation->setEnvoyeur($this->getParameter('dg'));
         elseif($secretaire) $Affectation->setEnvoyeur($direction->getCode());
         else $Affectation->setEnvoyeur($user->getZone());
         $document = $documentsRepository->findById($doc);
@@ -226,6 +232,9 @@ class AffectationsController extends AbstractController
     }
 
     public function destination(PostesRepository $postesRepository, SecretariatsController $secretariatsController, SecretariatsRepository $secretariatsRepository, UsersRepository $userRepository, DirectionsRepository $directionsRepository, ServicesRepository $servicesRepository,DivisionsRepository $divisionsRepository){
+        
+        $DG = $this->getParameter('dg');
+        $DGA = $this->getParameter('dga');
         $user = $userRepository->findById($this->getUser()->getUserIdentifier());
         $retour =  [];
         $secretaire = $direction = $administratif = $particulier = false; 
@@ -237,9 +246,9 @@ class AffectationsController extends AbstractController
             $direction = $directionsRepository->findBySecretaire($user->getZone())[0];
         } 
         if($user->getNiveau() == "Directeur" || $user->getZone() == "DGAML" || $secretaire || $user->getNiveau() == "Admin" ){
-            if($user->getZone() == "DGML" ||$user->getZone() == "DGAML" || $user->getNiveau() == "Admin" || $administratif || $particulier  ){
+            if($user->getZone() == $DG ||$user->getZone() == "DGAML" || $user->getNiveau() == "Admin" || $administratif || $particulier  ){
                 $directeurs = $directionsRepository->findAllByDesc();
-                if($user->getZone() != 'DGAML') $directeurs[] = new Directions('DGAML','Directeur Général Adjoint du Matériel et de la Logistique ');
+                if($user->getZone() != $DGA) $directeurs[] = new Directions($DGA,'Directeur Général Adjoint du Matériel et de la Logistique ');
                 $retour =$this->retour("Direction", [$directeurs,$servicesRepository->getServicesFonctionneles(), $divisionsRepository->getDivisionsFonctionnelles()],$postesRepository->findByNiveau('Agent'));
             }
             elseif($secretaire && $direction) $retour = $this->retour("Direction", [$directionsRepository->getServices($direction->getCode()),$directionsRepository->getDivisions($direction->getCode())],$postesRepository->findAllByNiveauAndFonction('Agent',$directionsRepository->getAllCode($direction->getCode())));

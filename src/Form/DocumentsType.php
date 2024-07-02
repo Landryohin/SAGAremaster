@@ -3,16 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Documents;
-use App\Repository\UsersRepository;
 use App\Controller\PostesController;
 use Symfony\Component\Form\FormEvent;
-use App\Repository\ServicesRepository;
-use App\Controller\DocumentsController;
-use App\Repository\DivisionsRepository;
-use App\Repository\DirectionsRepository;
 use Symfony\Component\Form\AbstractType;
-use App\Controller\SecretariatsController;
-use App\Repository\SecretariatsRepository;
 use App\Repository\TypeDocumentsRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Form\EventListener\AddProvenanceListener;
@@ -64,7 +57,7 @@ class DocumentsType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '51200k',
+                        'maxSize' => '124000k',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',

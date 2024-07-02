@@ -87,9 +87,9 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
     public function findBySearch($key): array
     {
         return $this->createQueryBuilder('u')
-            ->Where(" upper(u.nom) like upper('%$key%') or upper(u.prenom) like upper('%$key%')
-            or upper(u.niveau) like upper('%$key%') or upper(u.email) like upper('%$key%')
-            or upper(u.zone) like upper('%$key%') ")
+            ->Where(" upper(u.nom) like upper(:key) or upper(u.prenom) like upper(:key)
+            or upper(u.niveau) like upper(:key) or upper(u.email) like upper(:key)
+            or upper(u.zone) like upper(:key) ")
             ->orderBy('u.nom', 'ASC')
             ->orderBy('u.prenom', 'ASC')
             ->getQuery()

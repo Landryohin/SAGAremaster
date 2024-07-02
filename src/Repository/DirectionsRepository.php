@@ -290,7 +290,7 @@ class DirectionsRepository extends ServiceEntityRepository
    public function findBySearch($key)
    {
        return $this->createQueryBuilder('d')
-           ->Where(" upper(d.Code) like upper('%$key%') or upper(d.Libelle) like upper('%$key%') ")
+           ->Where(" upper(d.Code) like upper(:key) or upper(d.Libelle) like upper(:key) ")
            ->orderBy('d.Code', 'ASC')
            //->setMaxResults(10)
            ->getQuery()

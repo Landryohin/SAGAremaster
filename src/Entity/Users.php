@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use phpDocumentor\Reflection\PseudoTypes\True_;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
@@ -175,11 +174,11 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+        // $this->password = null;
+    }   
 
     /**
      * @return Collection<int, Documents>

@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller; 
+
 
 use App\Entity\Users;
 use App\Entity\Directions;
@@ -21,6 +22,8 @@ class HomeController extends AbstractController
     #[Route('/', name: 'Accueil', methods: ['GET','POST'])]
     public function index(SecretariatsController $secretariatsController, PostesRepository $postesRepository, SecretariatsRepository $secretariatsRepository, TypeDocumentsRepository $typeDocumentsRepository, UsersRepository $userRepository, DocumentsRepository $documentsRepository, DirectionsRepository $directionsRepository, ServicesRepository $servicesRepository, DivisionsRepository $divisionsRepository): Response
     {
+        $DG = $this->getParameter('dg');
+        $DGA = $this->getParameter('dga');
         if($this->getUser()){
             $user = $userRepository->findById($this->getUser()->getUserIdentifier());
             $direction = $assistant = $secretaire = $particulier = $administratif = $supAdministratif = $speciale =   false;
@@ -39,10 +42,10 @@ class HomeController extends AbstractController
                 if(isset($_POST['begin']) && !empty($_POST['begin'])) $begin = $_POST['begin'];
                 if(isset($_POST['end']) && !empty($_POST['end'])) $end = $_POST['end'];
                 if(isset($_POST['keywords']) && !empty($_POST['keywords'])) $key = $_POST['keywords'];
-                if(isset($_GET['keywords']) && !empty($_GET['keywords'])) $key = $_GET['keywords'];
+                if(isset($_GET['keywords']) && !empty($_GET['keywords'])) $key =  $_GET['keywords'];
                 if($user->getNiveau() == "Admin" )  $documents = $documentsRepository->findBySearch($type,$begin,$end,$key,null,50);
-                elseif(($user->getNiveau() == "Directeur"&& $user->getZone() == "DGML") ||  $particulier ){
-                    $poste = ["DGML","DAGML",$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]; 
+                elseif(($user->getNiveau() == "Directeur"&& $user->getZone() == $DG) ||  $particulier ){
+                    $poste = [$DG,$DGA,$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]; 
                     $documents = $documentsRepository->findBySearch($type,$begin,$end,$key,$poste,50);
                 }
                 elseif ($assistant || $administratif)
@@ -57,8 +60,8 @@ class HomeController extends AbstractController
                     $documents = $documentsRepository->findBySearch($type,$begin,$end,$key,$user->getZone(),50);
             }else{
                 if($user->getNiveau() == "Admin" )  $documents =  $documentsRepository->findAllDesc(50);
-                elseif(($user->getNiveau() == "Directeur"  && $user->getZone() == "DGML") || $particulier ) {
-                    $poste = ["DGML","DAGML",$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]; 
+                elseif(($user->getNiveau() == "Directeur"  && $user->getZone() == $DG) || $particulier ) {
+                    $poste = [$DG,$DGA,$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]; 
                     $documents = $documentsRepository->findDocumentByAffectaction($poste,50);
                 }
                 elseif ($assistant || $administratif)
@@ -74,7 +77,7 @@ class HomeController extends AbstractController
                 elseif($user->getNiveau() == "Agent")   $documents = $documentsRepository->findDocumentByAffectactionAgent($user->getId());
                     
             }
-            if(($user->getNiveau() == "Directeur"  && $user->getZone() == "DGML") || $user->getNiveau() == "Admin" )
+            if(($user->getNiveau() == "Directeur"  && $user->getZone() == $DG) || $user->getNiveau() == "Admin" )
             $types = $typeDocumentsRepository->findAllOrderByLibelle();
             elseif($secretaire  && $direction) $types = $typeDocumentsRepository->findAllOrderByPoste([$user->getZone(),$direction->getCode()]);
             elseif($secretaire) $types = $typeDocumentsRepository->findAllOrderByPoste($user->getZone());

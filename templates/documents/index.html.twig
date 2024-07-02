@@ -2,8 +2,6 @@
 
 {% block title %}Liste des documents {% endblock %}
 
- 
-
 {% block list %}
 <div class="" style=" display: flex; flex-wrap: wrap;justify-content: space-between;margin-top:20px"> 
     <div class="s002">
@@ -14,19 +12,19 @@
             <div class="icon-wrap">
                
             </div>
-            <input name = "key" id="key" type="hidden" placeholder="Rechercher un document"  />
+            <input name = "key" id="key" type="texte" placeholder="Rechercher un document"  />
           </div>
           <div class="input-field second-wrap">
             <div class="icon-wrap">
               <p style="padding-top:-5px; z-index:1"></p>
             </div>
-           <input title="Date de debut" name ="begin" type="date" placeholder="Date de debut" />
+           <input title="Date de debut" name ="begin" type="date" placeholder="Date de debut" value="{{ begin}}" />
           </div>
           <div class="input-field third-wrap">
             <div class="icon-wrap">
                
             </div>
-            <input title="Date de fin"  name="end" id="return" type="date" placeholder="Date de fin" />
+            <input title="Date de fin"  name="end" id="return" type="date" placeholder="Date de fin" value="{{ end}}" />
           </div>
            
           <div class="input-field fifth-wrap">
@@ -110,8 +108,9 @@
     {% endif %}#}
  
 <div style="background-color : white;border-top : 0.5px solid #c4c4c4;margin-top:10px">
-
-    <table class="table table-responsive table-hover expensive display dataTable dtr-inline collapsed" id="expensive" style="width: 100%;" >
+<table class="table table-responsive table-hover expensive display dataTable dtr-inline collapsed" id="expensive" style="width: 100%;" >
+ 
+      {#<table class="table table-responsive table-hover display" id="okay" style="width: 100%;" > #}
             <thead style="background-color : #e9ecee;">
                 <tr style="font-weight : bold; text-transform : uppercase">
                     <td style="text-align : center; width : 5%">N°</td> 
@@ -129,25 +128,28 @@
                     <td style="text-align : center;width : 5%">{{numero }}</td> 
                     <td style="text-align : center;width : 5%"> {{ document.Poste}}</td> 
                     <td style="width : 5%">
-                        {% if  document.Reference|length > 15 %}
+                        {# {% if  document.Reference|length > 15 %}
                             {{  document.Reference|split('', 15)[0] }} ...
                         {% else %}
                             {{  document.Reference }}
-                        {% endif %}                 
+                        {% endif %}   #}
+                        {{  document.Reference }}               
                     <td style="width : 10%"> 
-                        {% if  document.Structure|length > 15 %}
+                        {# {% if  document.Structure|length > 15 %}
                             {{  document.Structure|split('', 15)[0] }} ...
                         {% else %}
                             {{  document.Structure }}
-                        {% endif %}
+                        {% endif %} #}
+                         {{  document.Structure }}
                     </td> 
-                    <td style="width : 10%">{{ document.NumeroEnregistrement}}</td> 
+                    <td style="width : 10%">{{ document.NumeroEnregistrement}} </td> 
                     <td style=" width : 32%">
-                        {% if document.Objet|length > 32 %}
+                        {# {% if document.Objet|length > 100 %}
                             {{ document.Objet|split('', 100)[0] }} ...
                         {% else %}
                             {{ document.Objet }}
-                        {% endif %}
+                        {% endif %} #}
+                        {{ document.Objet }}
                     </td>  
                     <td style="text-align : left; width : 15%">
                         <form method="get" action="{{ path('app_documents_stop', {'id': document.id}) }}" onsubmit="return confirm('Etes vous sûr de vouloir  supprimé cet document?');">
@@ -308,9 +310,9 @@
  
 {% endblock %}
 
-  {% block footer %}
+{% block footer %}
 
-           <div class="footer" style=" bottom:6px;
+        <div class="footer" style=" bottom:6px;
     margin-top: 4.5%;
     width: 100%;">
                         <div class="container">
@@ -324,16 +326,16 @@
                                  
 
                                     <ul class="footer__social" >
-                                        <li><a href="#">PRÉSENTATION</a></li>
-                                        <li><a href="#">DOCUMENTHÈQUE</a></li> 
-                                      
+                                        <li><a href="#">PRÉSENTATION</a></li> 
+                                        <li><a href="#">DOCUMENTHÈQUE</a></li>
+                                    
                                     </ul>
                                     
                                 </div>
                                 <div class="footer__bline">
                                   
                                     <ul class="footer__social">
-                                         <li class="footer__copyright" style="margin-top: 10px; font-size:15px;font-weight:bold; color: blue;"><span>&copy;DGML République du Bénin le {{ "now"|date('d/m/Y') }}</span></li>
+                                         <li class="footer__copyright" style="margin-top: 10px; font-size:15px;font-weight:bold; color: blue;"><span>&copy;{{ dg }}République du Bénin le {{ "now"|date('d/m/Y') }}</span></li>
                                       
                                     </ul>
                                     {# <div class="footer__language-btn-m" data-dropdown-btn="language">Americas - English<i class="icon-Arrow_Below"></i></div> #}
@@ -352,11 +354,11 @@
  {% block javascripts  %}
  {{ parent() }}
 
-        <script>    
-            $(document).ready(function() {
-            $('.js-example-basic-single').select2();
-            //$('.datePicker').datepicker(); 
-            
-        });  
-        </script>
+    <script>    
+        $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+        //$('.datePicker').datepicker(); 
+        
+    });  
+    </script>
 {% endblock %}

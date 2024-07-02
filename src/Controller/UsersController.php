@@ -44,10 +44,11 @@ class UsersController extends AbstractController
         $User->setOwner($owner);
         $form = $this->createForm(UsersType::class, $User);
         $form->handleRequest($request);
-        $User->setPassword($hash->hashPassword($User,"123456789"));
+        $User->setPassword($hash->hashPassword($User,$User->getPassword()));
         if ($form->isSubmitted() && $form->isValid()) {
-            if($form->get('roles')->getData());
-            $User->setRoles(["ROLE_USER"]);
+            $role = $form->get('roles')->getData();
+            if($role)
+            $User->setRoles($role);
             /*$tmp = explode(getPrenom()," ");
             $email= "";
             foreach($tmp as $t) $email.=$t[0];
@@ -162,6 +163,14 @@ class UsersController extends AbstractController
     {
         $user->setStatus(false);
         $usersRepository->save($user, true);
+        return $this->redirectToRoute('app_users_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/resetPassword', name: 'app_users_resetPassword', methods: ['GET'])]
+    public function resetPassword( Users $User, UsersRepository $usersRepository, UserPasswordHasherInterface $hash): Response
+    {
+        $User->setPassword($hash->hashPassword($User,"123456789"));
+        $usersRepository->save($User, true);
         return $this->redirectToRoute('app_users_index', [], Response::HTTP_SEE_OTHER);
     }
 

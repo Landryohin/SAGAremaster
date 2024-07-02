@@ -16,6 +16,8 @@ import '../public/assets/Dashboard/css/pagination.css';
 import '../public/assets/Dashboard/vendor/jquery/jquery.min.js';
 import '../public/assets/Dashboard/vendor/velocity/velocity.min.js';
 import '../public/assets/Dashboard/js/app.js';
+import '../node_modules/handsontable/dist/handsontable.full.min.css';
+
 //import '../public/assets/Dashboard/js/pagination';
 
 //importScripts('../public/assets/Dashboard/vendor');

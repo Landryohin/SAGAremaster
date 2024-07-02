@@ -6,7 +6,7 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
-            <meta name="keywords" content="SAGA DGML">
+            <meta name="keywords" content="SAGA {{ dg }}">
             <meta name="description" content="Section administrateur de SAGA">
             <meta name="author" content="Winner KING Technologie">
         {% endblock %}
@@ -15,7 +15,7 @@
             {{ encore_entry_link_tags('dashboard') }}
             <!-- STYLESHEET -->
             <!-- Favicon -->
-            <link rel="shortcut icon" type="image/x-icon"sizes="16x16" href="{{ asset('/build/images/logo-dgml.06f184b2.png') }}">
+            <link rel="shortcut icon" type="image/x-icon"sizes="16x16" href="{{ asset('/build/images/{{logo}}') }}">
             <link rel="stylesheet" href="{{ asset('assets/Dashboard/vendor/select2.min.css') }}"></link>
             <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css"></link>
             
@@ -63,7 +63,7 @@
                         <div class="container">
                             <div class="header__logo">
                                 <h1 >
-                                     <img src={{ asset('/build/images/logo-dgml.06f184b2.png') }} alt="logo" width="70px" height="70px">
+                                     <img src={{ asset('/build/images/{{logo}}') }} alt="logo" width="70px" height="70px">
                                 </h1>
                                 {# <nav class="dropdown dropdown--design-01" data-dropdown-list="logo">
                                     <ul class="dropdown__catalog">
@@ -76,7 +76,7 @@
                             </div>
                             <div class="header__search"> 
                                 <div class="header__logo-btn" data-dropdown-btn="logo" style="text-align: center;">
-                                   Système Automatisé de Gestion d'Archives de la DGML</i>
+                                   Système Automatisé de Gestion d'Archives de la {{ dg }}</i>
                                 </div>
                                 {# <form action="#">
                                     <label>
@@ -265,6 +265,10 @@
                             {% endif %}
                         {% endfor %}
 
+
+
+                        
+
   
                                 <div class="nav__select">
                                     {# <div class="btn-select" data-dropdown-btn="tags"> <li><a href="#">Latest</a></li></div> #}
@@ -312,6 +316,9 @@
                                 <ul class="navbar">
                                   
                                     <li><a href="{{ path('app_documents_index')}}">Documents</a></li> 
+                                    {% if app.user.zone == "SA" or app.user.zone == "SP" or app.user.zone == "SAP" or app.user.niveau == "Admin" %} 
+                                    <li><a href="{{ path('app_documents_attache')}}">Attaches</a></li>
+                                    {% endif %}
                                     <li><a href="{{ path('app_Affectations_index')}}">Affectations</a></li>
                                     <li><a href="{{ path('app_statistiques_index')}}">Statistiques</a></li>
                                     {% for role in app.user.roles %}
@@ -326,7 +333,6 @@
                                             </ul>
                                         </nav> #}
                                         
-                                        </li>
                                         <li><a href="#" >SMQ</a></li> 
                                 
                                         {% endif %}
@@ -600,7 +606,7 @@
                                 <div class="footer__bline">
                                   
                                     <ul class="footer__social">
-                                         <li class="footer__copyright" style="margin-top: 10px; font-size:15px;font-weight:bold; color: blue;"><span>&copy;DGML République du Bénin le {{ "now"|date('d/m/Y') }}</span></li>
+                                         <li class="footer__copyright" style="margin-top: 10px; font-size:15px;font-weight:bold; color: blue;"><span>&copy;{{ dg }}République du Bénin le {{ "now"|date('d/m/Y') }}</span></li>
                                       
                                     </ul>
                                     {# <div class="footer__language-btn-m" data-dropdown-btn="language">Americas - English<i class="icon-Arrow_Below"></i></div> #}
@@ -624,17 +630,22 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('dashboard') }}
             <!-- JAVA SCRIPT -->
-            <script src="{{ asset('assets/Dashboard/vendor/jquery/jquery.min.js') }}"></script>
+             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            
+            <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script> 
+            <script src="https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json   "></script>
+            <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js  "></script> 
+            <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js "></script> 
+            <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
             <script src="{{ asset('assets/Dashboard/vendor/velocity/velocity.min.js') }}"></script>
             <script src="{{ asset('assets/Dashboard/vendor/select2.min.js') }}"></script>
+            <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
             <script src="{{ asset('assets/Dashboard/js/app.js') }}"></script>    
-            <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>     
-            <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script> 
-             <script src="https://cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json   "></script>
-              <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js  "></script> 
-               <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js "></script> 
-                  
-             
+            <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.9.179/build/pdf.js"></script>        
+            
+           
  
                  <script>
 
@@ -670,8 +681,7 @@
                 <script>
 
              
-                // In your Javascript (external .js resource or <script> tag)
-                    $(document).ready(function() {
+                $(document).ready(function() {
                         $('.js-example-basic-single').select2();  
                         $('.expensive').DataTable({
                             dom: 'BlfrtipHhf',  
@@ -815,12 +825,8 @@
                             });
                     });  
                    // table.columns(2).visible(false);
-
                     
                 </script>
- 
-
-
         {% endblock %}
     </body>
 </html>

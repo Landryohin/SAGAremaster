@@ -14,65 +14,65 @@
 {% endblock %}
 
 {% block list %}
-  <div > <a class="btn btn-success" style="margin-top: 15px;"  href="{{ path('app_divisions_index') }}">Retour</a></div>
-                    {{ form_start(form) }}
-                                <div class="create">
+    <div > <a class="btn btn-success" style="margin-top: 15px;"  href="{{ path('app_divisions_index') }}">Retour</a></div>
+    {{ form_start(form) }}
+                <div class="create">
 
 
-                                <div class="create__section">
-                                    <div class="create__title"><img src={{asset('build/images/icons/iconplus.5ed37a8f.svg')}}>Ajout d'une nouvelle division</div> 
+                <div class="create__section">
+                    <div class="create__title"><img src={{asset('build/images/icons/iconplus.5ed37a8f.svg')}}>Ajout d'une nouvelle division</div> 
+                </div>
+
+
+                <div style="display:flex; flex-wrap:wrap">
+                    <div class="create__section"  style="width: 47.5%; ">
+                        <label class="create__label" for="title">{{ form_label(form.Code, 'Code de la division', {'label_attr': {'class': 'foo'}}) }}</label>
+                        <div>{{ form_widget(form.Code, {'attr': {'class': 'form-control','placeholder': "Insérez le code de la division" }}) }}</div>  
+                    </div>
+                    <div class="create__section"  style="width: 47.5%;margin-left:5%">
+                        <label class="create__label" for="title">{{ form_label(form.Libelle, 'Libellé de la division', {'label_attr': {'class': 'foo'}}) }}</label>
+                        <div>{{ form_widget(form.Libelle, {'attr': {'class': 'form-control','placeholder': "Insérez le libellé de la division" }}) }}</div> 
+                    </div>
+                </div>
+
+
+                <div style="display:flex; flex-wrap:wrap">
+                    
+                        <div style="width: 47.5%; ">
+                            
+                                <div class="create__section" >
+                                <label class="create__label" for="title">{{ form_label(form.Service, 'Service de la division', {'label_attr': {'class': 'foo'}}) }}</label>
+
+                                    <label class="custom-select">
+                                                                                        
+                                        <div>{{ form_widget(form.Service, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérez le service de la division" }}) }}</div> 
+
+                                    </label>
                                 </div>
+                            
+                        </div>
+                        {#<div style="width: 47.5%;margin-left:5% ">
+                            
+                        
+                                <div class="create__section" >
+                                <label class="create__label" for="title">{{ form_label(form.Chef, 'Chef de la division', {'label_attr': {'class': 'foo'}}) }}</label>
 
+                                    <label class="custom-select">
+                                                                                        
+                                        <div>{{ form_widget(form.Chef, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérez le chef de la division" }}) }}</div> 
 
-                                <div style="display:flex; flex-wrap:wrap">
-                                    <div class="create__section"  style="width: 47.5%; ">
-                                        <label class="create__label" for="title">{{ form_label(form.Code, 'Code de la division', {'label_attr': {'class': 'foo'}}) }}</label>
-                                        <div>{{ form_widget(form.Code, {'attr': {'class': 'form-control','placeholder': "Insérez le code de la division" }}) }}</div>  
-                                    </div>
-                                    <div class="create__section"  style="width: 47.5%;margin-left:5%">
-                                        <label class="create__label" for="title">{{ form_label(form.Libelle, 'Libellé de la division', {'label_attr': {'class': 'foo'}}) }}</label>
-                                        <div>{{ form_widget(form.Libelle, {'attr': {'class': 'form-control','placeholder': "Insérez le libellé de la division" }}) }}</div> 
-                                    </div>
+                                    </label>
                                 </div>
+                        
+                        </div>#}
 
+                </div>
+                
+                <div class="create__footer"> 
+                    <button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+                </div>
+            </div>
 
-                                <div style="display:flex; flex-wrap:wrap">
-                                 
-                                        <div style="width: 47.5%; ">
-                                           
-                                                <div class="create__section" >
-                                                <label class="create__label" for="title">{{ form_label(form.Service, 'Service de la division', {'label_attr': {'class': 'foo'}}) }}</label>
-
-                                                    <label class="custom-select">
-                                                                                                        
-                                                        <div>{{ form_widget(form.Service, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérez le service de la division" }}) }}</div> 
-
-                                                    </label>
-                                                </div>
-                                          
-                                        </div>
-                                        {#<div style="width: 47.5%;margin-left:5% ">
-                                            
-                                        
-                                                <div class="create__section" >
-                                                <label class="create__label" for="title">{{ form_label(form.Chef, 'Chef de la division', {'label_attr': {'class': 'foo'}}) }}</label>
-
-                                                    <label class="custom-select">
-                                                                                                        
-                                                        <div>{{ form_widget(form.Chef, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérez le chef de la division" }}) }}</div> 
-
-                                                    </label>
-                                                </div>
-                                       
-                                        </div>#}
-
-                                </div>
-                               
-                                <div class="create__footer"> 
-                                    <button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
-                                </div>
-                            </div>
-
-                        {{ form_end(form) }}
+        {{ form_end(form) }}
                              
 {% endblock %}

@@ -8,10 +8,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DocumentsRepository;
 use DateTimeImmutable;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: DocumentsRepository::class)]
-#[Vich\Uploadable]
 class Documents
 {
     #[ORM\Id]

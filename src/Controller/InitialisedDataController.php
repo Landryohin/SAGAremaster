@@ -12,7 +12,6 @@ use App\Repository\ServicesRepository;
 use App\Repository\DivisionsRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Repository\DirectionsRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use PhpOffice\PhpSpreadsheet\Reader\Csv as ReaderCsv;
@@ -109,7 +108,7 @@ class InitialisedDataController extends AbstractController
                     $Direction->setCode($datum[0]);
                     $Direction->setLibelle($datum[1]);
                     $directionsRepository->save($Direction,true);
-                    if($datum[0] != "DGAML" && $datum[0] != "DGML")
+                    if($datum[0] != $this->getParameter('dga') && $datum[0] != $this->getParameter('dg'))
                     {
                         $Service = new Services();
                         $Service->setCode($datum[0]);

@@ -167,7 +167,7 @@ class ServicesRepository extends ServiceEntityRepository
     public function findBySearch($key): array
     {
         return $this->createQueryBuilder('s')
-        ->Where(" upper(s.Code) like upper('%$key%') or upper(s.Libelle) like upper('%$key%') ")
+        ->Where(" upper(s.Code) like upper(:key) or upper(s.Libelle) like upper(:key) ")
         ->orderBy('s.Code', 'ASC')
             //->setMaxResults(10)
             ->getQuery()

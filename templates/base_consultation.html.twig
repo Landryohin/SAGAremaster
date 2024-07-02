@@ -7,7 +7,7 @@
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1">
-            <meta name="keywords" content="SAGA DGML">
+            <meta name="keywords" content="SAGA {{ dg }}">
             <meta name="description" content="Section consultation de SAGA">
             <meta name="author" content="Winner KING Technologie">
 			<meta name='description' content='Lire et télécharger les comptes rendus des conseils des ministres, décrets, lois promulguées, arrêtés présidentiels et ordonnances de la République du Bénin' />
@@ -25,14 +25,14 @@
 			<meta property='og:image:width' content='256' data-dynamic='true'>
 			<meta property='og:image:height' content='256' data-dynamic='true'>
 			<meta property='og:locale' content='fr_FR' />
-			<meta property='og:site_name' content='SAGA DGML' />
+			<meta property='og:site_name' content='SAGA {{ dg }}' />
 			<meta property='twitter:url' content='index.php' />
 			<meta property='twitter:card' content='summary' />
-			<meta property='twitter:title' content='Système Automatisé de Gestion des Archives de la DGML' />
-			<meta property='twitter:description' content='Consulté lire et télécharger les archives de la DGML' />
+			<meta property='twitter:title' content='Système Automatisé de Gestion des Archives de la {{ dg }}' />
+			<meta property='twitter:description' content='Consulté lire et télécharger les archives de la {{ dg }}' />
 			<!--meta property='twitter:image' content='../sgg.gouv.bjimages/armoiries.jpg' /-->
         {% endblock %}
-        <title>{% block title %}Consultation DGML{% endblock %}</title>
+        <title>{% block title %}Consultation {{ dg }}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
@@ -61,7 +61,11 @@
 							<ul class='white upper list flex row h100 p adapt middle semibold'>
 								{# <li class='right-15-in left-15-in adapt'><a href='comptes-rendus-conseils-ministres/index.html'>Conseil des ministres</a></li> #}
 								<li class='right-15-in left-15-in adapt relative'>
-                                    <a href='{{path('app_documents_index')}}'>Tableau de bord</a>
+									{% if app.user.niveau == "Admin" %}
+                                    	<a href='{{path('app_postes_index')}}'>Tableau de bord</a>
+									{% else %}
+										<a href='{{path('app_documents_index')}}'>Tableau de bord</a>
+									{% endif %}
                                     {# <div class='absolute left transition hoverflow'>
                                         <ul class='top-5-in bottom-5-in adapt'>
                                             <li><a href='documentheque/lois/index.html' class='adapt left-15-in right-15-in top-5-in bottom-5-in nowrap'>Lois promulguées</a></li>
@@ -652,7 +656,7 @@
 							<li class='left-30 adapt'><a href='#'>Informations</a></li>
 							<li class='left-30 adapt'><a href='#'>Contact</a></li> #}
 						</ul>
-						<div class='p adapt white light'>© DGML République du Bénin le {{ "now"|date('d/m/Y') }}</div>
+						<div class='p adapt white light'>© {{ dg }}République du Bénin le {{ "now"|date('d/m/Y') }}</div>
 					</div>
 				</div>
 				<span class='flag flex row w100 flex-1'><i></i><i></i><i></i></span>

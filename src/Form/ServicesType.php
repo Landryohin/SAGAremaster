@@ -20,7 +20,7 @@ class ServicesType extends AbstractType
         $builder
             ->add('Code')
             ->add('Libelle')
-            ->add('Direction',ChoiceType::class, [
+            ->add('Direction',null, [
                 'placeholder' => '  Sélectionnez la fonction', 
                 'choices' => $this->division,
             ])

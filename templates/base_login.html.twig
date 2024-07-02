@@ -4,12 +4,12 @@
         {% block meta %}
             <meta charset="utf-8">
             <meta http-equiv="x-ua-compatible" content="ie=edge">
-            <meta name="keywords" content="SAGA DGML">
+            <meta name="keywords" content="SAGA {{ dg }}">
             <meta name="description" content="Section de connection de SAGA">
             <meta name="author" content="Winner KING Technologie">
             <meta name="viewport" content="width=device-width, initial-scale=1">
         {% endblock %}
-        <title>{% block title %}Connexion à SAGA DGML{% endblock %}</title>
+        <title>{% block title %}Connexion à SAGA {{ dg }}{% endblock %}</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('login') }}
             <!-- Favicon -->
@@ -52,7 +52,7 @@
                     <div class="row">
                         <div class="col-md-6 col-12 fxt-bg-img" data-bg-image="{{ 'assets/Login/img/figure/bg15-l.jpg' }}">
                             <div class="fxt-intro">
-                                <h1>Bienvenue sur SAGA DGML</h1>
+                                <h1>Bienvenue sur SAGA {{ dg }}</h1>
                                 <p>Systeme informatique Automatisé de Gestion des Archives (SAGA) est un plateforme informatique de gestion de l'archivages des documents traités ou fournis par une entité</p>
                                 <div class="fxt-page-switcher">
                                     <p> Pour les mots de Passe oublié ou poblème de connection veillez vous référer à la Division de l'informatique</p>
@@ -68,7 +68,7 @@
                                 </div>
                                 {% block form %}
                                 <div class="fxt-form">
-                                    <h2>Connection à SAGA DGML</h2>     
+                                    <h2>Connection à SAGA {{ dg }}</h2>     
                                     <p>Veillez entrez vos identifiants de connections </p>
                                     <form method="POST">
                                         <div class="form-group">                                                

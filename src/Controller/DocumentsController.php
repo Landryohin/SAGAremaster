@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Documents;
 use App\Entity\Provenances;
 use App\Form\DocumentsType;
+use App\Form\AttacheReponseType;
 use App\Repository\UsersRepository;
 use App\Repository\PostesRepository;
 use App\Repository\ServicesRepository;
@@ -29,7 +30,7 @@ class DocumentsController extends AbstractController
     #[Route('/', name: 'app_documents_index', methods: ['GET','POST'])]
     public function index(DocumentsRepository $documentsRepository,PostesRepository $postesRepository, SecretariatsController $secretariatsController, SecretariatsRepository $secretariatsRepository, UsersRepository $userRepository, DirectionsRepository $directionsRepository,ServicesRepository $servicesRepository, DivisionsRepository $divisionsRepository): Response
     {
-        foreach($documentsRepository->findAll() as $document){
+        /*foreach($documentsRepository->findAll() as $document){
             
             $dir = $this->getParameter('documents_dir');
             $path_dir = $dir."/".date_format($document->getDocumentAt(),"Y/m/d");
@@ -60,7 +61,9 @@ class DocumentsController extends AbstractController
                 $documentsRepository->save($document,true);
 
             }
-        }
+        }*/
+        $DG = $this->getParameter('dg');
+        $DGA = $this->getParameter('dga');
         if(isset($_GET['page'])) $page = $_GET['page'];
         else $page = null;
         if(isset($_GET['limit'])) $limit = $_GET['limit'];
@@ -83,74 +86,76 @@ class DocumentsController extends AbstractController
         if($serviceSupAdministratif && $serviceSupAdministratif != [] && $serviceSupAdministratif->getChef() == $user) $supAdministratif = true;
         $documents = [];
         $poste = [];
-        if(isset($_REQUEST['submit'])){
-            $type = $begin = $end = $key = null ;
+        $end = date("Y-m-d");
+        $begin = date("Y-m-d", strtotime('-1 month'));
+        if(isset($_REQUEST['submit']) || $begin){
+            $type =  $key = null ;
             if(isset($_POST['type']) && $_POST['type'] != "ALL") $type = $_POST['type'];
             if(isset($_POST['begin']) && !empty($_POST['begin'])) $begin = $_POST['begin'];
             if(isset($_POST['end']) && !empty($_POST['end'])) $end = $_POST['end'];
             if(isset($_POST['key']) && !empty($_POST['key'])) $key = $_POST['key'];
             if($user->getNiveau() == "Admin" )
             {
-                if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key))/$limit;
                 $documents = $documentsRepository->findBySearch($type,$begin,$end,$key,null,$limit,$page);
             }  
-            elseif(($user->getNiveau() == "Directeur"&& $user->getZone() == "DGML") ||  $particulier )
+            elseif(($user->getNiveau() == "Directeur"&& $user->getZone() == $DG) ||  $particulier )
             {
-                $poste = ["DGML","DAGML",$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]; 
-                if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$poste))/$limit;
+                $poste = [$DG,$DGA,$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]; 
+                //if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$poste))/$limit;
                 $documents = $documentsRepository->findBySearch($type,$begin,$end,$key,$poste,$limit,$page);
             }
             elseif ($assistant || $administratif){
-                if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire()));
+                //if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire()));
                 $documents = $documentsRepository->findBySearch($type,$begin,$end,$key,$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),$limit,$page);
             } 
             elseif ($secretaire && $direction){
-                if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$directionsRepository->getAllCode($direction->getCode())))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$directionsRepository->getAllCode($direction->getCode())))/$limit;
                 $documents = $documentsRepository->findBySearch($type,$begin,$end,$key,[$user->getZone(),$direction->getCode()],$limit,$page);
             } 
             elseif($user->getNiveau() == "Directeur"){
-                if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$directionsRepository->getAllCode($user->getZone())))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$directionsRepository->getAllCode($user->getZone())))/$limit;
                 $documents = $documentsRepository->findBySearch($type,$begin,$end,$key,$directionsRepository->getAllCode($user->getZone()),$limit,$page);
             } 
             elseif($user->getNiveau() == "Service"){
-                if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$servicesRepository->getAllCode($user->getZone())))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$servicesRepository->getAllCode($user->getZone())))/$limit;
                 $documents = $documentsRepository->findBySearch($type,$begin,$end,$key,$servicesRepository->getAllCode($user->getZone()),$limit,$page);
             } 
             elseif($user->getNiveau() == "Division" || $user->getNiveau() == "DGA"){
-                if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$user->getZone()))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findBySearch($type,$begin,$end,$key,$user->getZone()))/$limit;
                 $documents = $documentsRepository->findBySearch($type,$begin,$end,$key,$user->getZone(),$limit,$page);
             } 
         }else{
             if($user->getNiveau() == "Admin" ){
-                if($limit)$countPage =  count($documentsRepository->findAll())/$limit;
+                //if($limit)$countPage =  count($documentsRepository->findAll())/$limit;
                 $documents =  $documentsRepository->findAllDesc($limit,$page);
             }
-            elseif(($user->getNiveau() == "Directeur"  && $user->getZone() == "DGML") || $particulier ) {
-                $poste = ["DGML","DAGML",$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]; 
-                if($limit)$countPage = count($documents = $documentsRepository->findDocumentByAffectaction($poste))/$limit;
+            elseif(($user->getNiveau() == "Directeur"  && $user->getZone() == $DG) || $particulier ) {
+                $poste = [$DG,$DGA,$secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),$secretariatsRepository->findSecretaireByType('PARTICULIER')->getSecretaire()]; 
+                //if($limit)$countPage = count($documents = $documentsRepository->findDocumentByAffectaction($poste))/$limit;
                 $documents = $documentsRepository->findDocumentByAffectaction($poste,$limit,$page);
             }
             elseif ($assistant || $administratif){
-                if($limit)$countPage = count($documentsRepository->findDocumentByAffectaction($secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire()))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findDocumentByAffectaction($secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire()))/$limit;
                 $documents = $documentsRepository->findDocumentByAffectaction($secretariatsRepository->findSecretaireByType('ADMINISTRATIF')->getSecretaire(),$limit,$page);
             } 
             elseif ($secretaire && $direction) {
-                if($limit)$countPage = count($documentsRepository->findDocumentByAffectaction($directionsRepository->getAllCode($direction->getCode())))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findDocumentByAffectaction($directionsRepository->getAllCode($direction->getCode())))/$limit;
                 $documents = $documentsRepository->findDocumentByAffectaction([$user->getZone(),$direction->getCode()],$limit,$page);
             }elseif($user->getNiveau() == "Directeur"){
-                if($limit)$countPage = count($documentsRepository->findDocumentByAffectaction($directionsRepository->getAllCode($user->getZone())))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findDocumentByAffectaction($directionsRepository->getAllCode($user->getZone())))/$limit;
                 $documents = $documentsRepository->findDocumentByAffectaction($directionsRepository->getAllCode($user->getZone()),$limit,$page);
             } 
             elseif($user->getNiveau() == "Service"){
-                if($limit)$countPage = count($documentsRepository->findDocumentByAffectaction($servicesRepository->getAllCode($user->getZone())))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findDocumentByAffectaction($servicesRepository->getAllCode($user->getZone())))/$limit;
                 $documents = $documentsRepository->findDocumentByAffectaction($servicesRepository->getAllCode($user->getZone()),$limit,$page);
             } 
             elseif($user->getNiveau() == "Division" || $user->getNiveau() == "DGA"){
-                if($limit)$countPage = count($documentsRepository->findDocumentByAffectaction($user->getZone()))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findDocumentByAffectaction($user->getZone()))/$limit;
                 $documents = $documentsRepository->findDocumentByAffectaction($user->getZone(),$limit,$page);
             } 
             elseif($user->getNiveau() == "Agent"){
-                if($limit)$countPage = count($documentsRepository->findDocumentByAgent($posteUser))/$limit;
+                //if($limit)$countPage = count($documentsRepository->findDocumentByAgent($posteUser))/$limit;
                 $documents = $documentsRepository->findDocumentByAgent($posteUser,$limit,$page);
             } 
         }
@@ -165,6 +170,8 @@ class DocumentsController extends AbstractController
             'pageCount' =>$countPage,
             'currentPage' => $page,
             'supAdministratif' => $supAdministratif,
+            'begin' =>$begin,
+            'end' => $end,
         ]);
     }
 
@@ -316,6 +323,27 @@ class DocumentsController extends AbstractController
             'speciale' => $speciale,
             'Reponse' => $Reponse,
             'notification' => $notificationReference,
+        ]);
+    }
+
+    #[Route('/attache', name: 'app_documents_attache', methods: ['GET', 'POST'])]
+    public function attachement(Request $request, DocumentsRepository $documentsRepository): Response
+    {
+        $document = new Documents();
+        
+        $form = $this->createForm(AttacheReponseType::class, $document,[]);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $Initial = $form->get('Initial')->getData();
+            $Reponse = $form->get('Reponse')->getData();
+            $Initial->setReponse($Reponse);
+            $documentsRepository->save($Initial,true);
+            return $this->redirectToRoute('app_documents_index' ,[] , Response::HTTP_SEE_OTHER);
+        }
+        return $this->render('documents/attacheReponse.html.twig', [
+            'form' => $form,
+            'document' =>$document,
         ]);
     }
 

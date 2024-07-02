@@ -69,7 +69,7 @@ class TypeDocumentsRepository extends ServiceEntityRepository
     public function findBySearch($key): array
     {
         return $this->createQueryBuilder('t')
-        ->Where(" upper(t.Code) like upper('%$key%') or upper(t.Libelle) like upper('%$key%') ")
+        ->Where(" upper(t.Code) like upper(:key) or upper(t.Libelle) like upper(:key) ")
         ->orderBy('t.Code', 'ASC')
         ->getQuery()
         ->getResult()

@@ -1,8 +1,10 @@
+import Handsontable from 'handsontable';
+
 (function($, namespace) {
     'use strict';
 
     var app = {
-        settins: {
+        settings: {
             bp: 1024
         },
         dom: {
@@ -11,7 +13,7 @@
         crnt: {
             init: function() {
                 $(window).on('resize resizecurrent', function() {
-                    app.crnt.m = window.innerWidth <= app.settins.bp;
+                    app.crnt.m = window.innerWidth <= app.settings.bp;
                     app.crnt.d = !app.crnt.m;
                 });
 
@@ -104,15 +106,29 @@
             $(document).on('click', '.js-dropdown [data-dropdown-btn]', function(e) {
                 var $this = $(this),
                     namespace = $this.data('dropdown-btn'),
-                    $list = $this.parents('.js-dropdown').find('[data-dropdown-list="' + namespace + '"]');
-
+                    $list = $this.parents('.js-dropdown').find('[data-dropdown-list="' + namespace + '"]'),
+                    columnIndex = $list.data('dropdown-column');
+            
+                // Accéder à la colonne dans Handsontable
+                var hotInstance = $('#expensive').handsontable('getInstance');
+            
+                if (hotInstance) {
+                    var columnData = hotInstance.getDataAtCol(columnIndex);
+            
+                    // Effectuer des opérations avec columnData
+                    console.log(columnData);
+                } else {
+                    console.error('Instance de Handsontable non trouvée.');
+                }
+            
                 closeOpenLists($list);
-
+            
                 toggleList($list, $this);
-
+            
                 e.preventDefault();
                 return false;
             });
+            
 
             $(document).on('click', function(e) {
                 var $t = $(e.target);
@@ -137,10 +153,3 @@
 
     window[namespace] = app.init();
 })(jQuery, 'app');
-
-
-
-function openOnglet(evt,name)
-{
-    alert('vous avez cliquez sur le button');
-}

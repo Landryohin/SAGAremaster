@@ -80,13 +80,14 @@ class AffectationsRepository extends ServiceEntityRepository
         elseif($begin) $query.= " (d.DateArrivee = :begin or d.Document_at = :begin or a.Date_Affectation_at = :begin ) and";
         if($key){
             $query.= " (";
-            if(is_string($key)) $query.= " upper(d.Initiateur) like upper('%{$key}%') or upper(d.Poste) like upper('%{$key}%') or upper(d.Objet) like upper('%{$key}%') or upper(d.Reference) like upper('%$key%') or upper(d.Structure) like upper('%$key%') ";
+            if(is_string($key)) $query.= " upper(d.Initiateur) like upper(:key) or upper(d.Poste) like upper(:key) or upper(d.Objet) like upper(:key) or upper(d.Reference) like upper(:key) or upper(d.Structure) like upper(:key) ";
             if(is_integer($key)) $query.= " or d.NumeroEnregistrement = :key ) ";
             $query.= " ) ";
         }
         if(substr($query,-3,3) == "and" ) $query = substr($query,0 ,strlen($query) - 3);
         $entity = $this->getEntityManager()->createQuery($query);
         if(is_integer($key)) $entity->setParameter('key', $key);
+        elseif($key) $entity->setParameter('key', "%$key%");
         if($begin) $entity->setParameter('begin', $begin);
         if($end) $entity->setParameter('end', $end);
         if($poste) $entity->setParameter('poste', $poste)->setParameter('status', true);
@@ -106,13 +107,14 @@ class AffectationsRepository extends ServiceEntityRepository
         elseif($begin) $query.= " (d.DateArrivee = :begin or d.Document_at = :begin ) and";
         if($key ){
             $query.= " (";
-            if(is_string($key)) $query.= " upper(d.Initiateur) like upper('%{$key}%') or upper(d.Poste) like upper('%{$key}%') or upper(d.Objet) like upper('%{$key}%') or upper(d.Reference) like upper('%$key%') or upper(d.Structure) like upper('%$key%') ";
+            if(is_string($key)) $query.= " upper(d.Initiateur) like upper(:key) or upper(d.Poste) like upper(:key) or upper(d.Objet) like upper(:key) or upper(d.Reference) like upper(:key) or upper(d.Structure) like upper(:key) ";
             if(is_integer($key)) $query.= " or d.NumeroEnregistrement = :key ";
             $query.= " ) ";
         }
         if(substr($query,-3,3) == "and" ) $query = substr($query,0 ,strlen($query) - 3);
         $entity = $this->getEntityManager()->createQuery($query);
         if(is_integer($key)) $entity->setParameter('key', $key);
+        elseif($key) $entity->setParameter('key', "%$key%");
         if($begin) $entity->setParameter('begin', $begin);
         if($end) $entity->setParameter('end', $end);
         if($poste) $entity->setParameter('poste', $poste)->setParameter("niveau",'PUBLIC');
@@ -124,7 +126,7 @@ class AffectationsRepository extends ServiceEntityRepository
         $query = 'SELECT d from  App\Entity\Documents d, App\Entity\Provenances p where ';
         if($key){
             $query.= " ( ";
-            if(is_string($key)) $query.= " ( upper(p.Structure ) like upper('%$key%') ";
+            if(is_string($key)) $query.= " ( upper(p.Structure ) like upper(:key) ";
             if(is_integer($key)) $query.= ' or p.Numero = :key ';
             $query.= " ) and ";
         }
@@ -133,6 +135,7 @@ class AffectationsRepository extends ServiceEntityRepository
             ->setParameter(':ids', $this->findBySearchId( $type , $begin , $end, $key, $poste))
             ->setParameter(':ida', $this->findBySearchAffectationId( $type , $begin , $end, $key, $poste));
         if(is_integer($key)) $result->setParameter('key', $key);
+        elseif($key) $result->setParameter('key', "%$key%");
         return $result->getResult();
     }
 
@@ -147,7 +150,7 @@ class AffectationsRepository extends ServiceEntityRepository
         } 
         $query = 'SELECT a from App\Entity\Affectations a, App\Entity\Documents d where a.Document = d.id and ( d.id in (:idp) or d.id in (:ids) or d.id in (:ida) ';
         if(!$statistique) $query.= ' or d.Reponse in (:idp) or d.Reponse in (:ids) or d.Reponse in (:ida)';
-        $query .= ')  order by a.Date_Affectation_at desc';
+        $query .= ')  order by a.Date_Affectation_at desc, a.status desc';
         $result =  $this->getEntityManager()->createQuery($query)
         ->setParameter(':idp', $this->findBySearchProvenance( $type , $begin , $end, $key, $poste))
         ->setParameter(':ids', $this->findBySearchId( $type , $begin , $end, $key, $poste))

@@ -242,7 +242,7 @@
 
                     <div hidden class="create__section"  style="width: 49.5%; margin-left:5%" >
                         <label class="create__label" for="title">{{ form_label(form.Structure, 'Structure émettrice', {'label_attr': {'class': 'foo'}}) }}</label>   
-                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Structure émettrice", 'value': 'DGML', 'readonly': true  }}) }}</div> 
+                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Structure émettrice", 'value': '{{ dg }}', 'readonly': true  }}) }}</div> 
                     </div>
 
                     {% else %}
@@ -258,7 +258,7 @@
                 {#  <div class="create__section"  style="width: 49.5%; margin-left:5%" >
                     {% if  document.mouvement == "INTERNE"  %}
                         <label class="create__label" for="title">{{ form_label(form.Structure, 'Structure émettrice', {'label_attr': {'class': 'foo'}}) }}</label>   
-                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Structure émettrice", 'value': 'DGML', 'readonly': true  }}) }}</div> 
+                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Structure émettrice", 'value':  parameter.dg, 'readonly': true  }}) }}</div> 
                     {% elseif document.mouvement == "DEPART"  %}
                         <label class="create__label" for="title">{{ form_label(form.Structure, 'Destinataire', {'label_attr': {'class': 'foo'}}) }}</label>   
                         <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Destinataire"  }}) }}</div> 
