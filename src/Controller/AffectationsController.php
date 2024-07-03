@@ -50,7 +50,7 @@ class AffectationsController extends AbstractController
                         if($secretariat){
                             $division = $divisionsRepository->findOneByCode($secretariat->getSecretaire());
                             $owner = $division->getChef();
-                        }
+                        } 
                     }
                 }
                 else{
