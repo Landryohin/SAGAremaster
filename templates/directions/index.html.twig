@@ -1,95 +1,141 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
-{% block title %}Liste des directions{% endblock %}
-
- 
-{% block list %}
-
-
-<div class="" style=" display: flex; flex-wrap: wrap;justify-content: space-between;margin-top:20px"> 
-
-    <span class="s131">
-       
-    </span>
-
-
-     <span > <a class="btn btn-success"  href="{{path('app_directions_new')}}"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-        </svg> &nbsp; Nouvelle direction</a>
-        
-    </span>
-
-
-  
-</div> 
-
-  <div style="background-color : white;border-top : 0.5px solid #c4c4c;margin-top:10px">
-        <table class="table table-responsive table-hover expensive display nowrap dataTable dtr-inline collapsed" id="expensive" style="width: 100%;" >
-                <thead style="background-color : #e9ecee;">
-                <tr style="font-weight : bold; text-transform : uppercase"> 
-                    {# <td style="text-align : center; width : 20%">Source</td>  #}
-                    <td style="text-align : center; width : 5%">N°</td> 
-                    <td style="text-align : center; width : 40%">Direction</td> 
-                    <td style="text-align : center; width : 20%">Code</td> 
-                    <td style="text-align : center; width : 25%">Directeur</td>  
-                    <td style="text-align : center; width : 15%">Actions</td> 
-                </tr> 
-            </thead>
-            <tbody> 
-            {% for direction in directions %}
-            <tr> 
-                    <td style="width : 5%">{{numero}}</td> 
-                    <td style="width : 20%">{{ direction.Libelle|split('', 50)[0]}}</td> 
-                    <td style="width : 20%"> {{ direction.Code }}</td> 
-                    <td style="width : 25%">   
-                        {% if direction.Directeur %}
-                            <a href="{{ path('app_users_show', {'id': direction.Directeur.id}) }}">
-                                {{ direction.Directeur.Nom }}  {{ direction.Directeur.Prenom }}
-                            </a>
-                        {% endif %}
-                    </td> 
-                    
-                    <td style="text-align : left; width : 15%">
-                    
-                        <a title="Voir" href="{{ path('app_directions_show', {'id': direction.id}) }}"  type="button" class="btn btn-success btn-circle">
-                            <svg   xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                            </svg>
-                        </a>
-                        <a title="Modifier" href="{{ path('app_directions_edit', {'id': direction.id}) }}"type="button" class="btn btn-warning btn-circle">    
-                            <svg   xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square-fill" viewBox="0 0 16 16">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                            </svg>
-                        </a>
-
-                        {% if direction.status %}
-                            <a title="Stoper" href="{{ path('app_directions_stop', {'id': direction.id}) }}"  type="button" class="btn btn-success btn-circle">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stop-circle" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                    <path d="M5 6.5A1.5 1.5 0 0 1 6.5 5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5v-3z"/>
-                                </svg>
-                            </a> 
-
-                        {% else %}
-                            <a title="Mettre en service" href="{{ path('app_directions_play', {'id': direction.id}) }}"  type="button" class="btn btn-success btn-circle">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-skip-end-fill" viewBox="0 0 16 16">
-                                    <path d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.693 3.3 4 3.678 4 4.308v7.384c0 .63.692 1.01 1.233.697L11.5 8.753V12a.5.5 0 0 0 1 0V4z"/>
-                                </svg>
-                            </a> 
-                        {% endif %}
-                    </td> 
-                </tr>  
-                {% set numero = numero + 1 %}
-            {% endfor %}
-                
-                </tbody>
-        </table>
-   </div> 
- 
- 
+{% block title %}Liste des directions
 {% endblock %}
 
+
+{% block main %}{% endblock %}
+
+
+{% block breadcrumb %}
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Liste des directions</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Liste des directions
+						</li>
+					</ol>
+				</nav>
+			</div>
+
+			<div class="col-md-6 col-sm-12 text-right">
+				<div>
+
+
+					<div>
+						<a type="submit" href="{{path('app_directions_new')}}" class="btn btn-success">
+							<i class="icon-copy ion-plus-round"></i>
+							&nbsp; Nouvelle direction
+						</a>
+					</div>
+
+
+				</div>
+			</div>
+
+		</div>
+
+
+	</div>
+{% endblock %}
+
+
+{% block list %}
+
  
+
+
+	<div class="card-box mb-30">
+		<div class="pd-20"></div>
+		<div class="pb-20">
+			<table class="table hover data-table-export stripe  " id="expensive">
+				<thead>
+					<tr style="font-weight : bold; text-transform : uppercase">
+						<th style="width : 5%" class="datatable-nosort">N°</th>
+						<th style="width : 30%" class="datatable-nosort">Direction</th>
+						<th style="width : 20%" class="datatable-nosort">Code</th>
+						<th style="width : 20%" class="datatable-nosort">Directeur</th>
+						<th style="width : 10%" class="datatable-nosort">Actions</th>
+
+
+					</tr>
+				</thead>
+				<tbody>
+
+					{% for direction in directions %}
+
+						<tr>
+							<td></td>
+
+							<td>{{ direction.Libelle|split('', 50)[0]}}</td>
+							<td>
+								{{ direction.Code }}</td>
+							<td>
+								{% if direction.Directeur %}
+									<a href="{{ path('app_users_show', {'id': direction.Directeur.id}) }}">
+										{{ direction.Directeur.Nom }}
+										{{ direction.Directeur.Prenom }}
+									</a>
+								{% endif %}
+							</td>
+							<td>
+
+								<div class="dropdown">
+									<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+										<i class="dw dw-more"></i>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+ 
+
+												<a class="dropdown-item" title="Voir" href="{{ path('app_directions_show', {'id': direction.id}) }}" type="button">
+													<i class="icon-copy fa fa-eye" aria-hidden="true"></i>
+													Visualiser</a>
+
+
+												<a class="dropdown-item" title="Modifier" href="{{ path('app_directions_edit', {'id': direction.id}) }}" type="button">
+													<i class="icon-copy fa fa-pencil-square-o" aria-hidden="true"></i>
+													Modifier</a>
+
+
+												{% if direction.status %}
+													<a class="dropdown-item" title="Stoper" href="{{ path('app_directions_stop', {'id': direction.id}) }}" type="button">
+
+														<i class="icon-copy fa fa-power-off" aria-hidden="true"></i>
+														Stopper</a>
+
+
+												{% else %}
+												 
+
+													<a class="dropdown-item" title="Mettre en service" href="{{ path('app_directions_play', {'id': direction.id}) }}" type="button">
+
+													<i class="icon-copy ion-play"></i>
+														Mettre en service</a>
+												{% endif %}
+
+
+											</div>
+
+                                           
+									</div>
+									</td>
+								</tr>
+							
+						</tr>
+                    {% endfor %}
+					 
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+{% endblock %}
