@@ -56,7 +56,7 @@ class TypeDocumentsController extends AbstractController
     #[Route('/{id}', name: 'app_type_documents_show', methods: ['GET'])]
     public function show(TypeDocuments $typeDocument): Response
     {
-        dd($typeDocument);
+       
         return $this->render('type_documents/show.html.twig', [
             'type_document' => $typeDocument,
         ]);

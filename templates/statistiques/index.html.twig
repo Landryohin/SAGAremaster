@@ -1,237 +1,132 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
-{% block title %}Tableaux statistiques de suivi courriers DGCA{% endblock %}
+{% block title %}Tableaux statistiques de suivi courriers DGCA
+{% endblock %}
+
+{% block main %}{% endblock %}
+
+{% block breadcrumb %}
+
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Statistiques
+					</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Tableau Général suivi courriers
+							{{user.niveau =="Admin"? "Global":user.zone}}
+						</li>
+					</ol>
+				</nav>
+			</div>
+
+
+		</div>
+
+
+	</div>
+{% endblock %}
+
 
 {% block list %}
 
-<div class="" style=" display: flex; flex-wrap: wrap;justify-content: space-between;margin-top:20px"> 
+	<div class="card-box mb-30">
+		<div class="pd-20"></div>
+		<div class="pb-20">
+			<table class="table hover data-table-export stripe  " id="expensive">
+				<thead>
+					<tr style="font-weight : bold; text-transform : uppercase">
+						<th style="width : 5%" class="datatable-nosort">N°</th>
+						<th style="width : 10%" class="datatable-nosort">Origine</th>
+						<th style="width : 20%" class="datatable-nosort">Obj</th>
+						<th style="width : 10%" class="datatable-nosort">Ref</th>
+						<th style="width : 10%" class="datatable-nosort">ST</th>
+						<th style="width : 15%" class="datatable-nosort">D.AFF</th>
+						<th style="width : 15%" class="datatable-nosort">NT</th>
+						<th style="width : 20%" class="datatable-nosort">Obs</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% set parcour = 1 %}
+					{% for document in documents %}
+						{% set countAffectation = 0 %}
+						{% if document.Niveau != 'PUBLIC' and document.affectations|length > 0 and document.Reponse == null %}
+							{% for affectation in document.affectations %}
+								{% if affectation.Envoyeur in poste and affectation.status == true %}
+									<tr {{ document.Reponse ? 'text-success' : document.documents|length > 0 ? 'text-primary'}}>
+										<td></td>
+
+										<td>
+											{{ document.Poste}}
+										</td>
+										<td>
+											{{ document.Objet }}
+										</td>
+										<td>
+											{{  document.Reference }}
+										</td>
+
+										<td>{{ affectation.Receveur ?  affectation.Receveur:  affectation.Agent.nom ~' '~ affectation.Agent.prenom}}</td>
+										<td>{{ affectation.DateAffectationAt ? affectation.DateAffectationAt|date('d-m-Y') : ''}}</td>
+										<td>{{ document.Reponse or document.documents|length >0 or document.Initiateur in poste or document.mouvement == "DEPART" ? "Traité": 'En cours' }}</td>
+										<td>{{ document.Observation }}
+										</td>
+									</tr>
+									{% set countAffectation = countAffectation + 1 %}
+
+								{% endif %}
+							{% endfor %}
+						{% endif %}
 
 
- <div class="s002">
-      <form action = "{{path('app_statistiques_index' )}}" method= "post">
-        
-        <div class="inner-form">
-          <div class="input-field first-wrap">
-            <div class="icon-wrap">
-               
-            </div>
-            <input name = "key" id="key" type="texte" placeholder="Rechercher un document"  />
-          </div>
-          <div class="input-field second-wrap">
-            <div class="icon-wrap">
-              <p style="padding-top:-5px; z-index:1"></p>
-            </div>
-           <input title="Date de debut" name ="begin" type="date" placeholder="Date de debut" value="{{ begin}}" />
-          </div>
-          <div class="input-field third-wrap">
-            <div class="icon-wrap">
-               
-            </div>
-            <input title="Date de fin"  name="end" id="return" type="date" placeholder="Date de fin" value="{{ end}}" />
-          </div>
-           
-          <div class="input-field fifth-wrap">
-            <button class="btn-search" type="submit" name = "submit">Filtrer</button>
-          </div>
-        </div>
-      </form>
-    </div>
+						{% if countAffectation == 0 %}
+							<tr class="{{ document.Reponse ? 'text-success' : document.documents|length > 0 ? 'text-primary'}} ">
+								<td></td>
+								<td>{{ document.Poste}}</td>
+								<td>{{ document.Objet }}</td>
+								<td>
+									{{  document.Reference }}
+								</td>
+								<td>ND</td>
+								<td>ND</td>
+								<td>{{ document.Reponse  or document.documents|length >0 or document.Initiateur in poste or document.mouvement == "DEPART"? "Traité": 'Instance' }}</td>
+								<td>{{ document.Observation }}
+								</td>
+							</tr>
 
+						{% endif %}
 
+					{% endfor %}
 
+				</tbody>
+			</table>
 
-   {#  <div class="s002">
-      <form action = "{{path('app_statistiques_index' )}}" method= "post">
-        
-        <div class="inner-form">
-          <div class="input-field first-wrap">
-            <div class="icon-wrap">
-               
-            </div>
-            <input name = "key" id="key" type="text" placeholder="Rechercher un document"  />
-          </div>
-          <div class="input-field second-wrap">
-            <div class="icon-wrap">
-              <p style="padding-top:-5px; z-index:1"></p>
-            </div>
-           <input title="Date de debut" name ="begin" type="date" placeholder="Date de debut" value ="{{begin}} />
-          </div>
-          <div class="input-field third-wrap">
-            <div class="icon-wrap">
-               
-            </div>
-            <input title="Date de fin"  name="end" id="return" type="date" placeholder="Date de fin" value ="{{end}}/>
-          </div>
-           
-          <div class="input-field fifth-wrap">
-            <button class="btn-search" type="submit" name = "submit">Filtrer</button>
-          </div>
-        </div>
-      </form>
-    </div>#}
- 
-</div>
-
-    <div style=" margin-top:50px">
-        <h5 style="text-align : center">Tableau Général suivi courriers {{user.niveau =="Admin"? "GLOBAL":user.zone}} </h5> 
-
-        <div style="background-color : white;border-top : 0.5px solid #c4c4c4;margin-top:10px">
-
-            <table class="table table-responsive table-hover expensive display dataTable dtr-inline collapsed" id="expensive" style="width: 100%;" >
-                    <thead style="background-color : #e9ecee;">
-                        <tr style="font-weight : bold; text-transform : uppercase">
-                            <td style="text-align : center;  ">№</td> 
-                            <td style="text-align : center; ">Origine</td> 
-                            <td style="text-align : center; ">Obj</td> 
-                            <td style="text-align : center;  ">Ref </td> 
-                         
-                            <td style="text-align : center;  ">ST</td> 
-                            <td style="text-align : center;  ">D.AFF</td> 
-                            <td style="text-align : center;  ">NT</td>  
-                            <td style="text-align : center;  ">Obs </td>  
-                        </tr> 
-                    </thead>
-                    <tbody>
-                        {% set parcour = 1 %} 
-                        {% for document in documents %}
-                            {% set countAffectation = 0 %}
-                            {% if document.Niveau != 'PUBLIC' and document.affectations|length > 0 and document.Reponse == null %}
-                                {% for affectation in document.affectations %}
-                                    {% if affectation.Envoyeur in poste and affectation.status == true %}
-                                        <tr {{ document.Reponse ? 'text-success' : document.documents|length > 0 ? 'text-primary'}}> 
-                                            <td style="text-align : center;  ">{{numero}}</td> 
-
-                                            <td style="text-align : left; ">{{ document.Poste}}</td> 
-                                            <td style="text-align : left;  ">
-                                                {# {% if document.Objet|length > 30 %}
-                                                    {{ document.Objet|split('', 30)[0] }} ...
-                                                {% else %}
-                                                    {{ document.Objet }}
-                                                {% endif %} #}
-                                                {{ document.Objet }}
-                                            </td> 
-                                            <td style="text-align : left;  ">
-                                                {# {% if  document.Reference %}
-                                                    {{  document.Reference|split('', 20)[0] }} ...
-                                                {% else %}
-                                                    {{  document.Reference }}
-                                                {% endif %} #}
-                                                {{  document.Reference }}
-                                            </td> 
-                                          
-                                            <td style="text-align : left;  ">{{ affectation.Receveur ?  affectation.Receveur:  affectation.Agent.nom ~' '~ affectation.Agent.prenom}}</td> 
-                                            <td style="text-align : left;  ">{{ affectation.DateAffectationAt ? affectation.DateAffectationAt|date('d-m-Y') : ''}}</td> 
-                                            <td style="text-align : left;  ">{{ document.Reponse or document.documents|length >0 or document.Initiateur in poste or document.mouvement == "DEPART" ? "Traité": 'En cours' }}</td>  
-                                            <td style="text-align : left;  ">{{ document.Observation }} </td>  
-                                        </tr>
-                                        {% set countAffectation = countAffectation + 1 %} 
-                                        {% set numero = numero + 1 %}
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                            {% if countAffectation == 0 %}
-                                <tr class="{{ document.Reponse ? 'text-success' : document.documents|length > 0 ? 'text-primary'}} "> 
-                                    <td style="text-align : center;  ">{{numero}}</td> 
-                                    <td style="text-align : left;  ">{{ document.Poste}}</td> 
-                                    <td style="text-align : left;  ">
-                                        {# {% if document.Objet|length > 50 %}
-                                            {{ document.Objet|split('', 50)[0] }} ...
-                                        {% else %}
-                                            {{ document.Objet }}
-                                        {% endif %} #}
-                                        {{ document.Objet }}
-                                    </td> 
-                                    <td style="text-align : left;width : 15%   ">
-                                        {# {% if  document.Reference|length > 20 %}
-                                            {{  document.Reference|split('', 20)[0] }} ...
-                                        {% else %}
-                                            {{  document.Reference }}
-                                        {% endif %} #}
-                                        {{  document.Reference }}
-                                    </td> 
-                                   
-                                    <td style="text-align : left;  ">ND</td> 
-                                    <td style="text-align : left;  ">ND</td> 
-                                    <td style="text-align : left;  ">{{ document.Reponse  or document.documents|length >0 or document.Initiateur in poste or document.mouvement == "DEPART"? "Traité": 'Instance' }}</td>  
-                                    <td style="text-align : left;  ">{{ document.Observation }} </td>  
-                                </tr>
-                                {% set numero = numero + 1 %}
-                            {% endif %}
-                            
-                        {% endfor %}
-                    </body>
-                </table>
-        </div>
-         <span style="font-size:14px"> <span><b>Legende:</b></span>  <b>OBJ :</b> Objet ;  <b>REF :</b> Reference;  <b>NUM ENR :</b> Numero d'enregistrement; <b>ST :</b> Service traitant; <b>D.AFF :</b> Date d'affectation; <b>NT :</b> Niveau de traitement; <b>OBS :</b> Observation;  </span> 
-
-    </div>
-
-
-
-
- 
-
+			<span style="font-size:12px;margin:20px; ">
+				<span>
+					<b>Legende:</b>
+				</span>
+				<b>OBJ :</b>
+				Objet ;
+				<b>REF :</b>
+				Reference;
+				<b>NUM ENR :</b>
+				Numero d'enregistrement;
+				<b>ST :</b>
+				Service traitant;
+				<b>D.AFF :</b>
+				Date d'affectation;
+				<b>NT :</b>
+				Niveau de traitement;
+				<b>OBS :</b>
+				Observation;
+			</span>
+		</div>
+	</div>
 {% endblock %}
-
-{% block footer %}
-
-  <style>
-  
-        .footer {
-        background-color:white;	
-        color:black;
-        }
-        @media only screen and (min-width:1600px) {
-            .footer {
-                bottom:6px;
-                margin-top: 2.5%; 
-                width: 100%;
-            }
-        }
-        @media only screen and (min-width:1900px) {
-            .footer {
-                bottom:6px;
-                margin-top: 8%; 
-                width: 100%;
-            }
-        }
-  
-  </style>
-
-    <div class="footer" >
-                <div class="container">
-                    <div class="footer__logo">
-                        <div>
-                            <h3>SAGA</h3>
-                        </div>
-                    </div>
-                    <div class="footer__nav">
-                        <div class="footer__tline">
-                            
-
-                            <ul class="footer__social" >
-                                <li><a href="#">PRÉSENTATION</a></li>
-                                <li><a href="#">TABLEAU DE BORD</a></li> 
-                                
-                            </ul>
-                            
-                        </div>
-                        <div class="footer__bline">
-                            
-                            <ul class="footer__social">
-                                    <li class="footer__copyright" style="margin-top: 10px; font-size:15px;font-weight:bold; color: blue;"><span>&copy;{{ dg }}République du Bénin le {{ "now"|date('d/m/Y') }}</span></li>
-                                
-                            </ul>
-                            {# <div class="footer__language-btn-m" data-dropdown-btn="language">Americas - English<i class="icon-Arrow_Below"></i></div> #}
-                        </div>
-                    </div>
-                </div>
-                <span style="display:flex ;margin-bottom:-5px;top:0:">
-                <i style="width: 100%; height:8px;  padding: 0px; background-color:RGB(16,135,87);"> </i>
-                <i style="width: 100%  ;  height:8px; background-color:#FFD400;"> </i>
-                <i style="width: 100% ; height:8px; background-color:rgb(235, 0, 0);"> </i>
-            
-            </span>
-            </div>
-{% endblock %}
-  
