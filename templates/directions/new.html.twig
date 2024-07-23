@@ -1,138 +1,102 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
-{% block title %}Nouvelle direction{% endblock %}
- 
-{% block add %}
-    <a href="{{path('app_directions_new')}}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-        </svg>
-        {#<img src="{{ 'assets/Dashboard/fonts/icons/main/New_Topic.svg'}}" alt="Ajout">#}
-    </a>
+
+{% block title %}Nouvelle direction
 {% endblock %}
+
+{% block main %}{% endblock %}
+
+{% block breadcrumb %}
+
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Nouvelle direction</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_directions_index') }}">Liste des directions</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Nouvelle direction
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
 
 {% block list %}
-  <div  style="margin-top:15px"> <a class="btn btn-success mt-5"  href="{{ path('app_directions_index') }}">Retour</a></div>
-  {# <div style="text-align:left;"> <a class="btn btn-primary"  href="{{ path('app_directions_index') }}">Retour</a></div> #}
-                    {{ form_start(form) }}
-                                <div class="create">
-                                <div class="create__section">
-                                
-                                    <div class="create__title"><img src={{asset('build/images/icons/iconplus.5ed37a8f.svg')}}>Ajout d'une nouvelle direction</div>
-                                   
-                                </div>
 
-                                <div style="display:flex; flex-wrap:wrap">
-                                
-                                    
-                                    <div class="create__section" style="width: 47.5%;">
-                                        <label class="create__label" for="title">{{ form_label(form.Code, 'Code de la direction', {'label_attr': {'class': 'foo'}}) }}</label>
-                                        <div>{{ form_widget(form.Code, {'attr': {'class': 'form-control','placeholder': "Insérez le code de la direction" }}) }}</div> 
-                                    </div>
-                                    <div class="create__section" style="width: 47.5%;margin-left:5%">
-                                        <label class="create__label" for="title">{{ form_label(form.Libelle, 'Libellé de la direction', {'label_attr': {'class': 'foo'}}) }}</label>
-                                        <div>{{ form_widget(form.Libelle, {'attr': {'class': 'form-control','placeholder': "Insérez le libellé de la direction" }}) }}</div> 
-                                    </div>
+	<div class="card-box mb-30">
 
-                                </div>
+		<div class="pb-20">
 
-                                {#<div class="row">
-                                    
-                                    <div class="col-md-12">
-                                        <div class="create__section">
-                                          <label class="create__label" for="title">{{ form_label(form.Directeur, 'Directeur de la direction', {'label_attr': {'class': 'select2'}}) }}</label>
+			<div class="clearfix">
+				<div class="pd-20   ">
+					<div
+						class="pull-left">
+						<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+						<p class="mb-30">
+							<b>Formulaire d'ajout de direction
+							</b>
+						</p>
+					</div>
 
-                                            <label class="custom-select">
-                                                                                                
-                                                 <div>{{ form_widget(form.Directeur, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérer le directeur de la direction" }}) }}</div> 
-
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>#}
-                               
-                                <div class="create__footer"> 
-                                    <button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
-                                </div>
-                            </div>
-
-                        {{ form_end(form) }}
-
-                        <script>
-                // In your Javascript (external .js resource or <script> tag)
-                    $(document).ready(function() {
-                        $('.js-example-basic-single').select2();
-                    });
-                </script>
-                             
-{% endblock %}
+				</div>
+			</div>
 
 
+			<div class="container">
 
+				{{ form_start(form) }}
 
-{% block footer %}
+				<div class="row">
 
-  <style>
-  
-        .footer {
-        background-color:white;	
-        color:black;
-        }
-        @media only screen and (min-width:1600px) {
-            .footer {
-                bottom:6px;
-                margin-top: 3.5%; 
-                width: 100%;
-            }
-        }
-        @media only screen and (min-width:1900px) {
-            .footer {
-                bottom:6px;
-                margin-top: 12%; 
-                width: 100%;
-            }
-        }
-  
-  </style>
-
-           <div class="footer" >
-                        <div class="container">
-                            <div class="footer__logo">
-                                <div>
-                                    <h3>SAGA</h3>
-                                </div>
-                            </div>
-                            <div class="footer__nav">
-                                <div class="footer__tline">
-                                 
-
-                                    <ul class="footer__social" >
-                                        <li><a href="#">PRÉSENTATION</a></li>
-                                        <li><a href="{{path("Accueil")}}">DOCUMENTHÈQUE</a></li> 
-                                      
-                                    </ul>
-                                    
-                                </div>
-                                <div class="footer__bline">
-                                  
-                                    <ul class="footer__social">
-                                         <li class="footer__copyright" style="margin-top: 10px; font-size:15px;font-weight:bold; color: blue;"><span>&copy;{{ dg }}République du Bénin le {{ "now"|date('d/m/Y') }}</span></li>
-                                      
-                                    </ul>
-                                    {# <div class="footer__language-btn-m" data-dropdown-btn="language">Americas - English<i class="icon-Arrow_Below"></i></div> #}
-                                </div>
-                            </div>
-                        </div>
-                        <span style="display:flex ;margin-bottom:-5px;top:0:">
-                        <i style="width: 100%; height:8px;  padding: 0px; background-color:RGB(16,135,87);"> </i>
-                        <i style="width: 100%  ;  height:8px; background-color:#FFD400;"> </i>
-                        <i style="width: 100% ; height:8px; background-color:rgb(235, 0, 0);"> </i>
-                    
-                    </span>
-                    </div>
+					<div class="col-md-6 col-sm-12 ">
+						<div class="form-group">
+							<label>{{ form_label(form.Code, 'Code de la direction', {'label_attr': {'class': 'foo'}}) }}</label>
+							{{ form_widget(form.Code, {'attr': {'class': 'form-control','placeholder': "Insérez le code de la direction" }}) }}
+						</div>
+					</div>
  
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label >{{ form_label(form.Libelle, 'Libellé de la direction', {'label_attr': {'class': 'foo'}}) }}</label>
+							<div>{{ form_widget(form.Libelle, {'attr': {'class': 'form-control','placeholder': "Insérez le libellé de la direction" }}) }}</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+
+						</div>
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+			{{ form_end(form) }}
+
+
+		</div>
+
+
+	</div>
+
+
 {% endblock %}
-
-
-
