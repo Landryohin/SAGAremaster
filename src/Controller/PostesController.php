@@ -64,6 +64,7 @@ class PostesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $now = new \DateTimeImmutable("now");
+            dd($now);
             $oldPoste = $postesRepository->findOneByFonctionAndNiveauAndType($poste->getNiveau(),$poste->getFonction(),$poste->getType());
             if($oldPoste){
                 $oldPoste->setStatus(false);

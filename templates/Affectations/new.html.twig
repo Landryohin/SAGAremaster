@@ -1,72 +1,134 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
-{% block title %}Nouvelle affectation{% endblock %}
+{% block title %}Nouvelle affectation
+{% endblock %}
+
+{% block main %}{% endblock %}
+
+{% block breadcrumb %}
+
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Nouvelle affectation</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_Affectations_index') }}">Liste des affectations</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Nouvelle affectation
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
 
 
 {% block list %}
- 
 
- <div > <a class="btn btn-success" style="margin-top: 15px;"  href="{{ path('app_Affectations_index') }}">Retour</a></div> 
- 
-       {{ form_start(form) }}
+	<div class="card-box mb-30">
 
-            <div class="create">                
-                <div class="create__section">
-                  <div class="create__title"><img src={{asset('build/images/icons/iconplus.5ed37a8f.svg')}}>Ajout d'un affectation</div> 
-                </div>
-                <div style=" display: flex;flex-wrap: wrap;" >   
-                    <div  style="margin-top: 20px; width:35% ">
-                        <div class="create__section" >
-                            <label class="create__label" for="title">{{ form_label(form.Document, 'Document', {'label_attr': {'class': 'foo'}}) }}</label>
-                            <div>{{ form_widget(form.Document, {'attr': {'class': 'form-control', 'value': affectation.Document, 'readonly': true  }}) }}</div> 
-                        </div>  
-       
-                        <div class="create__section" >          
-                            <label class="create__label" for="title">{{ form_label(form.Envoyeur, 'Expéditeur', {'label_attr': {'class': 'foo'}}) }}</label>
-                            <div>{{ form_widget(form.Envoyeur, {'attr': {'class': 'form-control', 'value': affectation.Envoyeur, 'readonly': true }}) }}</div> 
 
-                        </div>
-                    
-                        <div class="create__section">
-                            <label class="create__label" for="title">{{ form_label(form.Date_Affectation_at, 'Date de affectation', {'label_attr': {'class': 'foo'}}) }}</label>
-                            <div>{{ form_widget(form.Date_Affectation_at, {'attr': {'class': 'date_time','placeholder': "Insérez la date de affectation" }}) }}</div>  
-                        </div>
+		<div class="clearfix">
+			<div class="pd-20">
+				<div
+					class="pull-left">
+					<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+					<p class="mb-30">
+						<b>Apercu du document à affecter</b>
+					</p>
+				</div>
 
-                        <style>
-                            .date_time{ 
-                                color: red;
-                                padding: 4px;  
-                                border: solid 1px #e9ecee;
-                                    border-radius: 0;
-                                background-color: #ECECEC;
-                                    color: #181617;
-                                -webkit-box-shadow: none;
-                                    -moz-box-shadow: none;
-                                box-shadow: none;
-                                    display: block;
-                                    width: 100%;
-                            }
-                        </style>                            
-                        
-                        <div class="create__section" >
-                            <label class="create__label" for="title">{{ form_label(form.Receveur, 'Destinataire', {'label_attr': {'class': 'foo'}}) }}</label>
-                            <label class="custom-select">                                              
-                                <div>{{ form_widget(form.Receveur, {'attr': {'class': 'js-example-basic-single','placeholder': "Insérez le destinataire" }}) }}</div> 
-                            </label>
-                        </div>
-                        <div class="create__footer"> 
-                            <button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
-                        </div>
-                    </div>
-                    <div style="width:60% ;margin-left:5%;overflow : auto; text-align : center;margin-top:3%;" >
-                        <embed src="../../Documents/{{affectation.Document.DocumentAt ? affectation.Document.DocumentAt|date('Y/m/d') : ''}}/{{affectation.Document.Chemin}}" width="600" height="500" type='application/pdf'></embed>
-                    </div>
-                </div>
-                
-            </div>
-                
-        </div>
+			</div>
+		</div>
 
-        {{ form_end(form) }}
-                             
-{% endblock %}
+
+		<div class="container">
+			<embed style="width: 100%; height:250px;border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); " src="../../Documents/{{affectation.Document.DocumentAt ? affectation.Document.DocumentAt|date('Y/m/d') : ''}}/{{affectation.Document.Chemin}}" type='application/pdf'></embed>
+	</div>
+
+	<div class="pd-20"></div>
+</div>
+
+<div class="card-box mb-30">
+
+	<div class="pb-20">
+
+		<div class="clearfix">
+			<div class="pd-20   ">
+				<div
+					class="pull-left">
+					<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+					<p class="mb-30">
+						<b>Formulaire d'affectation d'un document</b>
+					</p>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div class="container">
+
+			{{ form_start(form) }}
+
+			<div class="row">
+
+				<div class="col-md-6 col-sm-12 ">
+					<div class="form-group">
+						<label>{{ form_label(form.Document, 'Document', {'label_attr': {'class': ' '}}) }}</label>
+						{{ form_widget(form.Document, {'attr': {'class': 'form-control', 'value': affectation.Document, 'readonly': true  }}) }}
+					</div>
+				</div>
+
+				<div class="col-md-6 col-sm-12  ">
+					<div class="form-group">
+						<label>{{ form_label(form.Envoyeur, 'Expéditeur', {'label_attr': {'class': ''}}) }}</label>
+						{{ form_widget(form.Envoyeur, {'attr': {'class': 'form-control', 'value': affectation.Envoyeur, 'readonly': true }}) }}
+					</div>
+				</div>
+
+				<div class="col-md-6 col-sm-12">
+					<div class="form-group">
+						<label>{{ form_label(form.Date_Affectation_at, 'Date de affectation', {'label_attr': {'class': ' '}}) }}</label>
+						{{ form_widget(form.Date_Affectation_at, {'attr': {'class': 'form-control','placeholder': "Insérez la date de affectation" }}) }}
+					</div>
+				</div>
+
+				<div class="col-md-6 col-sm-12">
+					<div class="form-group">
+						<label>{{ form_label(form.Receveur, 'Destinataire', {'label_attr': {'class': 'foo'}}) }}</label>
+						{{ form_widget(form.Receveur, {'attr': {'class': 'custom-select2 form-control','placeholder': "Insérez le destinataire" }}) }}
+					</div>
+				</div>
+
+
+				<div class="col-md-6 col-sm-12">
+					<div class="form-group">
+						<button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Affecter le document') }}</button>
+
+					</div>
+				</div>
+
+
+			</div>
+
+
+		</div>
+
+		{{ form_end(form) }}
+
+
+	</div>
+
+
+</div>{% endblock %}

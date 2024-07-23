@@ -1,38 +1,129 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
-{% block title %}Postes{% endblock %}
 
-{% block body %}
-    <h1>Postes</h1>
+{% block main %}{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ poste.id }}</td>
-            </tr>
-            <tr>
-                <th>Niveau</th>
-                <td>{{ poste.Niveau }}</td>
-            </tr>
-            <tr>
-                <th>Fonction</th>
-                <td>{{ poste.Fonction }}</td>
-            </tr>
-            <tr>
-                <th>DateDeb</th>
-                <td>{{ poste.DateDeb ? poste.DateDeb|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DateFin</th>
-                <td>{{ poste.DateFin ? poste.DateFin|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block breadcrumb %}
 
-    <a href="{{ path('app_postes_index') }}">back to list</a>
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Visualiser un poste</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_postes_index') }}">Liste des postes</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Visualiser un poste
+						</li>
+					</ol>
+				</nav>
+			</div>
 
-    <a href="{{ path('app_postes_edit', {'id': poste.id}) }}">edit</a>
+			<div class="col-md-6 col-sm-12 text-right">
+				<div>
 
-    {{ include('postes/_delete_form.html.twig') }}
+					<div>
+						<a type="submit" href="{{ path('app_postes_edit', {'id': poste.id}) }}" class="btn btn-warning">
+							<i class="icon-copy ion-edit"></i>
+							&nbsp; Modifier
+						</a>
+
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
+
+
+	</div>
+{% endblock %}
+
+
+{% block list %}
+
+	<div class="card-box mb-30">
+
+		<div class="pb-20">
+
+			<div class="clearfix">
+				<div class="pd-20   ">
+					<div
+						class="pull-left">
+						<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+						<p class="mb-30">
+							<b>Fiche de poste</b>
+						</p>
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="container">
+
+
+				<div class="row">
+
+
+					<div class="col-md-6 col-sm-12 ">
+						<div class="form-group">
+							<label>Id du poste</label>
+							<input type="text" name="id" class="form-control" placeholder="Disabled input" disabled="" value="{{ poste.id }}">
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-12  ">
+						<div class="form-group">
+							<label>Type du poste</label>
+							<input type="text" name="Type" class="form-control" placeholder="Disabled input" disabled="" value="{{ poste.Type }}">
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-12  ">
+						<div class="form-group">
+							<label>Niveau du poste</label>
+							<input type="text" name="Type" class="form-control" placeholder="Disabled input" disabled="" value="{{ poste.Niveau }}">
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-12  ">
+						<div class="form-group">
+							<label>Fonction du poste</label>
+							<input type="text" name="Type" class="form-control" placeholder="Disabled input" disabled="" value="{{ poste.Fonction }}">
+						</div>
+
+					</div>
+					<div class="col-md-6 col-sm-12  ">
+						<div class="form-group">
+							<label>Date de prise de fonction</label>
+							<input type="text" name="Type" class="form-control" placeholder="Disabled input" disabled="" value="{{ poste.DateDeb ? poste.DateDeb|date('Y-m-d') : '' }}">
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-12  ">
+						<div class="form-group">
+							<label>Date de fin de fonction</label>
+							<input type="text" name="Type" class="form-control" placeholder="Disabled input" disabled="" value="{{ poste.DateDeb ? poste.DateDeb|date('Y-m-d') : '' }}">
+						</div>
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+
+		</div>
+	</div> 
+
+
 {% endblock %}

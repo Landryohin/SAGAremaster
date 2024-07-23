@@ -59,14 +59,16 @@ class PostesType extends AbstractType
                 'attr'=>[
                     'class'=>'datePicker'
                 ],
-                'widget'=>'single_text'
+                'widget'=>'single_text' ,
+                'html5' => true,
             ])
             ->add('DateFin', DateType::class, [
                 'required' => false,
                 'attr'=>[
                     'class'=>'datePicker'
                 ],
-                'widget'=>'single_text'
+                'widget'=>'single_text',
+                'html5' => true,
             ])
         ;
     }
