@@ -16,7 +16,7 @@ class Directions
     private ?int $id = null;
 
     #[ORM\Column(length: 10, unique: true)]
-    private string $Code ;
+    private string $Code;
 
     #[ORM\OneToMany(mappedBy: 'Direction', targetEntity: Services::class)]
     private Collection $Services;
@@ -42,7 +42,7 @@ class Directions
     #[ORM\OneToMany(mappedBy: 'Direction', targetEntity: TypeDocuments::class)]
     private Collection $typeDocuments;
 
-    public function __construct($code = null,$libelle=null)
+    public function __construct($code = null,$libelle = null)
     {
         $this->Code=$code;
         $this->Libelle = $libelle;
@@ -51,7 +51,8 @@ class Directions
         $this->typeDocuments = new ArrayCollection();
     }
 
-    
+ 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -130,7 +131,7 @@ class Directions
 
     /**
      * Get the value of status
-     */ 
+     */
     public function getStatus()
     {
         return $this->status;
@@ -140,7 +141,7 @@ class Directions
      * Set the value of status
      *
      * @return  self
-     */ 
+     */
     public function setStatus($status)
     {
         $this->status = $status;

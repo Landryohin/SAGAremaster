@@ -28,7 +28,7 @@ class AttacheReponseType extends AbstractType
                 'choices' =>  $this->documents,
             ]) 
             ->add('Reponse', ChoiceType::class, [
-                'placeholder' => 'Sélectionnez le ccourrier de réponse',
+                'placeholder' => 'Sélectionnez le courrier de réponse',
                 'mapped' => false,
                 'choices' =>  $this->documents,
             ])

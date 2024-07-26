@@ -1,71 +1,111 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
-{% block title %}Modification type de Documents{% endblock %}
 
-{# {% block body %}
-    <h1>Edit TypeDocuments</h1>
-
-    {{ include('type_documents/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_type_documents_index') }}">back to list</a>
-
-    {{ include('type_documents/_delete_form.html.twig') }}
-{% endblock %} #}
-
-{% block add %}
-    <a href="{{path('app_type_documents_new')}}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-        </svg>
-        {#<img src="{{ 'assets/Dashboard/fonts/icons/main/New_Topic.svg'}}" alt="Ajout">#}
-    </a>
+{% block title %}Modification type de Documents
 {% endblock %}
 
-{% block list %} 
+{% block main %}{% endblock %}
 
-  <div style="  margin-top: 15px" >
- <div  > <a class="btn btn-success"  href="{{ path('app_type_documents_index') }}">Retour</a></div>
-  <div style="text-align:right; margin-top:-37px"> <a class="btn btn-danger"  href=" ">Supprimer</a></div>
-    <div>
-                    {{ form_start(form) }}
-                                <div class="create">
-                                <div class="create__section">
-                                
-                                    <div class="create__title"><img src={{asset('build/images/icons/update.fb0ac4e5.svg')}}>Modification de type de documents</div>
-                                   
-                                </div>
-                                
-                                <div style="display:flex; flex-wrap:wrap">
-                                        <div class="create__section" style="width: 47.5%; " >
-                                            <label class="create__label" for="title">{{ form_label(form.Code, 'Code de la direction', {'label_attr': {'class': 'foo'}}) }}</label>
-                                            <div>{{ form_widget(form.Code, {'attr': {'class': 'form-control','value': type_document.Code }}) }}</div> 
-                                        </div>
-                                        <div class="create__section" style="width: 47.5%;margin-left:5% ">
-                                            <label class="create__label" for="title">{{ form_label(form.Libelle, 'Libellé de la direction', {'label_attr': {'class': 'foo'}}) }}</label>
-                                            <div>{{ form_widget(form.Libelle, {'attr': {'class': 'form-control','value': type_document.Libelle }}) }}</div> 
-                                        </div>
-                                </div>
-                                <div style="display:flex; flex-wrap:wrap">
-                                 
-                                    <div style="width: 47.5%; ">
-                                        <div class="create__section">
-                                            <label class="create__label" for="title">{{ form_label(form.Direction, 'La direction ', {'label_attr': {'class': 'foo'}}) }}</label>
+{% block breadcrumb %}
 
-                                            <label class="custom-select">
-                                                                                                
-                                                    <div>{{ form_widget(form.Direction, {'attr': {'class': 'js-example-basic-single','value': type_document.Direction }}) }}</div> 
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<div class="title">
+					<h4>Modifier un type de document</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_type_documents_index') }}">Liste des types de documents</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Modifier un type de document
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
 
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="create__footer"> 
-                                    <button class=" btn btn-warning">{{ button_label|default('Modifier') }}</button>
-                                </div>
-                            </div>
+{% endblock %}
 
-                        {{ form_end(form) }}
-                             
+
+{% block list %}
+
+
+	<div class="pd-20 card-box mb-30">
+
+		<div class="pb-20">
+
+			<div class="clearfix">
+			 
+					<div
+						class="pull-left">
+						<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+						<p class="mb-30">
+							<b>Formulaire de modification d'un type de document
+							</b>
+						</p>
+					</div>
+ 
+			</div>
+
+
+			<div  >
+
+				{{ form_start(form) }}
+
+				<div class="row">
+
+					<div class="col-md-6 col-sm-12 ">
+						<div class="form-group">
+							<label>{{ form_label(form.Code, 'Code du type de document', {'label_attr': {'class': 'foo'}}) }}</label>
+							<div>{{ form_widget(form.Code, {'attr': {'class': 'form-control','placeholder': "Insérez le code du type de document" }}) }}</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>{{ form_label(form.Libelle, 'Libellé du type de document', {'label_attr': {'class': 'foo'}}) }}</label>
+							<div>{{ form_widget(form.Libelle, {'attr': {'class': 'form-control','placeholder': "Insérez le libellé du type de document" }}) }}</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-12 col-sm-12">
+						<div class="form-group">
+							<label>{{ form_label(form.Direction, 'La direction ', {'label_attr': {'class': 'foo'}}) }}</label>
+							<div>{{ form_widget(form.Direction, {'attr': {'class': 'form-control custom-select2','placeholder': "Insérer le libellé de la direction" }}) }}</div>
+
+
+						</div>
+					</div>
+
+
+					<div class="col-md-12 col-sm-12">
+						<div class="form-group">
+							<button class="create__btn-create btn btn--type-02 btn btn-warning">{{ button_label|default('Modifier') }}</button>
+						</div>
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+			{{ form_end(form) }}
+
+
+		</div>
+
+
+	</div>
+
+
 {% endblock %}
