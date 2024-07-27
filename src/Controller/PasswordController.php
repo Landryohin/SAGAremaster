@@ -23,6 +23,7 @@ class PasswordController extends AbstractController
     public function index(Request $request, UserPasswordHasherInterface $hash, UsersRepository $userRepository): Response
     {
         $notification = null;
+        $User = $this->getUser();
         if($this->getUser()){
             $user = $userRepository->findById($this->getUser()->getUserIdentifier());
             $form = $this->createForm(PasswordAccountType::class);
@@ -37,10 +38,14 @@ class PasswordController extends AbstractController
                 }
             }
             return $this->render('users/changePassword.html.twig',
-                ['form' => $form->createView(),
+                ['user' => $User,
+                'form' => $form->createView(),
                     'notification' => $notification
                 ]); 
         }
         return $this->redirectToRoute('login', [], Response::HTTP_SEE_OTHER);
     }
+
+
+ 
 }
