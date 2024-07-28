@@ -1,303 +1,690 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
+{% block title %}Visualisation de documents
+{% endblock %}
 
-{% block title %}Documents{% endblock %}
+{% block main %}{% endblock %}
+
+
+{% block breadcrumb %}
+
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Visualiser un document</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_documents_index') }}">Liste des documents</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Visualiser un documents
+						</li>
+					</ol>
+				</nav>
+			</div>
+
+			<div class="col-md-6 col-sm-12 text-right">
+				<div>
+                        {% if document.Reponse %}
+		                     {% set reponses = [document.Reponse]  %}
+	                    {% elseif  document.documents|length > 0  %}
+		                     {% set  reponses = document.documents %}
+	                    {% else %}
+		                     {% set  reponses = [] %}
+	                    {% endif %}
+                            {% if reponses|length >0 %}
+                                {% for reponse in reponses %}
+
+                                    <div>
+                                        
+                                        <a type="submit" href="{{ path('app_documents_edit', {'id': reponse.id}) }}" class="btn btn-warning">
+                                            <i class="icon-copy ion-edit"></i>
+                                            &nbsp; Modifier
+                                        </a>
+
+                                    </div>
+
+                                {% endfor %}
+                            {% else %}
+                                <div>
+
+                                    <a type="submit" href="{{ path('app_documents_edit', {'id': document.id}) }}" class="btn btn-warning">
+                                        <i class="icon-copy ion-edit"></i>
+                                        &nbsp; Modifier
+                                    </a>
+
+                                </div>
+
+                            {% endif %}
+
+				</div>    
+			</div>
+
+
+		</div>
+
+
+	</div>
+
  
 
-{# {% block body %}
-    <h1>Documents</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ document.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ document.Nom }}</td>
-            </tr>
-            <tr>
-                <th>Objet</th>
-                <td>{{ document.Objet }}</td>
-            </tr>
-            <tr>
-                <th>Chemin</th>
-                <td>{{ document.Chemin }}</td>
-            </tr>
-            <tr>
-                <th>Structure</th>
-                <td>{{ document.Structure }}</td>
-            </tr>
-            <tr>
-                <th>Mouvement</th>
-                <td>{{ document.Mouvement }}</td>
-            </tr>
-            <tr>
-                <th>Niveau</th>
-                <td>{{ document.Niveau }}</td>
-            </tr>
-            <tr>
-                <th>Document_at</th>
-                <td>{{ document.DocumentAt ? document.DocumentAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date_mouvement</th>
-                <td>{{ document.DateMouvement ? document.DateMouvement|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_documents_index') }}">back to list</a>
-
-    <a href="{{ path('app_documents_edit', {'id': document.id}) }}">edit</a>
-
-    {{ include('documents/_delete_form.html.twig') }}
-{% endblock %} #}
-
-{% block add %}
-    <a href="{{path('app_documents_new')}}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-        </svg>
-        {#<img src="{{ 'assets/Dashboard/fonts/icons/main/New_Topic.svg'}}" alt="Ajout">#}
-    </a>
+<!-- Fin breacrum de document et de reponse -->
 {% endblock %}
 
 {% block list %}
- 
 
-<div style="  margin-top: 15px; margin-bottom:15px" >
-   <div style="text-align:left;"> <a class="btn btn-success"  href="{{ path('app_documents_index') }}">Retour</a></div>
-</div>
+    <!-- Debut box de formulaire de show des informations des documents-->
+        <div class="pd-20 card-box mb-30">
 
-<div class="topic">
-    <div class="topic__head"   style="margin-bottom: -50px;">
-        <div class="topic__caption">
-            <div class="topic__name mb-n5 pb-5">
-                {# <h5>{{document.Nom }}<h5> #}
-            </div>
-                
-            <div class="topic__date"> <a class="btn btn-warning mt-5"  href="{{ path('app_documents_edit', {'id': document.id}) }}">Modifier</a></div>
-        </div>
-    </div>
-
-<div class="create">
+            <div class="pb-20">
     
-    <div class="create__section ">
+                <div class="clearfix">
 
-        <div style=" display: flex;flex-wrap: wrap;" >
-
-        <div  style="margin-top: 20px; width:35% ">
-
-                <div class="topic__head"   style="margin-bottom: -20px;">
-                    <div class="topic__caption">
-                        <div class="topic__name mb-5 pb-5">
-                            <h5>Informations concernant le document {{document.Reference}}<h5>
-                        </div> 
-                    </div>
-                </div>
-                
-                <div class="create__section">
-                    <label class="create__label" for="title"> Numero  </label>
-                    <input class="form-control" type="text" name="name" value="{{ document.NumeroEnregistrement }}"readonly> 
-                </div>
-                <div class="create__section">
-                    <label class="create__label" for="title"> Structure du document  </label>
-                    <input class="form-control" type="text" name="name" value="{{ document.Structure }}"readonly> 
-                </div>
-            
-                <div class="create__section">
-                    <label class="create__label" for="title"> Mouvement du document  </label>
-                    <input class="form-control" type="text" name="name" value="{{ document.Mouvement }}"readonly> 
-                </div>
-            
-                <div class="create__section">
-                    <label class="create__label" for=" "> Objet du document  </label>
-                    {#<input  type="text" name="name" value="{{ document.Objet }}" readonly> #}
-                    <textarea class="form-control" rows="10" cols="50"  readonly>{{ document.Objet }}</textarea>
-                </div>
-                <div class="create__section">
-                    <label class="create__label" for="title"> Date d'arrivée  du document  </label>
-                    <input class="form-control" type="text" name="name" readonly value="{{ document.DateArrivee ? document.DateArrivee|date('Y-m-d H:i:s') : '' }}"> 
-                </div>
-
-                <div class="create__section">
-                    <label class="create__label" for="title"> Date du document  </label>
-                    <input class="form-control" type="text" name="name" readonly value="{{ document.DateDocument ? document.DateDocument|date('Y-m-d H:i:s') : '' }}"> 
-                </div>
-
-                <div class="create__section">
-                    <label class="create__label" for="title"> Date d'insertion du document dans SAGA </label>
-                    <input class="form-control" type="text" name="name" readonly value="{{ document.DocumentAt ? document.DocumentAt|date('Y-m-d H:i:s') : '' }}"> 
-                </div>
-            </div >
-
-            <div style="width:60% ;margin-left:5%;overflow : auto; text-align : center;margin-top:3%;" >
-            
-                <embed src="{{document.DocumentAt ? document.DocumentAt|date('Y/m/d') : ''}}/{{document.Chemin}}" width="600" height="1000" type='application/pdf'>
-                </embed>
-            </div>
-
-            {#<div style="text-align:right; margin-top:17px"> <a class="btn btn-danger"  href=" ">Supprimer</a></div>#} 
-        </div>
-
-    </div>
-</div>
-
-<div class="topic" style="margin-top: 50px;">
-
-    {% if document.provenances|length > 0 %}
-
-        <div class="create">
-            <div  >
-                <label class="create__label" for="title"> <h6> Liste des provenances du document <h6></label>
-                {% for provenance in document.provenances %}
-                    <a href="#" style="margin-left:20px ;font-size:18px" class="category"><i class="bg-5dd39e"></i> {{ provenance.Structure}} avec le numéro {{ provenance.Numero}} le {{ provenance.DateEnregistrement ? provenance.DateEnregistrement|date('Y-m-d à h:m:s') : ''  }}  </a>  <br>
-                {% else %}
-                    <p >Pas de provenance pour ce document.</p>
-                {% endfor %} 
-                
-            </div> 
-                                                
-        </div>
-    {% endif %} 
-
-    <div class="create">
-        <div  >
-            <label class="create__label" for="title"> <h6> Liste des affectation du document. <h6></label>
-            <a href="" style="margin-left:20px ;font-size:18px" class="category"><i class="bg-5dd39e"></i>   {{ document.PosteOwner.Agent.Prenom }}  {{ document.PosteOwner.Agent.Nom }} à créer ce document le {{ document.DocumentAt ? document.DocumentAt|date('Y-m-d H:i:s') : '' }}   </a>  <br>
-            {% for affectation in affectations %}
-                <a href="{{ path('app_Affectations_show', {'id': affectation.id}) }}" style="margin-left:20px ;font-size:18px" class="category"><i class="bg-5dd39e"></i>   {{ affectation.Envoyeur }}  à affecter ce document à   {{ affectation.Receveur }} le {{ affectation.DateAffectationAt ? affectation.DateAffectationAt|date('Y-m-d à h:m:s') : '' }}   </a>  <br>
-            {% else %}
-                <p >Pas d'affectation pour ce document.</p>
-            {% endfor %} 
-            
-        </div>              
-    </div>
-</div>
-{% if document.Reponse %}
-    {% set reponses = [document.Reponse]  %}
-{% elseif  document.documents|length > 0  %}
-    {% set  reponses = document.documents %}
-{% else %}
-    {% set  reponses = [] %}          
-{% endif %}
-{% if reponses|length >0 %} 
-    {% for reponse in reponses %}
-        
-        <div class="topic">
-            <div class="topic__head"   style="margin-bottom: -50px;">
-                <div class="topic__caption">
-                    <div class="topic__name mb-n5 pb-5">
-                        {# <h5>{{document.Nom }}<h5> #}
-                    </div>
+                    <div
+                        class="pull-left">
                         
-                    <div class="topic__date"> <a class="btn btn-warning mt-5"  href="{{ path('app_documents_edit', {'id': reponse.id}) }}">Modifier</a></div>
+                        <p class="mb-30">
+                            <b>Informations concernant le document
+                                {{document.Reference}}</b>
+                        </p>
+                    </div>
+
                 </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-6 col-sm-12 ">
+                        <div class="form-group">
+                            <label class="create__label" for="title">
+                                Numero
+                            </label>
+                            <input class="form-control" type="text" name="name" value="{{ document.NumeroEnregistrement }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12  ">
+                        <div class="form-group">
+                            <label class="create__label" for="title">
+                                Structure du document
+                            </label>
+                            <input class="form-control" type="text" name="name" value="{{ document.Structure }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12  ">
+                        <div class="form-group">
+                            <label class="create__label" for="title">
+                                Mouvement du document
+                            </label>
+                            <input class="form-control" type="text" name="name" value="{{ document.Mouvement }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12  ">
+                        <div class="form-group">
+                            <label class="create__label" for="title">
+                                Date d'arrivée  du document
+                            </label>
+                            <input class="form-control" type="text" name="name" readonly value="{{ document.DateArrivee ? document.DateArrivee|date('Y-m-d H:i:s') : '' }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12  ">
+                        <div class="form-group">
+                            <label class="create__label" for="title">
+                                Date du document
+                            </label>
+                            <input class="form-control" type="text" name="name" readonly value="{{ document.DateDocument ? document.DateDocument|date('Y-m-d H:i:s') : '' }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12  ">
+                        <div class="form-group">
+                            <label class="create__label" for="title">
+                                Date d'insertion du document dans SAGA
+                            </label>
+                            <input class="form-control" type="text" name="name" readonly value="{{ document.DocumentAt ? document.DocumentAt|date('Y-m-d H:i:s') : '' }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12  ">
+                        <div class="form-group">
+                            <label class="create__label" for=" ">
+                                Objet du document
+                            </label>
+                            <textarea class="form-control" rows="5" cols="10" readonly>{{ document.Objet }}</textarea>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
-        <div class="create">
+
+        </div>
+    <!-- Fin box de formulaire de show des informations des documents-->
+
+    <!-- Debut box daffichage du documents-->
+        <div class="pd-20 card-box mb-30">
+
+            <div class="clearfix">
+
+                <div
+                    class="pull-left">
+                    <!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+                    <p class="mb-30">
+                        <b>Apercu du document
+                        </b>
+                    </p>
+                </div>
+
+            </div>
+
+            <div>
+                <embed style="width: 100%; height:450px;border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); " src="{{document.DocumentAt ? document.DocumentAt|date('Y/m/d') : ''}}/{{document.Chemin}}"  type='application/pdf'></embed>
+            </div>
+
+            <div class="pd-20"></div>
+
+        </div>
+    <!-- Fin box daffichage du documents-->
+
+    <!-- Debut box de show les provenances du document-->
+
+        {% if document.provenances|length > 0 %}
+
+        <div class="pd-20 card-box mb-30">
+
+            <div class="pb-20">
+
+
             
-            <div class="create__section ">
 
-                <div style=" display: flex;flex-wrap: wrap;" >
+                <div class="clearfix">
+                    
+                        <div
+                            class="pull-left">
+                            <!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+                            <p class="mb-30">
+                                <b>	Liste des provenances du document {{document.Reference}}</b>
+                                </b>
+                            </p>
+                        </div>
+    
+                </div>
 
-                <div  style="margin-top: 20px; width:35% ">
 
-                        <div class="topic__head"   style="margin-bottom: -20px;">
-                            <div>
-                                <div class="topic__name mb-5 pb-5">
-                                    {% if document.Reponse %}
-                                        <h5> Le document auquelle on a répondu</h5>
-                                    {% elseif  document.documents|length > 0  %}
-                                        <h5> Un document en réponse</h5>
-                                    {% endif %}
-                                </div> 
-                                <div class="topic__name mb-5 pb-5">
-                                    <a href="{{ path('app_documents_show', {'id': reponse.id}) }}"><h5>Informations concernant le document {{reponse.Reference}}</h5></a>
-                                </div> 
+                <div  >
+
+
+                    <div class="row">
+
+
+                    
+                        {% for provenance in document.provenances %}
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                <a href="#" >
+                                            
+                                                {{ provenance.Structure}}
+                                                avec le numéro
+                                                {{ provenance.Numero}}
+                                                le
+                                                {{ provenance.DateEnregistrement ? provenance.DateEnregistrement|date('Y-m-d à h:m:s') : ''  }}
+                                            </a>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        {% else %}
+                            <p class="pl-20">>Pas de provenance pour ce document.</p>
+                        {% endfor %}
+
+                    </div>
+
+
+                </div>
+
+        
+            </div>
+        </div>
+
+        {% endif %}
+    <!-- Fin box de show les provenances du document-->
+    
+    <!-- Debut box de show des affectations du document-->
+        <div class="pd-20 card-box mb-30">
+
+            <div class="pb-20">
+    
+                <div class="clearfix">
+                    
+                        <div
+                            class="pull-left">
+                            <!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+                            <p class="mb-30">
+                                <b>	Liste des affectation du document {{document.Reference}}</b>
+                                </b>
+                            </p>
+                        </div>
+    
+                </div>
+
+
+                <div >
+    
+                    <div class="row">
+    
+                        <div class="table-responsive pl-20" >
+                                <table class="table table-striped">
+
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                <a  >
+                                                
+                                                {{ document.PosteOwner.Agent.Prenom }}
+                                                {{ document.PosteOwner.Agent.Nom }}
+                                                a créé ce document le
+                                                {{ document.DocumentAt ? document.DocumentAt|date('Y-m-d H:i:s') : '' }}
+                                            </a>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>       
+                
+                    
+                        {% for affectation in affectations %}
+
+                            <div class="table-responsive pl-20">
+                                <table class="table table-striped">
+
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                <a href="{{ path('app_Affectations_show', {'id': affectation.id}) }}"  >
+                                                
+                                                    {{ affectation.Envoyeur }}
+                                                    à affecter ce document à
+                                                    {{ affectation.Receveur }}
+                                                    le
+                                                    {{ affectation.DateAffectationAt ? affectation.DateAffectationAt|date('Y-m-d à h:m:s') : '' }}
+                                                </a>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        {% else %}
+                            <p class="pl-20 ">Pas encore d'affectation pour ce document.</p>
+                        {% endfor %}
+
+                    </div>
+
+
+                </div>
+
+        
+            </div>
+        </div>
+    <!-- Fin box de show des affectations du document-->
+
+
+
+
+    {% if document.Reponse %}
+		 {% set reponses = [document.Reponse]  %}
+	{% elseif  document.documents|length > 0  %}
+		 {% set  reponses = document.documents %}
+	{% else %}
+		 {% set  reponses = [] %}
+	{% endif %}
+     {% if reponses|length >0 %}
+			{% for reponse in reponses %}
+
+                <!-- Debut box de formulaire de show des informations de reponses-->
+
+                    <div class="pd-20 card-box mb-30">
+
+                        <div class="pb-20">
+
+                            <div class="clearfix">
+
+                                <div
+                                    class="pull-left">
+                                    <!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+                                    <p class="mb-30">
+
+                                            {% if document.Reponse %}
+                                                <b> Le document auquelle on a répondu</b>
+                                            {% elseif  document.documents|length > 0  %}
+                                            <b> Un document en réponse</b>
+                                            {% endif %}
+                                        
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="clearfix">
+
+                                <div
+                                    class="pull-left">
+                                    <!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+                                    <p class="mb-30">
+                                        <b><a href="{{ path('app_documents_show', {'id': reponse.id}) }}">  Informations concernant le document {{reponse.Reference}} </a></b>
+                                    </p>
+        
+                                </div>
+
+                            </div>
+
+
+    
+                            <div class="row">
+
+                                <div class="col-md-6 col-sm-12 ">
+                                    <div class="form-group">
+                                        <label > Numero </label>
+                                        <input class="form-control" type="text" name="name" value="{{ reponse.NumeroEnregistrement }}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12  ">
+                                    <div class="form-group">
+                                        <label class="create__label" for="title">
+                                            Structure du document
+                                        </label>
+                                        <input class="form-control" type="text" name="name" value="{{ reponse.Structure }}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12  ">
+                                    <div class="form-group">
+                                        <label class="create__label" for="title">
+                                            Mouvement du document
+                                        </label>
+                                        <input class="form-control" type="text" name="name" value="{{ reponse.Mouvement }}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12  ">
+                                    <div class="form-group">
+                                        <label class="create__label" for="title">
+                                            Date d'arrivée  du document
+                                        </label>
+                                        <input class="form-control" type="text" name="name" readonly value="{{ reponse.DateArrivee ? reponse.DateArrivee|date('Y-m-d H:i:s') : '' }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12  ">
+                                    <div class="form-group">
+                                        <label class="create__label" for="title">
+                                            Date du document
+                                        </label>
+                                        <input class="form-control" type="text" name="name" readonly value="{{reponse.DateDocument ? reponse.DateDocument|date('Y-m-d H:i:s') : '' }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12  ">
+                                    <div class="form-group">
+                                        <label class="create__label" for="title">
+                                            Date d'insertion du document dans SAGA
+                                        </label>
+                                        <input class="form-control" type="text" name="name" readonly value="{{  reponse.DocumentAt ? document.DocumentAt|date('Y-m-d H:i:s') : ''  }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12  ">
+                                    <div class="form-group">
+                                        <label class="create__label" for=" ">
+                                            Objet du document
+                                        </label>
+                                        <textarea class="form-control" rows="5" cols="10" readonly>{{ reponse.Objet }}</textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                <!-- Fin box de formulaire de show des informations de reponses-->
+
+
+                <!-- Debut box de apercu du document reponse-->
+
+                    <div class="pd-20 card-box mb-30">
+
+                        <div class="clearfix">
+
+                            <div
+                                class="pull-left">
+                                <!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+                                <p class="mb-30">
+                                    <b>Apercu du document
+                                    </b>
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <embed style="width: 100%; height:450px;border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); " src="{{reponse.DocumentAt ? reponse.DocumentAt|date('Y/m/d') : ''}}/{{reponse.Chemin}}"  type='application/pdf'></embed>
+                        </div>
+
+                        <div class="pd-20"></div>
+
+                    </div>
+
+                <!-- fin box de apercu du document reponse-->
+
+    
+                <!-- Debut box de show des provenances du document reponse-->
+                    {% if reponse.provenances|length > 0 %}
+
+                    <div class="pd-20 card-box mb-30">
+
+                        <div class="pb-20">
+
+
+            
+
+                                <div class="clearfix">
+                                    
+                                        <div
+                                            class="pull-left">
+                                            <!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+                                            <p class="mb-30">
+                                                <b>	Liste des provenances du document {{document.Reference}}</b>
+                                                </b>
+                                            </p>
+                                        </div>
+                    
+                                </div>
+
+
+                                <div  >
+
+
+                                    <div class="row">
+    
+                                        {% for provenance in reponse.provenances %}
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
+
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                <a href="#" >
+                                                            
+                                                                {{ provenance.Structure}}
+                                                                avec le numéro
+                                                                {{ provenance.Numero}}
+                                                                le
+                                                                {{ provenance.DateEnregistrement ? provenance.DateEnregistrement|date('Y-m-d à h:m:s') : ''  }}
+                                                            </a>
+                                                            </th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+
+                                        {% else %}
+                                            <p class="pl-20">Pas de provenance pour ce document.</p>
+                                        {% endfor %}
+
+                                    </div>
+
+
+                                </div>
+
+                        
                             </div>
                         </div>
-                        
-                        <div class="create__section">
-                            <label class="create__label" for="title"> Numero  </label>
-                            <input class="form-control" type="text" name="name" value="{{ reponse.NumeroEnregistrement }}"readonly> 
-                        </div>
-                        <div class="create__section">
-                            <label class="create__label" for="title"> Structure du document  </label>
-                            <input class="form-control" type="text" name="name" value="{{ reponse.Structure }}"readonly> 
-                        </div>
-                    
-                        <div class="create__section">
-                            <label class="create__label" for="title"> Mouvement du document  </label>
-                            <input class="form-control" type="text" name="name" value="{{ reponse.Mouvement }}"readonly> 
-                        </div>
-                    
-                        <div class="create__section">
-                            <label class="create__label" for=" "> Objet du document  </label>
-                            {#<input  type="text" name="name" value="{{ document.Objet }}" readonly> #}
-                            <textarea class="form-control" rows="10" cols="50"  readonly>{{ reponse.Objet }}</textarea>
-                        </div>
-                        <div class="create__section">
-                            <label class="create__label" for="title"> Date d'arrivée  du document  </label>
-                            <input class="form-control" type="text" name="name" readonly value="{{ reponse.DateArrivee ? reponse.DateArrivee|date('Y-m-d H:i:s') : '' }}"> 
-                        </div>
+                    {% endif %}
+                <!--Fin box de show des provenances du document reponse-->
+    
+                <!-- Debut box de show des affectations du document reponse-->
+                    <div class="pd-20 card-box mb-30">
 
-                        <div class="create__section">
-                            <label class="create__label" for="title"> Date du document  </label>
-                            <input class="form-control" type="text" name="name" readonly value="{{ reponse.DateDocument ? reponse.DateDocument|date('Y-m-d H:i:s') : '' }}"> 
-                        </div>
+                        <div class="pb-20">
+                
+                            <div class="clearfix">
+                                
+                                    <div
+                                        class="pull-left">
+                                        <!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+                                        <p class="mb-30">
+                                            <b>	Liste des affectation du document </b>
+                                            </b>
+                                        </p>
+                                    </div>
+                
+                            </div>
 
-                        <div class="create__section">
-                            <label class="create__label" for="title"> Date d'insertion du document dans SAGA </label>
-                            <input class="form-control" type="text" name="name" readonly value="{{ reponse.DocumentAt ? document.DocumentAt|date('Y-m-d H:i:s') : '' }}"> 
-                        </div>
-                    </div >
 
-                    <div style="width:60% ;margin-left:5%;overflow : auto; text-align : center;margin-top:3%;" >
+                            <div  >
+
+
+                                <div class="row">
+
+
+                                        <div class="table-responsive pl-20" >
+                                            <table class="table table-striped">
+
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">
+                
+                                                            <a>
+                                                            
+                                                            {{ reponse.PosteOwner.Agent.Prenom }}
+                                                            {{ reponse.PosteOwner.Agent.Nom }}
+                                                            a créé ce document le
+                                                            {{ reponse.DocumentAt ? reponse.DocumentAt|date('Y-m-d H:i:s') : '' }}
+                                                        </a>
+                                                        </th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+
+
+                                    
+                                                    
+                                
+                                    {% for affectation in affectations %}
+                                        <div class="table-responsive pl-20">
+                                            <table class="table table-striped">
+
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">
+                                                            
+                                                            <a href="{{ path('app_Affectations_show', {'id': affectation.id}) }}"  >
+                                                            
+                                                                {{ affectation.Envoyeur }}
+                                                                à affecter ce document à
+                                                                {{ affectation.Receveur }}
+                                                                le
+                                                                {{ affectation.DateAffectationAt ? affectation.DateAffectationAt|date('Y-m-d à h:m:s') : '' }}
+                                                            </a>
+                                                        </th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                    {% else %}
+                                        <p class="pl-20 ">Pas encore d'affectation pour ce document.</p>
+                                    {% endfor %}
+
+                                </div>
+
+
+                            </div>
+
                     
-                        <embed src="{{reponse.DocumentAt ? reponse.DocumentAt|date('Y/m/d') : ''}}/{{reponse.Chemin}}" width="600" height="1000" type='application/pdf'>
-                        </embed>
+                        </div>
                     </div>
+                <!-- Fin box de show des affectations du document reponse-->
 
-                    {#<div style="text-align:right; margin-top:17px"> <a class="btn btn-danger"  href=" ">Supprimer</a></div>#} 
-                </div>
+	        {% endfor %}
+     {% endif %}	
 
-            </div>
-        </div>
-
-        <div class="topic" style="margin-top: 50px;">
-
-            {% if reponse.provenances|length > 0 %}
-
-                <div class="create">
-                    <div  >
-                        <label class="create__label" for="title"> <h6> Liste des provenances du document <h6></label>
-                        {% for provenance in reponse.provenances %}
-                            <a href="#" style="margin-left:20px ;font-size:18px" class="category"><i class="bg-5dd39e"></i> {{ provenance.Structure}} avec le numéro {{ provenance.Numero}} le {{ provenance.DateEnregistrement ? provenance.DateEnregistrement|date('Y-m-d à h:m:s') : ''  }}  </a>  <br>
-                        {% else %}
-                            <p >Pas de provenance pour ce document.</p>
-                        {% endfor %} 
-                        
-                    </div> 
-                                                        
-                </div>
-            {% endif %} 
-
-            <div class="create">
-                <div  >
-                    <label class="create__label" for="title"> <h6> Liste des affectation du document. <h6></label>
-                    <a href="" style="margin-left:20px ;font-size:18px" class="category"><i class="bg-5dd39e"></i>   {{ reponse.PosteOwner.Agent.Prenom }}  {{ reponse.PosteOwner.Agent.Nom }} à créer ce document le {{ reponse.DocumentAt ? reponse.DocumentAt|date('Y-m-d H:i:s') : '' }}   </a>  <br>
-                    {% for affectation in affectations %}
-                        <a href="{{ path('app_Affectations_show', {'id': affectation.id}) }}" style="margin-left:20px ;font-size:18px" class="category"><i class="bg-5dd39e"></i>   {{ affectation.Envoyeur }}  à affecter ce document à   {{ affectation.Receveur }} le {{ affectation.DateAffectationAt ? affectation.DateAffectationAt|date('Y-m-d à h:m:s') : '' }}   </a>  <br>
-                    {% else %}
-                        <p >Pas d'affectation pour ce document.</p>
-                    {% endfor %} 
-                    
-                </div>              
-            </div>
-        </div>
-    {% endfor %}
-{% endif %}
 {% endblock %}
+
+
+
+
+
+
+
+                
+
+
+
+
+
+					 
+
+
+
+
+
+
+
+
+							
+
+
+
+                                
+ 
+
+								 
+
+ 
+
+											

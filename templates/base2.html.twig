@@ -614,7 +614,13 @@
 
 
 {{ encore_entry_script_tags('deskapp') }}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+
+    <!-- Inclure PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script> 
 <script src="{{ asset('assets/deskapp/vendors/scripts/core.js') }}"></script>
+<script src="{{ asset('assets/deskapp/vendors/scripts/apercupdf.js') }}"></script>
 <script src="{{ asset('assets/deskapp/vendors/scripts/script.min.js') }}"></script>
 <script src="{{ asset('assets/deskapp/vendors/scripts/layout-settings.js') }}"></script>
 <script src="{{ asset('assets/deskapp/vendors/scripts/process.js') }}"></script>
@@ -629,13 +635,17 @@
 </script><script src="{{ asset('assets/deskapp/plugins/datatables/js/buttons.flash.min.js') }}">
 </script><script src="{{ asset('assets/deskapp/plugins/datatables/js/pdfmake.min.js') }}"></script>
 <script src="{{ asset('assets/deskapp/src/plugins/datatables/js/vfs_fonts.js') }}">
+  
+   
+
+    
+   
 </script><!-- Datatable Setting js --><script src="{{ asset('assets/deskapp/vendors/scripts/datatable-setting.js') }}">
 </script></body></html></script><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe>
 </noscript><!-- End Google Tag Manager (noscript) --></body></html>
+  
 
-
-  <script>
-
+  
              
               

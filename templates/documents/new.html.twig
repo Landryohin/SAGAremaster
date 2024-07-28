@@ -1,23 +1,77 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
+
 
 {% block title %}Nouveau document{% endblock %}
 
-{# {% block main %}
-    <h1>Create new Documents</h1>
+{% block main %}{% endblock %}
 
-    {{ include('documents/_form.html.twig') }}
+{% block breadcrumb %}
 
-    <a href="{{ path('app_documents_index') }}">back to list</a>
-{% endblock %} #}
-{% block add %}
-    <a href="{{path('app_documents_new')}}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-        </svg>
-        {#<img src="{{ 'assets/Dashboard/fonts/icons/main/New_Topic.svg'}}" alt="Ajout">#}
-    </a>
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-8 col-sm-12">
+				<div class="title">
+					<h4>Nouveau document</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_documents_index') }}">Liste des documents</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Nouveau document
+						</li>
+					</ol>
+				</nav>
+			</div>
+
+            <div class="col-md-4 col-sm-12 text-right">
+				 
+						 
+							<div class="form-group row">
+                               
+                                <div class="col-sm-12 col-md-10">
+                                     
+
+
+                                    {% if (speciale  or user.niveau == "Admin") and Reponse == null %}
+
+                                        <form action = "{{path('app_documents_new' )}}" method = "get">
+
+                                            <div >
+                                                <select  name = "mouv"  id="selectTypeDoc" class="selectpicker form-control text-center" data-style="btn-outline-success" style="text-align : ligth; border : 0.5px solid green" >  
+                                                    {% if mouvement == "ARRIVEE DIRECTE" %}<option selected > {% else %} <option> {% endif %} ARRIVEE DIRECTE</option>
+                                                    {% if mouvement == "ARRIVEE PAR SGM" %}<option selected > {% else %} <option> {% endif %}ARRIVEE PAR SGM</option>
+                                                    {% if mouvement == "ARRIVEE PAR CAB" %}<option selected > {% else %} <option> {% endif %}ARRIVEE PAR CAB</option>
+                                                    {% if mouvement == "ARRIVEE PAR AUTRE" %}<option selected > {% else %} <option> {% endif %}ARRIVEE PAR AUTRE</option>
+                                                    {% if mouvement == "DEPART" %}<option selected > {% else %} <option> {% endif %}DEPART</option>
+                                                    {% if mouvement == "INTERNE" %}<option value = "INTERNE" selected > {% else %} <option value = "INTERNE" > {% endif %}DOCUMENTS INTERNES</option>
+                                                </select> 
+                                                <div hidden> 
+                                                    <button type ="submit" name = "submitmouv" class="btn btn-success" id="newDoc"> 
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                        </svg> &nbsp; Nouveau document
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+			 
+			</div>
+		</div>
+	</div>
+
 {% endblock %}
+
+ 
 
 {% block list %}
 
@@ -26,30 +80,7 @@
         <div style="display: inline-block;margin-top : 5px"> <a class="btn btn-success" style="margin-top:15px "  href="{{ path('app_documents_index') }}">Retour</a></div>
     </div>
     <div class="col-md-3">
-        {% if (speciale  or user.niveau == "Admin") and Reponse == null %}
-
-        <form action = "{{path('app_documents_new' )}}" method = "get">
-
-            <div style="text-align:right; margin-top:20px;display: inline-block;">
-                <select  name = "mouv"  id="selectTypeDoc" style="text-align : ligth; border : 0.5px solid green">  
-                    {% if mouvement == "ARRIVEE DIRECTE" %}<option selected > {% else %} <option> {% endif %} ARRIVEE DIRECTE</option>
-                    {% if mouvement == "ARRIVEE PAR SGM" %}<option selected > {% else %} <option> {% endif %}ARRIVEE PAR SGM</option>
-                    {% if mouvement == "ARRIVEE PAR CAB" %}<option selected > {% else %} <option> {% endif %}ARRIVEE PAR CAB</option>
-                    {% if mouvement == "ARRIVEE PAR AUTRE" %}<option selected > {% else %} <option> {% endif %}ARRIVEE PAR AUTRE</option>
-                    {% if mouvement == "DEPART" %}<option selected > {% else %} <option> {% endif %}DEPART</option>
-                    {% if mouvement == "INTERNE" %}<option value = "INTERNE" selected > {% else %} <option value = "INTERNE" > {% endif %}DOCUMENTS INTERNES</option>
-                </select> 
-                <div hidden> 
-                    <button type ="submit" name = "submitmouv" class="btn btn-success" id="newDoc"> 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                        </svg> &nbsp; Nouveau document
-                    </button>
-                </div>
-            </div>
-        </form>
-    {% endif %}
+        
 
     </div>
 </div>
@@ -545,90 +576,11 @@
                  </div>   
 
 
-{% endblock %}
-
-{% block javascripts %}
-{{parent()}}
-<script>
-    //$('#selectTypeDoc').select2()
-
-    $('#selectTypeDoc').on('change',function(){
-        $('#newDoc').trigger("click")
-    })
-
-     
-
-
-    $(document).ready(function() {
-        //console.log($("#documents_Chemin"))
-        $('#selectTypeDoc').trigger("click")   
-
-          //Apercu desc pdf
-     // Loaded via <script> tag, create shortcut to access PDF.js exports.
-var pdfjsLib = window['pdfjs-dist/build/pdf'];
-// The workerSrc property shall be specified.
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.9.179/build/pdf.worker.js';
-
-// Loaded via <script> tag, create shortcut to access PDF.js exports.
-var pdfjsLib = window["pdfjs-dist/build/pdf"];
-// The workerSrc property shall be specified.
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.9.179/build/pdf.worker.js";
-
-$("#documents_Chemin").on("change", function (e) {
-  var file = e.target.files[0];
-  if (file.type == "application/pdf") {
-    var fileReader = new FileReader();
-    fileReader.onload = function () {
-      var pdfData = new Uint8Array(this.result);
-      // Using DocumentInitParameters object to load binary data.
-      var loadingTask = pdfjsLib.getDocument({ data: pdfData });
-      loadingTask.promise.then(
-        function (pdf) {
-          console.log("PDF loaded");
-
-          // Fetch the first page
-          var pageNumber = 1;
-          pdf.getPage(pageNumber).then(function (page) {
-            console.log("Page loaded");
-
-            var scale = 0.95;
-            var viewport = page.getViewport({ scale: scale });
-
-            // Prepare canvas using PDF page dimensions
-            var canvas = $("#pdfViewer")[0];
-            var context = canvas.getContext("2d");
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-
-            // Render PDF page into canvas context
-            var renderContext = {
-              canvasContext: context,
-              viewport: viewport
-            };
-            var renderTask = page.render(renderContext);
-            renderTask.promise.then(function () {
-              console.log("Page rendered");
-            });
-          });
-        },
-        function (reason) {
-          // PDF loading error
-          console.error(reason);
-        }
-      );
-    };
-    fileReader.readAsArrayBuffer(file);
-  }
-});
 
 
  
-     });
 
-
-    
-</script>
 {% endblock %}
+ 
  
 
