@@ -34,6 +34,8 @@
 							<div class="form-group row">
                                
                                 <div class="col-sm-12 col-md-10">
+
+                                <div class="pd-20   ">
                                      
 
 
@@ -63,6 +65,7 @@
                                     {% endif %}
 
                                 </div>
+                                </div>
                             </div>
 			 
 			</div>
@@ -75,191 +78,222 @@
 
 {% block list %}
 
-<div class="row">
-    <div class="col-md-9">
-        <div style="display: inline-block;margin-top : 5px"> <a class="btn btn-success" style="margin-top:15px "  href="{{ path('app_documents_index') }}">Retour</a></div>
-    </div>
-    <div class="col-md-3">
-        
 
-    </div>
-</div>
 
- 
-                
-              <div style=" display: flex;flex-wrap: wrap;" >
-                                
-                       <div class="create" style="width:45% ; height: 13%;" >  
-                     
-                        
-                         {{ form_start(form) }}
 
-                          {% if document.mouvement == "DEPART" %}
-                             <div class="create__section" >
+
+<div class="pd-20 card-box mb-30">
+
+   {{ form_start(form) }}
+
+		<div class="pb-20">
+
+			<div class="clearfix">
+
+
+                    <div class="pull-left">
+                         {% if document.mouvement == "DEPART" %}
+                            <div class="create__section" >
+
                                 {% if Reponse %}
 
-                                <div class="create__title"><img src={{asset('build/images/icons/resume.5e7e6b1f.svg')}}>Résumé de documents à répondre</div>
+                                <p class="mb-30"> <b> Résumé de documents à répondre </b> </p> 
                                 
                                 <div style="margin-top:10px;margin-bottom:10px;">Pas de documents associé à cette réponse</div>
                                      
-                               <div style="margin-top:10px;margin-bottom:10px;">
-                                    <p><b>Objet:</b> {{Reponse.objet}} </p>
-                                    <p> <b>Référence:</b> {{Reponse.reference}}  </p>
-                                    <p>  <b>Structure:</b> {{Reponse.structure}}</p>
-                                  
-                             </div>
-
-                                {% endif %} 
-                                
-
-                              </div>
-                          {% endif %} 
-                           
-                             <div class="create__section" >
-                                
-                                    <div class="create__title"><img src={{asset('build/images/icons/iconplus.5ed37a8f.svg')}}>Ajout d'un nouveau document</div>
-                                   
+                                <div style="margin-top:10px;margin-bottom:10px;">
+                                        <p><b>Objet:</b> {{Reponse.objet}} </p>
+                                        <p> <b>Référence:</b> {{Reponse.reference}}  </p>
+                                        <p>  <b>Structure:</b> {{Reponse.structure}}</p>
+                                    
                                 </div>
 
-    
-                                 <div>
+                                {% endif %} 
+                                 
+                            </div>
+                         {% endif %} 
+                    </div>
+			 
+					<div class="pull-left">
+						<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+						<p class="mb-30">
+							<b>Formulaire d'ajout d'une nouveau document
+							</b>
+						</p>
+					</div>
+ 
+			</div>
 
-                                    <div class="create__section" style=" display: flex;flex-wrap: wrap;" >
 
-                                        <div  style="width: 70%; ">
-                                                {% if document.mouvement == "DEPART"  or document.mouvement == "INTERNE"  %}
-                                                    <label class="create__label" for="title">{{ form_label(form.Chemin, 'Charger le document', {'label_attr': {'class': 'foo'}}) }}</label>
-                                                {% else %}
-                                                    <label class="create__label" for="title">{{ form_label(form.Chemin, 'Charger le courrier', {'label_attr': {'class': 'foo'}}) }}</label>
-                                                {% endif %}   
-                                                 <div>{{ form_widget(form.Chemin, {'attr': {'class': 'form-control','placeholder': "Insérez le chemin" }}) }}</div> 
-                                        </div>
+			<div >
 
-                                        {% if  document.mouvement == "INTERNE"    %}
-                                        <div hidden style="width: 8.5%; margin-left:2.5%">
+				 
+
+				<div class="row">
+
+                    <!-- 1er ligne du formulaire charger un document et public -->
+                 
+
+					<div class="col-md-8 col-sm-12 ">
+
+						<div class="form-group">
+ 
+                              {% if document.mouvement == "DEPART"  or document.mouvement == "INTERNE"  %}
+                                      <label >{{ form_label(form.Chemin, 'Charger le document', {'label_attr': {'class': 'foo'}}) }}</label>
+                                {% else %}
+                                        <label >{{ form_label(form.Chemin, 'Charger le courrier', {'label_attr': {'class': 'foo'}}) }}</label>
+                               {% endif %}
+                                           
+                                <div>{{ form_widget(form.Chemin, {'attr': {'class': ' form-control ','placeholder': "Insérez le chemin" }}) }}</div> 
                                          
-                                                <label class="create__box" for="title" >{{ form_label(form.Sensibility, "Public") }}</label>
-                                                    <div >{{ form_widget(form.Sensibility, {'attr': {'class': 'custom-checkbox' }}) }}</div> 
-                                                </label>
-                    
-                                        </div>
+							 
+						</div>
+					</div>
+  
 
-                                        {% else %}
+					<div class="col-md-4 col-sm-12">
 
-                                          <div style="width: 8.5%; margin-left:2.5%; margin-top: 4%">
+						<div class="form-group">
+
+                        
+                          {% if  document.mouvement == "INTERNE"    %}
+                                 <div hidden class="custom-control custom-checkbox mb-5"  >
                                          
-                                                <label class="create__box" for="title" >{{ form_label(form.Sensibility, "Public") }}</label>
-                                                    <div >{{ form_widget(form.Sensibility, {'attr': {'class': 'custom-checkbox' }}) }}</div> 
-                                                </label>
+                                     <label> {{ form_label(form.Sensibility, "Rendre Public") }}</label>
+                                     <div >{{ form_widget(form.Sensibility, {'attr': {'class': ' ' }}) }}</div> 
+                                                
                     
-                                        </div>
+                                 </div>
 
-                                    {% endif %}  
+                          {% else %}
 
-                                    {# FIN MASQUER LE PUBLIC  #}  
+                                 <div class="custom-control custom-checkbox mb-5" >
+                                         
+                                     <label  >{{ form_label(form.Sensibility, " Rendre le document public") }}</label>
+                                      <div >{{ form_widget(form.Sensibility, {'attr': {'class': ' ' }}) }}</div>         
+                    
+                                </div>
 
-                                    </div>
+                            {% endif %}                      
+							 
+						</div>
+					</div>
+ 
 
-                                     {# TYPE DE DOCUMENT  #}  
+                 <!-- fin 1er ligne du formulaire charger un document et public -->
+
+
+
+            	    <div class="col-md-12 col-sm-12">
+
+						<div class="form-group">
+
+							  {# TYPE DE DOCUMENT  #}  
 
                                         <div class="create__section">
 
                                            {% if document.mouvement == "DEPART"  and Reponse   %}
                                                 
                                                  <div hidden>
-                                                    <label class="create__label" for="title">{{ form_label(form.TypeDocument, "Type de courrier") }}</label>
-
-                                                     <label class="custom-select">          
-                                                          <div>{{ form_widget(form.TypeDocument, {'attr': {'class': 'js-example-basic-single' }}) }}</div> 
-                                                     </label>
+                                                    <label>{{ form_label(form.TypeDocument, "Type de courrier") }}</label>
+                                                     <div>{{ form_widget(form.TypeDocument, {'attr': {'class': 'form-control custom-select2' }}) }}</div> 
+ 
                                                  </div>
 
                                                 {% elseif document.mouvement == "INTERNE"  %}
-                                                       <label class="create__label" for="title">{{ form_label(form.TypeDocument, "Type du document") }}</label>
-                                                     <label class="custom-select">          
-                                                    <div>{{ form_widget(form.TypeDocument, {'attr': {'class': 'js-example-basic-single' }}) }}</div> 
-                                                     </label>
+                                                    <label >{{ form_label(form.TypeDocument, "Type du document") }}</label>     
+                                                    <div>{{ form_widget(form.TypeDocument, {'attr': {'class': 'form-control custom-select2' }}) }}</div>  
 
                                                 {% else %}
-                                                    <label class="create__label" for="title">{{ form_label(form.TypeDocument, "Type de courrier") }}</label>
-                                                     <label class="custom-select">          
-                                                    <div>{{ form_widget(form.TypeDocument, {'attr': {'class': 'js-example-basic-single' }}) }}</div> 
-                                                     </label>
+                                                    <label >{{ form_label(form.TypeDocument, "Type de courrier") }}</label>    
+                                                    <div>{{ form_widget(form.TypeDocument, {'attr': {'class': 'form-control custom-select2' }}) }}</div>  
                                             {% endif %}   
                                                 
                         
                                         </div>
 
-                                     {# FIN TYPE DE DOCUMENT  #}  
-                                    
-                                    
-                                </div>
-                                 
-                              {# LIGNE REFERENCE  #}  
+                                {# FIN TYPE DE DOCUMENT  #} 
 
-                                <div style=" display: flex;flex-wrap: wrap;">
-                                    
-                                    <div class="create__section" style="width: 100%; font-size: 15px; " >
+						</div>
+				    </div>              
+
+
+				
+
+                    {# LIGNE REFERENCE  #} 
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+                             
+                                    <div >
 
                                         {% if notification  %}
-                                            <div class="text-danger text-bold text--italic">{{notification}}</div> <br>
+                                            <div class="text-danger text-bold" style="font-style: italic;">{{notification}}</div> <br>
                                         {% endif %}   
                                         {% if document.mouvement != "DEPART"  %}
-                                            <div class="text-success text-bold text--italic">Lorsque que le document n'a pas de référence saisissez SR </div> 
+                                            <div style="font-style: italic;" class="text-success text-bold text--italic">Lorsque que le document n'a pas de référence saisissez SR </div> 
                                         {% endif %} 
                                     </div>
-                                </div>
-                                <div style=" display: flex;flex-wrap: wrap;">
-                                        
-                                    <div class="create__section" style="width: 45.5% " >
+    
+                                    <div >
 
                                         {% if  document.mouvement == "INTERNE"  %}
-                                            <label class="create__label" for="title">{{ form_label(form.Reference, 'Référence du document', {'label_attr': {'class': 'foo'}}) }}</label>
+                                            <label> {{ form_label(form.Reference, 'Référence du document', {'label_attr': {'class': 'foo'}}) }}</label>
                                         {% else %}
-                                            <label class="create__label" for="title">{{ form_label(form.Reference, 'Référence du courrier', {'label_attr': {'class': 'foo'}}) }}</label>
+                                            <label> {{ form_label(form.Reference, 'Référence du courrier', {'label_attr': {'class': 'foo'}}) }}</label>
                                         {% endif %}   
-                                            <div>{{ form_widget(form.Reference, {'attr': {'class': 'form-control','placeholder': "Insérez la référence" }}) }}</div> 
+                                            <div> {{ form_widget(form.Reference, {'attr': {'class': 'form-control','placeholder': "Insérez la référence" }}) }}</div> 
                                     </div>
+ 
+  
+						</div>
+					</div>
+                    {# FIN lIGNE REFERENCE #} 
 
-                                    <div class="create__section" style="width: 49.5%; margin-left:5%" >
 
+
+
+
+                    {# LIGNE date de courier  #}
+                    <div class="col-md-6 col-sm-12">
+						<div class="form-group">
+ 
+                            <div class="pt-20">
                                         
-                                        <label class="create__label" for="title">{{ form_label(form.DateDocument, "Date du courier", {'label_attr': {'class': 'foo'}}) }}</label>
-                                        
-                                        <div style="width: 350px;">{{ form_widget(form.DateDocument, {'attr': {'class': 'date_time1' }}) }}</div> 
-                                
-
-                                    </div>
-                                </div>
-                              {# FIN lIGNE REFERENCE #}  
-
-                                
+                                <label >{{ form_label(form.DateDocument, "Date du courier", {'label_attr': {'class': 'foo'}}) }}</label>
+                                <div >{{ form_widget(form.DateDocument, {'attr': {'class': 'form-control' }}) }}</div> 
+                             </div>   
+                                      
+                                                           
+                        </div>
+					</div>
+                    {# FIN LIGNE date de courier  #} 
 
 
-                              {#  lIGNE OBJET ET STRUCTURE EMMETRICE #}  
-
-                                <div style=" display: flex;flex-wrap: wrap;" >
-
-
+                    {#  LIGNE OBJET  #} 
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                           
+                                  
+                                <div>
 
                                        {% if  document.mouvement == "INTERNE"  %}
 
-                                        <div class="create__section"  style="width: 205% " >
-                                            <label class="create__label" for="title">{{ form_label(form.Objet, 'Objet du document', {'label_attr': {'class': 'foo'}}) }}</label>
+                                        <div   >
+                                            <label>{{ form_label(form.Objet, 'Objet du document', {'label_attr': {'class': 'foo'}}) }}</label>
                                         
                                         {% elseif document.mouvement == "DEPART" %}
                                             {% if Reponse %}
-                                                <div hidden class="create__section"  style="width: 45.5% " >
+                                                <div hidden >
                                             {% else %}
-                                                <div class="create__section"  style="width: 45.5% " >
+                                                <div >
                                             {% endif %}
-                                          <label class="create__label" for="title">{{ form_label(form.Objet, 'Objet du courrier', {'label_attr': {'class': 'foo'}}) }}</label>
+                                          <label>{{ form_label(form.Objet, 'Objet du courrier', {'label_attr': {'class': 'foo'}}) }}</label>
                                        
 
                                         {% else %}
                                         
-                                        <div class="create__section"  style="width: 45.5% " >
-                                          <label class="create__label" for="title">{{ form_label(form.Objet, 'Objet du courrier', {'label_attr': {'class': 'foo'}}) }}</label>
+                                        <div class="create__section">
+                                          <label>{{ form_label(form.Objet, 'Objet du courrier', {'label_attr': {'class': 'foo'}}) }}</label>
                                        
                                         {% endif %} 
                                         {% if Reponse  %} 
@@ -270,310 +304,430 @@
                                              
                                         </div>
 
+                                </div>
 
+                                        
+                                                           
+                        </div>
+                    
+                    </div>
+                    {# FIN LIGNE OBJET #} 
+
+
+                
+
+                    {# STRUCTURE EMMETRICE #} 
+                     
+                           
+                        
                                     {% if document.mouvement == "DEPART"  %}
+
                                     {% if Reponse  %}
-                                        <div hidden class="create__section"  style="width: 49.5%; margin-left:5%" >
+                                        <div hidden class="col-md-6 col-sm-12" >
+                                        <div hidden  class="form-group">
                                             <label class="create__label" for="title">{{ form_label(form.Structure, 'Destinataire', {'label_attr': {'class': 'foo'}}) }}</label>   
                                             <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','value': Reponse.Structure, 'readOnly': true }}) }}</div> 
                                     {% else %}
-                                        <div class="create__section"  style="width: 49.5%; margin-left:5%">
+                                        <div class="col-md-6 col-sm-12" >
+                                        <div   class="form-group">
                                             <label class="create__label" for="title">{{ form_label(form.Structure, 'Destinataire', {'label_attr': {'class': 'foo'}}) }}</label>   
                                             <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Destinataire"  }}) }}</div> 
                                     {% endif %}    
                                     </div> 
+                                    </div> 
 
                                      {% elseif  document.mouvement == "INTERNE"  %}
 
-                                      <div hidden class="create__section"  style="width: 49.5%; margin-left:5%" >
+                                      <div hidden class="col-md-6 col-sm-12" >
+                                        <div hidden  class="form-group">
                                             <label class="create__label" for="title">{{ form_label(form.Structure, 'Structure émettrice', {'label_attr': {'class': 'foo'}}) }}</label>   
                                             <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Structure émettrice", 'value': '{{ dg }}', 'readonly': true  }}) }}</div> 
+                                     </div>
                                      </div>
 
                                      {% else %}
 
-                                        <div class="create__section"  style="width: 49.5%; margin-left:5%" >
+                                        <div  class="col-md-6 col-sm-12" >
+                                        <div  class="form-group">
                                             <label class="create__label" for="title">{{ form_label(form.Structure, 'Structure émettrice/usager', {'label_attr': {'class': 'foo'}}) }}</label>   
                                             <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Structure émettrice/usager" }}) }}</div> 
                                         </div>
+                                        </div>
 
                                     {% endif %} 
+ 
+                                          
+                                                           
+                       
+                    {# FIN STRUCTURE EMMETRICE #}
 
-                                </div>
+                    {#  NUMERO DENREGISTREMENT #}  
+                     
 
-                            {# FIN lIGNE REFERENCE #}  
-
-
-                            {# NUMERO ET DATE DENREGISTREMENT #}    
-
-                                <div style=" display: flex;flex-wrap: wrap;" >
-
-                                      {#  NUMERO DENREGISTREMENT #}  
                                      {% if  document.mouvement == "INTERNE"    %}
 
-                                        <div hidden class="create__section" style="width: 45.5%"  >
+                                        <div hidden class="col-md-6 col-sm-12" >
+                                        <div hidden class="form-group" >
 
-                                                 <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrement, "Numéro d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
-                                        
-                                                 <div>{{ form_widget(form.NumeroEnregistrement, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement" }}) }}</div> 
+                                            <label >{{ form_label(form.NumeroEnregistrement, "Numéro d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                                            <div>{{ form_widget(form.NumeroEnregistrement, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement" }}) }}</div> 
 
+                                        </div>
                                         </div>
 
 
                                         {% else %}
 
-                                        <div class="create__section" style="width: 45.5%"  >
+                                        <div class="col-md-6 col-sm-12" >
+                                        <div  class="form-group" >
 
-                                            <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrement, "Numéro d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
-                                        
+                                            <label >{{ form_label(form.NumeroEnregistrement, "Numéro d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
                                             <div>{{ form_widget(form.NumeroEnregistrement, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement" }}) }}</div> 
                                     
+                                        </div>
                                         </div>
 
  
                                     {% endif %}  
-                                 
+                        
+                       
+                    {# FIN NUMERO DENREGISTREMENT #}
 
-                                      {#  DATE DENREGISTREMENT #}  
 
-                                        {% if document.mouvement == "DEPART"  %}
-                                           <div class="create__section" style="width: 49.5%; margin-left:5%" >
-                                            {% if Reponse %}
-                                                <label class="create__label" for="title">{{ form_label(form.DateArrivee, "Date de réponse", {'label_attr': {'class': 'foo'}}) }}</label>
-                                            {% else %}
-                                                <label class="create__label" for="title">{{ form_label(form.DateArrivee, "Date de départ", {'label_attr': {'class': 'foo'}}) }}</label>
-                                            {% endif %}
-                                        {% elseif document.mouvement == "INTERNE"  %}
-                                           <div class="create__section" style="width: 49.5%; " >
-                                           
-                                            <label class="create__label" for="title">{{ form_label(form.DateArrivee, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+
+                    {#  DATE DENREGISTREMENT #}
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+
+                             {% if document.mouvement == "DEPART"  %}
+
+                                    <div class="create__section"  >
+                                         {% if Reponse %}
+                                                <label >{{ form_label(form.DateArrivee, "Date de réponse", {'label_attr': {'class': 'foo'}}) }}</label>
+                                         {% else %}
+                                                <label>{{ form_label(form.DateArrivee, "Date de départ", {'label_attr': {'class': 'foo'}}) }}</label>
+                                          {% endif %}
+
+                              {% elseif document.mouvement == "INTERNE"  %}
+
+                                    <div>       
+                                    <label>{{ form_label(form.DateArrivee, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
                                        
-                                        {% else %}
-                                           <div class="create__section" style="width: 49.5%; margin-left:5%" >
-                                            
-                                            <label class="create__label" for="title">{{ form_label(form.DateArrivee, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
-                                       
-                                        {% endif %} 
+                              {% else %}
 
-                                        <div style="width: 350px;">{{ form_widget(form.DateArrivee, {'attr': {'class': 'date_time1' }}) }}</div> 
+                                    <div>
+                                    <label>{{ form_label(form.DateArrivee, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                                       
+                               {% endif %} 
+
+                                        <div>{{ form_widget(form.DateArrivee, {'attr': {'class': 'form-control' }}) }}</div> 
                                    
                                     </div>
 
-                                </div>
+                        </div>
+                             
+                    </div>
+                    {# FIN DATE DENREGISTREMENT #}
 
-                             {# FIN NUMERO ET DATE DENREGISTREMENT #}  
 
-                             {# DEBUT DU POSTE INITIATEUR ET OBSERVATION #} 
+
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                            {# DEBUT DU POSTE INITIATEUR ET OBSERVATION #} 
+
                              {% if document.mouvement == "DEPART"  %}
+
                                 <div class="create__section">
                                     
                                     <label class="create__label" for="title">{{ form_label(form.Initiateur, "Initié par :") }}</label>
                                                                            
-                                    <label class="custom-select">
+                                    
                                                                                         
-                                        <div>{{ form_widget(form.Initiateur, {'attr': {'class': 'js-example-basic-single' }}) }}</div> 
-
-                                    </label>
-            
+                                        <div>{{ form_widget(form.Initiateur, {'attr': {'class': 'form-control custom-select2' }}) }}</div>
+ 
                                 </div>
-                                <div class="create__section">
+                                
+                            {% endif %}
+
+                            {# FIN DU POSTE INITIATEUR  ET OBSERVATION #} 
+
+
+                        </div>
+                             
+                    </div>
+
+
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+
+                        {# DEBUT OBSERVATION #} 
+
+                          {% if document.mouvement == "DEPART"  %}
+
+                            <div class="create__section">
                                     
                                     <label class="create__label" for="title">{{ form_label(form.Observation, "Observation :") }}</label>                                                                       
                                     <div>{{ form_widget(form.Observation, {'attr': {'class': 'form-control','placeholder': "Observation sur le courrier"  }}) }}</div> 
             
                                 </div>
-                            {% endif %}
+                          {% endif %}
 
-                            {# FIN DU POSTE INITIATEUR  ET OBSERVATION #} 
+                           {# FIN OBSERVATION #} 
+
+
+                        </div>
+                             
+                    </div>
+
+
+                    {% if document.mouvement == "ARRIVEE PAR SGM" %}
+                                  
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group"> 
+
+                                    <label class="create__label" for="title">{{ form_label(form.SGM, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                                   <div>{{ form_widget(form.SGM, {'attr': {'class': 'form-control','placeholder': "", 'value': 'SGM', 'readonly': true }}) }}</div> 
+                            
+
+                        </div>
+                             
+                    </div>
+
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+
+                           
+                                    <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementSGM, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
+                                     <div>{{ form_widget(form.NumeroEnregistrementSGM, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
+                               
+
+                        </div>
+                             
+                    </div>
+
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+
+                             
+                                 <label class="create__label" for="title">{{ form_label(form.DateEnregistrementSGM, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                                  <div>{{ form_widget(form.DateEnregistrementSGM, {'attr': {'class': 'form-control' }}) }}</div>
+                             
+
+                         </div>
+                             
+                    </div>
+                                            
+
+                             {% elseif  document.mouvement == "ARRIVEE PAR CAB" %}
+
  
-                         
-                                {% if document.mouvement == "ARRIVEE PAR SGM" %}
-                                    <div  >
-                                         <div style=" display: flex;flex-wrap: wrap;" >
+                                             <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.SGM, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                                                    <div>{{ form_widget(form.SGM, {'attr': {'class': 'form-control','placeholder': "", 'value': 'SGM', 'readonly': true }}) }}</div> 
+                                                
 
-                                            <div class="create__section" style="width: 45.5% " >
-                                                <label class="create__label" for="title">{{ form_label(form.SGM, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.SGM, {'attr': {'class': 'form-control','placeholder': "", 'value': 'SGM', 'readonly': true }}) }}</div> 
+                                               </div>
                                             </div>
-                                            <div class="create__section" style="width: 49.5%; margin-left:5%" >
-                                                <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementSGM, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.NumeroEnregistrementSGM, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
-                                            </div>
-                                        </div>
-                                            <div class="create__section" >
-                                                <label class="create__label" for="title">{{ form_label(form.DateEnregistrementSGM, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.DateEnregistrementSGM, {'attr': {'class': 'date_time2' }}) }}</div> 
-                                            </div>
-                                       
-                                    </div>
+                                             <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+ 
+                                                    <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementSGM, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
+                                                    <div>{{ form_widget(form.NumeroEnregistrementSGM, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
+                                                
 
-
-                                {% elseif  document.mouvement == "ARRIVEE PAR CAB" %}
-                                    <div  >
-                                         <div style=" display: flex;flex-wrap: wrap;" >
-
-                                            <div class="create__section" style="width: 45.5% "  >
-                                                <label class="create__label" for="title">{{ form_label(form.SGM, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.SGM, {'attr': {'class': 'form-control','placeholder': "", 'value': 'SGM', 'readonly': true }}) }}</div> 
+                                               </div>
                                             </div>
 
-                                            <div class="create__section" style="width: 49.5%; margin-left:5%" >
-                                                <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementSGM, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.NumeroEnregistrementSGM, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
+                                             <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.DateEnregistrementSGM, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                                                     <div>{{ form_widget(form.DateEnregistrementSGM, {'attr': {'class': 'form-control' }}) }}</div> 
+                                         
+
+                                               </div>
                                             </div>
-                                         </div>
 
-                                        <div style=" display: flex;flex-wrap: wrap;" >
-
-                                            <div class="create__section" style="width: 45.5% " >
-                                                <label class="create__label" for="title">{{ form_label(form.DateEnregistrementSGM, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.DateEnregistrementSGM, {'attr': {'class': 'date_time2' }}) }}</div> 
-                                            </div>
-    
-
-                                            <div class="create__section" style="width: 49.5%; margin-left:5%" >
-                                                <label class="create__label" for="title">{{ form_label(form.CAB, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                                             <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.CAB, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
                                                 <div>{{ form_widget(form.CAB, {'attr': {'class': 'form-control','placeholder': "", 'value': 'CAB', 'readonly': true }}) }}</div> 
+                                   
+                                               </div>
                                             </div>
-                                        </div>
 
-                                        <div style=" display: flex;flex-wrap: wrap;" >
+                                             <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                     <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementCAB, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
+                                                    <div>{{ form_widget(form.NumeroEnregistrementCAB, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
+                                           
 
-                                            <div class="create__section" style="width: 45.5% " >
-                                                <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementCAB, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.NumeroEnregistrementCAB, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
+                                               </div>
                                             </div>
-                                            <div class="create__section" style="width: 49.5%; margin-left:5%" >
-                                                <label class="create__label" for="title">{{ form_label(form.DateEnregistrementCAB, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.DateEnregistrementCAB, {'attr': {'class': 'date_time2' }}) }}</div> 
-                                            </div>
-                                        </div>
 
-                                    </div>
+                                             <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.DateEnregistrementCAB, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                                                    <div>{{ form_widget(form.DateEnregistrementCAB, {'attr': {'class': 'form-control' }}) }}</div> 
+                                           
+                                               </div>
+                                            </div>
+
+ 
+
+
                                 {% elseif  document.mouvement == "ARRIVEE PAR AUTRE" %}
-                                    <div >
-                                        <div style=" display: flex;flex-wrap: wrap;" >
-                                            <div class="create__section" style="width: 45.5% " >
-                                                <label class="create__label" for="title">{{ form_label(form.SGM, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.SGM, {'attr': {'class': 'form-control','placeholder': "", 'value': 'SGM', 'readonly': true }}) }}</div> 
-                                            </div>
-                                            <div class="create__section" style="width: 49.5%; margin-left:5%" >
-                                                <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementSGM, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.NumeroEnregistrementSGM, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
-                                            </div>
+
+                                        <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                   <label class="create__label" for="title">{{ form_label(form.SGM, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                                                    <div>{{ form_widget(form.SGM, {'attr': {'class': 'form-control','placeholder': "", 'value': 'SGM', 'readonly': true }}) }}</div> 
+                                           
+                                           
+                                               </div>
                                         </div>
-                                        
-                                        <div style=" display: flex;flex-wrap: wrap;" >
-                                            <div class="create__section" style="width: 45.5% " >
-                                                <label class="create__label" for="title">{{ form_label(form.DateEnregistrementSGM, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.DateEnregistrementSGM, {'attr': {'class': 'date_time2' }}) }}</div> 
-                                            </div> 
-                                            <div class="create__section" style="width: 49.5%; margin-left:5%" >
-                                                <label class="create__label" for="title">{{ form_label(form.CAB, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                                            
+                                        <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementSGM, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
+                                                    <div>{{ form_widget(form.NumeroEnregistrementSGM, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
+                                          
+                                           
+                                               </div>
+                                            </div>
+                                          
+
+                                        <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.DateEnregistrementSGM, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                                                <div>{{ form_widget(form.DateEnregistrementSGM, {'attr': {'class': 'form-control' }}) }}</div>
+                                            
+                                           
+                                               </div>
+                                            </div>
+                                          
+
+                                        <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.CAB, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
                                                 <div>{{ form_widget(form.CAB, {'attr': {'class': 'form-control','placeholder': "", 'value': 'CAB', 'readonly': true }}) }}</div> 
+                                          
+                                           
+                                               </div>
                                             </div>
-                                        </div>
-
-                                         <div style=" display: flex;flex-wrap: wrap;" >
-
-                                            <div class="create__section" style="width: 45.5% " >
-                                                <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementCAB, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.NumeroEnregistrementCAB, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
-                                            </div>
-                                            <div class="create__section" style="width: 49.5%; margin-left:5%">
-                                                <label class="create__label" for="title">{{ form_label(form.DateEnregistrementCAB, "Date d'arrivée", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.DateEnregistrementCAB, {'attr': {'class': 'date_time2' }}) }}</div> 
-                                            </div>
-                                        </div> 
-
-                                         <div style=" display: flex;flex-wrap: wrap;" >
-
-                                            <div class="create__section" style="width: 45.5% " >
-                                                <label class="create__label" for="title">{{ form_label(form.AUTRE, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.AUTRE, {'attr': {'class': 'form-control','placeholder': "Exemple DGB", }}) }}</div> 
-                                            </div>
-                                            <div class="create__section" style="width: 49.5%; margin-left:5%" >
-                                                <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementAUTRE, "Numéro d'enrégistrement", {'label_attr': {'class': 'foo'}}) }}</label>
-                                                <div>{{ form_widget(form.NumeroEnregistrementAUTRE, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
-                                            </div>
-                                        </div>
                                         
-                                        <div class="create__section" >
-                                            <label class="create__label" for="title">{{ form_label(form.DateEnregistrementAUTRE, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
-                                            <div>{{ form_widget(form.DateEnregistrementAUTRE, {'attr': {'class': 'date_time2' }}) }}</div> 
-                                        </div>
 
-                                    </div>
+                                        <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementCAB, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
+                                                <div>{{ form_widget(form.NumeroEnregistrementCAB, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
+                                            
+                                           
+                                               </div>
+                                            </div>
+                                           
+
+                                        <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.DateEnregistrementCAB, "Date d'arrivée", {'label_attr': {'class': 'foo'}}) }}</label>
+                                                <div>{{ form_widget(form.DateEnregistrementCAB, {'attr': {'class': 'form-control' }}) }}</div>
+                                        
+                                           
+                                               </div>
+                                            </div>
+                                          
+
+                                        <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.AUTRE, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                                                <div>{{ form_widget(form.AUTRE, {'attr': {'class': 'form-control','placeholder': "Exemple DGB", }}) }}</div> 
+                                           
+                                           
+                                               </div>
+                                            </div>
+                                          
+
+                                        <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementAUTRE, "Numéro d'enrégistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                                                <div>{{ form_widget(form.NumeroEnregistrementAUTRE, {'attr': {'class': 'form-control','placeholder': "Numéro d'enregistrement"  }}) }}</div> 
+                                            
+                                           
+                                               </div>
+                                            </div>
+
+                                        <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="create__label" for="title">{{ form_label(form.DateEnregistrementAUTRE, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                                            <div>{{ form_widget(form.DateEnregistrementAUTRE, {'attr': {'class': 'form-control' }}) }}</div>
+                                       
+                                           
+                                               </div>
+                                            </div>
+                              
+                                  
                                 {% elseif  document.mouvement == "DEPART" %}
 
                                 {% elseif  document.mouvement == "INTERNE" %}
 
                                 {% endif %}
-                                    
-                                <div class="create__footer "> 
-                                    <div  >
+
+
+                   
+
+ 
+				</div>
+
+                <div  >
                                       
-                                        <div class="create__section" style="width: 20%;display: block; margin-left: 110%; margin-right: auto ">
-                                            <button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
-                                        </div>
-                                     </div>
-                                </div>
-                           
-                            <style>
-                                        .date_time{  
-                                            padding: 1px;  
-                                            border: solid 1px #e9ecee;
-                                             border-radius: 0;
-                                            background-color: #ECECEC;
-                                             color: #181617;
-                                            -webkit-box-shadow: none;
-                                             -moz-box-shadow: none;
-                                            box-shadow: none;
-                                             display: block;
-                                             width: 132%; 
-                                        }
+                                      
+                     <button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+                                     
+                 </div>
 
-                                         .date_time1{  
-                                            padding: 1px;  
-                                            border: solid 1px #e9ecee;
-                                             border-radius: 0;
-                                            background-color: #ECECEC;
-                                             color: #181617;
-                                            -webkit-box-shadow: none;
-                                             -moz-box-shadow: none;
-                                            box-shadow: none;
-                                             display: block;
-                                             width: 65%; 
-                                             padding:5px;
-                                        }
 
-                                        .date_time2{  
-                                            padding: 1px;  
-                                            border: solid 1px #e9ecee;
-                                             border-radius: 0;
-                                            background-color: #ECECEC;
-                                             color: #181617;
-                                            -webkit-box-shadow: none;
-                                             -moz-box-shadow: none;
-                                            box-shadow: none;
-                                             display: block;
-                                             width: 100%; 
-                                             padding:5px;
-                                        }
-                                    
-                                    </style>
-                                    
-                            
-                        {{ form_end(form) }} </div>
+			</div>
 
-                        <div class="create" style="width:54% ;margin-left:1%;overflow : auto; text-align : center" >
+		 
 
-                        <div style=" font-size:16px;font-weight: 600;margin-bottom:5px; color : #918c8c">  Aperçu du document chargé  
-                        </div>
-                                 <canvas id="pdfViewer"></canvas>
-                         </div>
 
-                 </div>   
+		</div>
+
+
+</div>
+
+
+<div class="pd-20 card-box mb-30">
+
+
+		<div class="clearfix">
+			 
+				<div
+					class="pull-left">
+					<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+					<p class="mb-30">
+						<b>Aperçu du document chargé  </b>
+					</p>
+				</div>
+ 
+		</div>
+
+
+		<div >
+      
+            <canvas id="pdfViewer" style="width: 100%; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); "></canvas>  
+        </div>  
+
+	<div class="pd-20"></div>
+</div>
+
+{{ form_end(form) }}  
+
+                        
+
+                          
+
+              
 
 
 
