@@ -19,6 +19,7 @@ $('document').ready(function(){
 	});
 
 	$('.data-table-export').DataTable({
+		
 		scrollCollapse: true,
 		autoWidth: false,
 		responsive: true,
@@ -37,7 +38,7 @@ $('document').ready(function(){
 		},
 		dom: 'Bfrtp',
 		buttons: [
-		'copy', 'csv', 'pdf', 'print'
+		'copy', 'csv', 'pdf', 'print',
 		]
 	});
 

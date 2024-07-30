@@ -68,16 +68,12 @@
 					<div class="search-toggle-icon bi bi-search" data-toggle="header_search"></div>
 
 					<!--<div>Système Automatisé de Gestion d'Archives de la {{ dg }}</div>
-														 Formulaire de recherche
-																							<div class="header-search">
-																								<form>
-																									<div class="form-group mb-0">
-																										<i class="dw dw-search2 search-icon"></i>
-																										<input
-																											type="text"
-																											class="form-control search-input"
-																											placeholder="Search Here"
-																										/>
+						 Formulaire de recherche
+								<div class="header-search">
+										<form>
+											<div class="form-group mb-0">
+												<i class="dw dw-search2 search-icon"></i>
+													<input type="text" class="form-control search-input" placeholder="Search Here" />
 																										<div class="dropdown">
 																											<a
 																												class="dropdown-toggle no-arrow"
@@ -420,8 +416,8 @@
 						</div>
 							<div class="col-md-8">
 								<h4 class="font-20 weight-500 mb-10 text-capitalize">
-									Welcome back
-									<div class="weight-600 font-30 text-blue">Johnny Brown!</div>
+									Content de vous revoir
+									<span class="weight-600 font-30 text-blue"> {{app.user.nom}} {{app.user.prenom}} !</span>
 								</h4>
 								<p class="font-18 max-width-600">
 									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde
@@ -615,39 +611,243 @@
 
 
 {{ encore_entry_script_tags('deskapp') }}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 
-    <!-- Inclure PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<!-- Inclure PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script> 
 <script src="{{ asset('assets/deskapp/vendors/scripts/core.js') }}"></script>
 <script src="{{ asset('assets/deskapp/vendors/scripts/apercupdf.js') }}"></script>
 <script src="{{ asset('assets/deskapp/vendors/scripts/script.min.js') }}"></script>
 <script src="{{ asset('assets/deskapp/vendors/scripts/layout-settings.js') }}"></script>
-<script src="{{ asset('assets/deskapp/vendors/scripts/process.js') }}"></script>
-<script src="{{ asset('assets/deskapp/plugins/datatables/js/jquery.dataTables.min.js') }}">
-</script><script src="{{ asset('assets/deskapp/plugins/datatables/js/dataTables.bootstrap4.min.js') }}">
-</script><script src="{{ asset('assets/deskapp/plugins/datatables/js/dataTables.responsive.min.js') }}">
-</script><script src="{{ asset('assets/deskapp/plugins/datatables/js/responsive.bootstrap4.min.js') }}">
-</script><!-- buttons for Export datatable --><script src="{{ asset('assets/deskapp/plugins/datatables/js/dataTables.buttons.min.js') }}">
-</script><script src="{{ asset('assets/deskapp/plugins/datatables/js/buttons.bootstrap4.min.js') }}">
-</script><script src="{{ asset('assets/deskapp/plugins/datatables/js/buttons.print.min.js') }}">
-</script><script src="{{ asset('assets/deskapp/plugins/datatables/js/buttons.html5.min.js') }}">
-</script><script src="{{ asset('assets/deskapp/plugins/datatables/js/buttons.flash.min.js') }}">
-</script><script src="{{ asset('assets/deskapp/plugins/datatables/js/pdfmake.min.js') }}"></script>
+<script src="{{ asset('assets/deskapp/vendors/scripts/process.js') }}"></script>  
+<script src="{{ asset('assets/deskapp/plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/deskapp/plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/deskapp/plugins/datatables/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/deskapp/plugins/datatables/js/responsive.bootstrap4.min.js') }}"></script>
+<!-- buttons for Export datatable -->
+<script src="{{ asset('assets/deskapp/plugins/datatables/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/deskapp/plugins/datatables/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/deskapp/plugins/datatables/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/deskapp/plugins/datatables/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/deskapp/plugins/datatables/js/buttons.flash.min.js') }}"></script>
+<script src="{{ asset('assets/deskapp/plugins/datatables/js/pdfmake.min.js') }}"></script>
 <script src="{{ asset('assets/deskapp/src/plugins/datatables/js/vfs_fonts.js') }}">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
   
-   
-
-    
-   
+     
 </script><!-- Datatable Setting js --><script src="{{ asset('assets/deskapp/vendors/scripts/datatable-setting.js') }}">
 </script></body></html></script><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe>
 </noscript><!-- End Google Tag Manager (noscript) --></body></html>
+
+<script>
+
+$(document).ready(function() {
+    // Vérifiez si le tableau est déjà initialisé
+    if ($.fn.DataTable.isDataTable('.data-table-export')) {
+        // Détruisez l'instance existante de DataTable
+        $('.data-table-export').DataTable().destroy();
+    }
+
+    // Initialisez (ou réinitialisez) le DataTable
+	$('.data-table-export').DataTable({
+		
+		scrollCollapse: true,
+		autoWidth: false,
+		responsive: true,
+		columnDefs: [{
+			targets: "datatable-nosort",
+			orderable: false,
+		}],
+	 
+       
+         rowCallback: function(row, data, index) {
+		 // Index de la colonne "Numéro"	
+          var numeroColumnIndex = 0;
+
+          // Met à jour la valeur du champ "Numéro"
+         $(row).find('td:eq('+numeroColumnIndex+')').text(index + 1); },
+		
+	 
+		lengthMenu:[5,10,15,20,25],
+        pageLength: 25,
+		"language": {
+			 "emptyTable": "Aucune donnée disponible dans le tableau",
+                                "loadingRecords": "Chargement...",
+                                "processing": "Traitement...",
+                                "Print": "Imprimer",
+                                "info": "Affichage de _START_ à _END_ sur _TOTAL_ entrées",
+                                "infoEmpty": "Affichage de 0 à 0 sur 0 entrées",
+                                "infoFiltered": "(filtrées depuis un total de _MAX_ entrées)",
+                                "lengthMenu": "Afficher _MENU_ entrées",
+                                "paginate": {
+                                    "first": "Première",
+                                    "last": "Dernière",
+                                    "next": "Suivante",
+                                    "previous": "Précédente"
+                                },
+                                "zeroRecords": "Aucune entrée correspondante trouvée",
+                                "aria": {
+                                    "sortAscending": " : activer pour trier la colonne par ordre croissant",
+                                    "sortDescending": " : activer pour trier la colonne par ordre décroissant"
+                                },
+                                "infoThousands": " ",
+                                "search": "Rechercher :",
+                                "thousands": " ",
+			"info": "_START_-_END_ of _TOTAL_ entries",
+			searchPlaceholder: "Insérer vos critères...",
+			paginate: {
+				next: '<i class="ion-chevron-right"></i>',
+				previous: '<i class="ion-chevron-left"></i>'  
+			}
+		},
+		dom: 'Bfrtp',
+		 order: [[0, 'asc']], // Met en avant la première colonne (Numéro) en ordre croissant
+		buttons: [
+		  		{// customisation de csv
+                    extend: 'csvHtml5',
+                    text: 'Exporter en CSV',
+                   
+                    fieldSeparator: ',',
+                    fieldBoundary: '',
+                   
+                    exportOptions: {
+                        columns: ':not(:last-child)' // Exclure la dernière colonne (Actions)
+                    }
+                }, 
+						{// customisation de impression par une imprimante
+                                orientation: 'landscape',
+                                extend: 'print', 
+                                text: ' Imprimer ',
+								 exportOptions: {
+                       				 columns: ':not(:last-child)' // Exclure la dernière colonne (Actions)
+                    				},
+								 customize: function(win) {
+                                  
+                                    
+                                    var Nom = {{ app.user.nom|json_encode|raw }};
+                                    var Prenom = {{ app.user.prenom|json_encode|raw }};
+                                    var options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+                                    var date = new Date();
+                                    var jours = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+                                    var nomJour = jours[date.getDay()];
+                                    
+                                    $(win.document.body)
+                                        .css('font-size', '12pt')
+                                        .prepend('<img src="https://dgml.finances.bj/web/template/images/dgml_bande2_moyen.png" style="position:absolute; top:0; left:0;filter: opacity(0.20);" />')
+                                        .prepend('<div style="position:absolute; top:-10; left:0;font-size:40px;font-weight:900;">SAGA </div>');
+                                        
+                                    $(win.document.body).find('table')
+                                        .addClass('compact')
+                                        .css('font-size', 'inherit');
+
+                                    $(win.document.body).find('h1')
+                                        .css('text-align', 'center')
+                                        .css('font-size', '14pt');
+
+                                    // Répéter l'image sur chaque page d'impression
+                                    var image = $(win.document.body).find('img');
+                                    var pageCount = 1;
+                                    for (var i = 0; i < pageCount; i++) {
+                                        var imageClone = image.css({
+                                        'position': 'fixed',
+                                        'top':  '25vh',
+                                        'left': 350,
+                                        'width': '30%'
+                                        }); 
+ 
+                                    }
+
+
+                                     // Créer un élément de date pour chaque nouvelle page d'impression
+                                        var dateElement = $('<div>').css({
+                                            'position': 'fixed',
+                                            'top': '97vh',
+                                            'left': '5',
+                                            'font-size': '14px'
+                                        }).text( ' Impression initié par : ' + Nom + ' ' + Prenom + ', le ' + date.toLocaleDateString('fr-FR', options) );
+
+                                        var mediaQueryList = win.matchMedia('print');
+                                        mediaQueryList.addListener(function(mql) {
+                                            if (mql.matches) {
+                                            $(win.document.body).prepend(dateElement.clone());
+                                            }
+                                        });
+
+                                        // Ajouter l'élément de date pour la première page d'impression
+                                        if (mediaQueryList.matches) {
+                                            $(win.document.body).prepend(dateElement);
+                                        }
+
+ 
+                                } 
+						},
+
+
+						{
+             				 
+             				extend: 'pdf', 
+             				text: ' Exporter en PDF ',
+							 exportOptions: {
+                       				 columns: ':not(:last-child)' // Exclure la dernière colonne (Actions)
+                    				},
+							customize: function (doc) {
+
+                        // Ajouter un style personnalisé
+                        doc.styles.title = {
+                            color: 'green',
+                            fontSize: '20',
+                            alignment: 'center'
+                        };
+ 
+
+                        var Nom = {{ app.user.nom|json_encode|raw }};
+                         var Prenom = {{ app.user.prenom|json_encode|raw }};
+                         var options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+                                    var date = new Date();
+                                    var jours = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+                                    var nomJour = jours[date.getDay()];
+
+                        // Ajouter un pied de page
+                        doc.footer = function(currentPage, pageCount) {
+                            return {
+                                text: ' Impression initié par : ' + Nom + ' ' + Prenom + ', le ' + date.toLocaleDateString('fr-FR', options),
+                                 margin: [42, 5, 0, 20],
+                                style: 'footerStyle'
+                            };
+                        };
+
+
+						// Ajouter du texte personnalisé
+                        doc.content.splice(0, 0, {
+                            text: 'SAGA',
+                            fontSize: 25,
+							bold: true,
+                            alignment: 'center',
+                            margin: [0, 0, 0, 20] // Ajoute une marge inférieure
+                        });
+ 						 
+                        // Ajouter un style de pied de page
+                        doc.styles.footerStyle = {
+                            fontSize: 10,
+                            italic: true
+                        };
+ 
+								 
+						} }
+						
+		],
+		 
+		
+	});
+    
+});
+
+    
+                    
+</script>
   
 
   
