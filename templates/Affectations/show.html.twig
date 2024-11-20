@@ -69,12 +69,12 @@
 			</div>
 
 
-			<div >
+			<div class="d-flex ">
 
 
-				<div class="row">
+				<div class="container">
 
-					<div class="col-md-6 col-sm-12 ">
+					<div class="col-md-12 col-sm-12 ">
 						<div class="form-group">
 							<label>
 								Date de Affectation</label>
@@ -82,7 +82,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-6 col-sm-12  ">
+					<div class="col-md-12 col-sm-12  ">
 						<div class="form-group">
 							<label>
 								Expéditeur</label>
@@ -90,19 +90,25 @@
 						</div>
 					</div>
 
-					<div class="col-md-6 col-sm-12">
+					<div class="col-md-12 col-sm-12">
 						<div class="form-group">
 							<label>Document</label>
 							<input class="form-control" type="text" name="name" value="{{ Affectation.Document }}" readonly>
 						</div>
 					</div>
 
-					<div class="col-md-6 col-sm-12">
+					<div class="col-md-12 col-sm-12">
 						<div class="form-group">
 							<label class="create__label" for="title">Destinataire</label>
 							<input class="form-control" type="text" name="name" value="{{ Affectation.Receveur }}" readonly>
 						</div>
 					</div>
+
+				</div>
+
+				<div class="container">
+				
+					 <embed style="width: 100%; height:450px;border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); " src="../Documents/{{Affectation.Document.DocumentAt ? Affectation.Document.DocumentAt|date('Y/m/d') : ''}}/{{Affectation.Document.Chemin}}" width="600" height="850" type='application/pdf'></embed>
 
 				</div>
 
@@ -115,27 +121,7 @@
 
 	</div>
 
-
-	<div class="pd-20 card-box mb-30">
-
-
-		<div class="clearfix">
-			 
-				<div
-					class="pull-left">
-					<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
-					<p class="mb-30">
-						<b>Apercu du document affecté</b>
-					</p>
-				</div>
-
-			 
-		</div>
-
-
-		<div >
-			<embed style="width: 100%; height:450px;border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); " src="../Documents/{{Affectation.Document.DocumentAt ? Affectation.Document.DocumentAt|date('Y/m/d') : ''}}/{{Affectation.Document.Chemin}}" width="600" height="850" type='application/pdf'></embed>
-	</div>
+ 
 
 	<div class="pd-20"></div>
 </div>{% endblock %}
