@@ -1,0 +1,53 @@
+{
+  "entrypoints": {
+    "login": {
+      "js": [
+        "/build/runtime.32cc791b.js",
+        "/build/101.e42e0e60.js",
+        "/build/847.888766cb.js",
+        "/build/812.f0ca4c26.js",
+        "/build/login.b76719e6.js"
+      ],
+      "css": [
+        "/build/login.5b607752.css"
+      ]
+    },
+    "dashboard": {
+      "js": [
+        "/build/runtime.32cc791b.js",
+        "/build/101.e42e0e60.js",
+        "/build/847.888766cb.js",
+        "/build/812.f0ca4c26.js",
+        "/build/555.226adfc8.js",
+        "/build/dashboard.807af26b.js"
+      ],
+      "css": [
+        "/build/555.254e9280.css",
+        "/build/dashboard.059bd888.css"
+      ]
+    },
+    "consultation": {
+      "js": [
+        "/build/runtime.32cc791b.js",
+        "/build/101.e42e0e60.js",
+        "/build/847.888766cb.js",
+        "/build/646.e7247efb.js",
+        "/build/consultation.d0248632.js"
+      ],
+      "css": [
+        "/build/consultation.4fd8e7ec.css"
+      ]
+    },
+    "deskapp": {
+      "js": [
+        "/build/runtime.32cc791b.js",
+        "/build/101.e42e0e60.js",
+        "/build/646.e7247efb.js",
+        "/build/deskapp.56336020.js"
+      ],
+      "css": [
+        "/build/deskapp.676d9950.css"
+      ]
+    }
+  }
+}
