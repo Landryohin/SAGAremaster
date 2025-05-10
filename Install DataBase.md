@@ -45,4 +45,6 @@ Après l'installation bien fait de postgresql positionnez vous dans le dossier r
 # symfony console make:migration
 # symfony console doctrine:migrations:migrate
 
+# symfony console secrets:generate-keys  
+
 Bien Fait les guys
