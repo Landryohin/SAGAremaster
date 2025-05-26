@@ -1,0 +1,641 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau document{% endblock %}
+
+{# {% block main %}
+    <h1>Create new Documents</h1>
+
+    {{ include('documents/_form.html.twig') }}
+
+    <a href="{{ path('app_documents_index') }}">back to list</a>
+{% endblock %} #}
+{% block add %}
+    <a href="{{path('app_documents_new')}}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+        {#<img src="{{ 'assets/Dashboard/fonts/icons/main/New_Topic.svg'}}" alt="Ajout">#}
+    </a>
+{% endblock %}
+
+{% block list %}
+
+<div class="row">
+    <div class="col-md-9">
+        <div style="display: inline-block;margin-top : 5px"> <a class="btn btn-success" style="margin-top:15px "  href="{{ path('app_documents_index') }}">Retour</a></div>
+    </div>
+    <div class="col-md-3">
+        {% if (speciale  or user.niveau == "Admin") and Reponse == null %}
+
+        <form action = "{{path('app_documents_edit',{'id' : document.id} )}}" method = "get">
+
+            <div style="text-align:right; margin-top:20px;display: inline-block;">
+                <select  name = "mouv" id="selectTypeDoc" style="text-align : ligth; border : 0.5px solid green">  
+                    {% if mouvement == "ARRIVEE DIRECTE" %}<option selected > {% else %} <option> {% endif %} ARRIVEE DIRECTE</option>
+                    {% if mouvement == "ARRIVEE PAR SGM" %}<option selected > {% else %} <option> {% endif %}ARRIVEE PAR SGM</option>
+                    {% if mouvement == "ARRIVEE PAR CAB" %}<option selected > {% else %} <option> {% endif %}ARRIVEE PAR CAB</option>
+                    {% if mouvement == "ARRIVEE PAR AUTRE" %}<option selected > {% else %} <option> {% endif %}ARRIVEE PAR AUTRE</option>
+                    {% if mouvement == "DEPART" %}<option selected > {% else %} <option> {% endif %}DEPART</option>
+                    {% if mouvement == "INTERNE" %}<option value = "INTERNE" selected > {% else %} <option value = "INTERNE" > {% endif %}DOCUMENTS INTERNES</option>
+                </select> 
+                <div hidden>
+                    <button type ="submit" name = "submitmouv" class="btn btn-success" id="newDoc"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg> &nbsp; Nouveau document
+                    </button>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+
+    </div>
+</div>
+
+ 
+                
+<div style=" display: flex;flex-wrap: wrap;" >
+            
+    <div class="create" style="width:45% ; height: 13%;" >  
+    
+    
+        {{ form_start(form) }}
+            {% if document.mouvement == "DEPART" %}
+                <div class="create__section" >
+                {% if Reponse %}
+
+                <div class="create__title"><img src={{asset('build/images/icons/resume.5e7e6b1f.svg')}}>Résumé de documents à répondre</div>
+                
+                <div style="margin-top:10px;margin-bottom:10px;">Pas de documents associé à cette réponse</div>
+                        
+                <div style="margin-top:10px;margin-bottom:10px;">
+                    <p><b>Objet:</b> {{Reponse.objet}} </p>
+                    <p> <b>Référence:</b> {{Reponse.reference}}  </p>
+                    <p>  <b>Structure:</b> {{Reponse.structure}}</p>
+                    
+                </div>
+
+                {% endif %} 
+                
+
+                </div>
+            {% endif %} 
+        
+            <div class="create__section" >
+            
+                <div class="create__title"><img src={{asset('build/images/icons/iconplus.5ed37a8f.svg')}}>Modification d'un document</div>
+                
+            </div>
+
+
+                <div>
+
+                <div class="create__section" style=" display: flex;flex-wrap: wrap;" >
+
+                        <div  style="width: 70%; ">
+                            {% if document.mouvement == "DEPART"  or document.mouvement == "INTERNE"  %}
+                                <label class="create__label" for="title">{{ form_label(form.Chemin, 'Charger le document', {'label_attr': {'class': 'foo'}}) }}</label>
+                            {% else %}
+                                <label class="create__label" for="title">{{ form_label(form.Chemin, 'Charger le courrier', {'label_attr': {'class': 'foo'}}) }}</label>
+                            {% endif %}   
+                            <div>{{ form_widget(form.Chemin, {'attr': {'class': 'form-control', 'value': document.mouvement}}) }}</div> 
+                        </div>
+
+                    {% if  document.mouvement == "INTERNE"    %}
+                    <div hidden style="width: 8.5%; margin-left:2.5%">
+                        
+                            <label class="create__box" for="title" >{{ form_label(form.Sensibility, "Public") }}</label>
+                                <div >{{ form_widget(form.Sensibility, {'attr': {'class': 'custom-checkbox', 'value' : sensibility }}) }}</div> 
+                            </label>
+
+                    </div>
+
+                    {% else %}
+
+                        <div style="width: 8.5%; margin-left:2.5%; margin-top: 4%">
+                        
+                            <label class="create__box" for="title" >{{ form_label(form.Sensibility, "Public") }}</label>
+                                {% if document.niveau == "PUBLIC" %}
+                                    <div >{{ form_widget(form.Sensibility, {'attr': {'class': 'custom-checkbox', 'value': true }}) }}</div> 
+                                {% else %}
+                                    <div >{{ form_widget(form.Sensibility, {'attr': {'class': 'custom-checkbox', 'value': false }}) }}</div>
+                                {% endif %}
+                            </label>
+
+                    </div>
+
+                {% endif %}  
+
+                {# FIN MASQUER LE PUBLIC  #}  
+
+                </div>
+
+                    {# TYPE DE DOCUMENT  #}  
+
+                    <div class="create__section">
+
+                    
+                            {% if document.mouvement == "DEPART"  or document.mouvement == "INTERNE"  %}
+                                <label class="create__label" for="title">{{ form_label(form.TypeDocument, "Type de document") }}</label>
+                            {% else %}
+                                <label class="create__label" for="title">{{ form_label(form.TypeDocument, "Type de courrier") }}</label>
+                            {% endif %} 
+                                
+                            <label class="custom-select">          
+                                <div>{{ form_widget(form.TypeDocument, {'attr': {'class': 'js-example-basic-single' }}) }}</div> 
+                            </label>
+    
+                    </div>
+
+                    {# FIN TYPE DE DOCUMENT  #}  
+                
+                
+            </div>
+                
+            {# LIGNE REFERENCE  #}  
+            <div style=" display: flex;flex-wrap: wrap;">
+                
+                <div class="create__section" style="width: 100%; font-size: 15px; " >
+
+                    {% if notification  %}
+                        <div class="text-danger text-bold text--italic">{{notification}}</div> <br>
+                    {% endif %}   
+                    {% if document.mouvement != "DEPART"  %}
+                        <div class="text-success text-bold text--italic">Lorsque que le document n'a pas de référence saisissez SR </div> 
+                    {% endif %}                 
+                </div>
+            </div>
+
+                <div style=" display: flex;flex-wrap: wrap;">
+                    
+                    <div class="create__section" style="width: 45.5% " >
+
+                        {% if  document.mouvement == "INTERNE"  %}
+                            <label class="create__label" for="title">{{ form_label(form.Reference, 'Référence du document', {'label_attr': {'class': 'foo'}}) }}</label>
+                        {% else %}
+                            <label class="create__label" for="title">{{ form_label(form.Reference, 'Référence du courrier', {'label_attr': {'class': 'foo'}}) }}</label>
+                        {% endif %}   
+                            <div>{{ form_widget(form.Reference, {'attr': {'class': 'form-control', 'value': document.Reference }}) }}</div> 
+                    </div>
+
+                    <div class="create__section" style="width: 49.5%; margin-left:5%" >
+
+                        
+                        <label class="create__label" for="title">{{ form_label(form.DateDocument, "Date du courier", {'label_attr': {'class': 'foo'}}) }}</label>
+    
+                        <div style="width: 350px;">{{ form_widget(form.DateDocument, {'attr': {'class': 'date_time1', 'value': document.DateDocument ? document.DateDocument|date('Y-m-d') : ''  }}) }}</div>                 
+
+                </div>
+
+            {# FIN lIGNE REFERENCE #}  
+
+            </div>
+
+
+            {#  lIGNE OBJET ET STRUCTURE EMMETRICE #}  
+
+            <div style=" display: flex;flex-wrap: wrap;" >
+
+
+
+                    {% if  document.mouvement == "INTERNE"  %}
+
+                    <div class="create__section"  style="width: 205% " >
+                        <label class="create__label" for="title">{{ form_label(form.Objet, 'Objet du document', {'label_attr': {'class': 'foo'}}) }}</label>
+                    
+                    {% else %}
+                    {% if Reponse %}
+                        <div hidden class="create__section"  style="width: 45.5% " >
+                    {% else %}
+                        <div class="create__section"  style="width: 45.5% " >
+                    {% endif %}
+                    <label class="create__label" for="title">{{ form_label(form.Objet, 'Objet du courrier', {'label_attr': {'class': 'foo'}}) }}</label>
+                    
+                    {% endif %} 
+                    {% if Reponse  %}
+                        <div>{{ form_widget(form.Objet, {'attr': {'class': 'form-control','value': document.Objet, 'readOnly': true }}) }}</div> 
+                    {% else %}
+                        <div>{{ form_widget(form.Objet, {'attr': {'class': 'form-control', 'value': document.Objet }}) }}</div> 
+                    {% endif %}
+                            
+                    </div>
+
+
+                {% if document.mouvement == "DEPART"  %}
+                    {% if Reponse %}
+                        <div hidden class="create__section"  style="width: 49.5%; margin-left:5%" >
+                    {% else %}
+                        <div class="create__section"  style="width: 45.5% " >
+                    {% endif %}
+                    
+                    <label class="create__label" for="title">{{ form_label(form.Structure, 'Destinataire', {'label_attr': {'class': 'foo'}}) }}</label>   
+                    {% if Reponse  %}
+                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','value': document.Structure, 'readOnly': true }}) }}</div> 
+                    {% else %}    
+                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control', 'value': document.Structure  }}) }}</div> 
+                    {% endif %}
+                </div> 
+
+                    {% elseif  document.mouvement == "INTERNE"  %}
+
+                    <div hidden class="create__section"  style="width: 49.5%; margin-left:5%" >
+                        <label class="create__label" for="title">{{ form_label(form.Structure, 'Structure émettrice', {'label_attr': {'class': 'foo'}}) }}</label>   
+                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Structure émettrice", 'value': '{{ dg }}', 'readonly': true  }}) }}</div> 
+                    </div>
+
+                    {% else %}
+
+                    <div class="create__section"  style="width: 49.5%; margin-left:5%" >
+                        <label class="create__label" for="title">{{ form_label(form.Structure, 'Structure émettrice/usager', {'label_attr': {'class': 'foo'}}) }}</label>   
+                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control', 'value': document.Structure }}) }}</div> 
+                    </div>
+
+                {% endif %} 
+
+
+                {#  <div class="create__section"  style="width: 49.5%; margin-left:5%" >
+                    {% if  document.mouvement == "INTERNE"  %}
+                        <label class="create__label" for="title">{{ form_label(form.Structure, 'Structure émettrice', {'label_attr': {'class': 'foo'}}) }}</label>   
+                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Structure émettrice", 'value':  parameter.dg, 'readonly': true  }}) }}</div> 
+                    {% elseif document.mouvement == "DEPART"  %}
+                        <label class="create__label" for="title">{{ form_label(form.Structure, 'Destinataire', {'label_attr': {'class': 'foo'}}) }}</label>   
+                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Destinataire"  }}) }}</div> 
+                    {% else %}
+                        <label class="create__label" for="title">{{ form_label(form.Structure, 'Structure émettrice/usager', {'label_attr': {'class': 'foo'}}) }}</label>   
+                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Structure émettrice/usager" }}) }}</div> 
+                    {% endif %}                        
+                </div>#}  
+
+
+
+            </div>
+
+        {# FIN lIGNE REFERENCE #}  
+
+
+        {# NUMERO ET DATE DENREGISTREMENT #}    
+
+            <div style=" display: flex;flex-wrap: wrap;" >
+
+                    {#  NUMERO DENREGISTREMENT #}  
+                    {% if  document.mouvement == "INTERNE"    %}
+
+                    <div hidden class="create__section" style="width: 45.5%"  >
+
+                                <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrement, "Numéro d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                    
+                                <div>{{ form_widget(form.NumeroEnregistrement, {'attr': {'class': 'form-control', 'value': document.NumeroEnregistrement }}) }}</div> 
+
+                    </div>
+
+
+                    {% else %}
+
+                    <div class="create__section" style="width: 45.5%"  >
+
+                            <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrement, "Numéro d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                    
+                        <div>{{ form_widget(form.NumeroEnregistrement, {'attr': {'class': 'form-control', 'value': document.NumeroEnregistrement}}) }}</div> 
+                
+                    </div>
+
+
+                {% endif %}  
+
+                
+
+                
+
+                    {#  DATE DENREGISTREMENT #}  
+
+                    {% if document.mouvement == "DEPART"  %}
+                        <div class="create__section" style="width: 49.5%; margin-left:5%" >
+                        {% if Reponse %}
+                            <label class="create__label" for="title">{{ form_label(form.DateArrivee, "Date de la réponse", {'label_attr': {'class': 'foo'}}) }}</label>
+                        {% else %}
+                            <label class="create__label" for="title">{{ form_label(form.DateArrivee, "Date de départ", {'label_attr': {'class': 'foo'}}) }}</label>
+                        {% endif %}
+                    
+                    {% elseif document.mouvement == "INTERNE"  %}
+                        <div class="create__section" style="width: 49.5%; " >
+                        
+                        <label class="create__label" for="title">{{ form_label(form.DateArrivee, "Date d'enregistrement du document", {'label_attr': {'class': 'foo'}}) }}</label>
+                    
+                    {% else %}
+                        <div class="create__section" style="width: 49.5%; margin-left:5%" >
+                        
+                        <label class="create__label" for="title">{{ form_label(form.DateArrivee, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                    
+                    {% endif %} 
+
+                    <div style="width: 350px;">{{ form_widget(form.DateArrivee, {'attr': {'class': 'date_time1', 'value': document.DateArrivee ? document.DateArrivee|date('Y-m-d') : ''  }}) }}</div> 
+                
+                </div>
+
+            </div>
+
+            {# FIN NUMERO ET DATE DENREGISTREMENT #}  
+
+        {# DEBUT DU POSTE INITIATEUR #} 
+        {% if document.mouvement == "DEPART"  %}
+            <div class="create__section">
+                
+                <label class="create__label" for="title">{{ form_label(form.Initiateur, "Initié par :") }}</label>
+                                                        
+                <label class="custom-select">     
+
+                    <div>{{ form_widget(form.Initiateur, {'attr': {'class': 'js-example-basic-single' }}) }}</div> 
+                
+                </label>
+
+            </div>
+
+            <div class="create__section">
+                
+                <label class="create__label" for="title">{{ form_label(form.Observation, "Observation :") }}</label>                                                                       
+                <div>{{ form_widget(form.Observation, {'attr': {'class': 'form-control','value': document.Observation  }}) }}</div> 
+            </div>
+        {% endif %}
+
+        {# FIN DU POSTE INITIATEUR #}
+
+        
+            {% if document.mouvement == "ARRIVEE PAR SGM" %}
+                <div  >
+                        <div style=" display: flex;flex-wrap: wrap;" >
+
+                        <div class="create__section" style="width: 45.5% " >
+                            <label class="create__label" for="title">{{ form_label(form.SGM, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.SGM, {'attr': {'class': 'form-control','placeholder': "", 'value': 'SGM', 'readonly': true }}) }}</div> 
+                        </div>
+                        <div class="create__section" style="width: 49.5%; margin-left:5%" >
+                            <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementSGM, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.NumeroEnregistrementSGM, {'attr': {'class': 'form-control','value': SGM.Numero  }}) }}</div> 
+                        </div>
+                    </div>
+                        <div class="create__section" >
+                            <label class="create__label" for="title">{{ form_label(form.DateEnregistrementSGM, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.DateEnregistrementSGM, {'attr': {'class': 'date_time2', 'value': SGM.DateEnregistrement ? SGM.DateEnregistrement|date('Y-m-d') : '' }}) }}</div> 
+                        </div>
+                    
+                </div>
+
+
+            {% elseif  document.mouvement == "ARRIVEE PAR CAB" %}
+                <div  >
+                        <div style=" display: flex;flex-wrap: wrap;" >
+
+                        <div class="create__section" style="width: 45.5% "  >
+                            <label class="create__label" for="title">{{ form_label(form.SGM, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.SGM, {'attr': {'class': 'form-control','placeholder': "", 'value': 'SGM', 'readonly': true }}) }}</div> 
+                        </div>
+
+                        <div class="create__section" style="width: 49.5%; margin-left:5%" >
+                            <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementSGM, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.NumeroEnregistrementSGM, {'attr': {'class': 'form-control','value': SGM.Numero }}) }}</div> 
+                        </div>
+                        </div>
+
+                    <div style=" display: flex;flex-wrap: wrap;" >
+
+                        <div class="create__section" style="width: 45.5% " >
+                            <label class="create__label" for="title">{{ form_label(form.DateEnregistrementSGM, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.DateEnregistrementSGM, {'attr': {'class': 'date_time2', 'value': SGM.DateEnregistrement ? SGM.DateEnregistrement|date('Y-m-d') : '' }}) }}</div> 
+                        </div>
+
+
+                        <div class="create__section" style="width: 49.5%; margin-left:5%" >
+                            <label class="create__label" for="title">{{ form_label(form.CAB, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.CAB, {'attr': {'class': 'form-control','placeholder': "", 'value': 'CAB', 'readonly': true }}) }}</div> 
+                        </div>
+                    </div>
+
+                    <div style=" display: flex;flex-wrap: wrap;" >
+
+                        <div class="create__section" style="width: 45.5% " >
+                            <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementCAB, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.NumeroEnregistrementCAB, {'attr': {'class': 'form-control','value': CAB.Numero  }}) }}</div> 
+                        </div>
+                        <div class="create__section" style="width: 49.5%; margin-left:5%" >
+                            <label class="create__label" for="title">{{ form_label(form.DateEnregistrementCAB, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.DateEnregistrementCAB, {'attr': {'class': 'date_time2', 'value': CAB.DateEnregistrement ? CAB.DateEnregistrement|date('Y-m-d') : '' }}) }}</div> 
+                        </div>
+                    </div>
+
+                </div>
+            {% elseif  document.mouvement == "ARRIVEE PAR AUTRE" %}
+                <div >
+                    <div style=" display: flex;flex-wrap: wrap;" >
+                        <div class="create__section" style="width: 45.5% " >
+                            <label class="create__label" for="title">{{ form_label(form.SGM, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.SGM, {'attr': {'class': 'form-control','placeholder': "", 'value': 'SGM', 'readonly': true }}) }}</div> 
+                        </div>
+                        <div class="create__section" style="width: 49.5%; margin-left:5%" >
+                            <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementSGM, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.NumeroEnregistrementSGM, {'attr': {'class': 'form-control','value': SGM.Numero  }}) }}</div> 
+                        </div>
+                    </div>
+                    
+                    <div style=" display: flex;flex-wrap: wrap;" >
+                        <div class="create__section" style="width: 45.5% " >
+                            <label class="create__label" for="title">{{ form_label(form.DateEnregistrementSGM, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.DateEnregistrementSGM, {'attr': {'class': 'date_time2', 'value': SGM.DateEnregistrement ? SGM.DateEnregistrement|date('Y-m-d') : '' }}) }}</div> 
+                        </div> 
+                        <div class="create__section" style="width: 49.5%; margin-left:5%" >
+                            <label class="create__label" for="title">{{ form_label(form.CAB, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.CAB, {'attr': {'class': 'form-control','placeholder': "", 'value': 'CAB', 'readonly': true }}) }}</div> 
+                        </div>
+                    </div>
+
+                        <div style=" display: flex;flex-wrap: wrap;" >
+
+                        <div class="create__section" style="width: 45.5% " >
+                            <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementCAB, "Numéro", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.NumeroEnregistrementCAB, {'attr': {'class': 'form-control','value': CAB.Numero  }}) }}</div> 
+                        </div>
+                        <div class="create__section" style="width: 49.5%; margin-left:5%">
+                            <label class="create__label" for="title">{{ form_label(form.DateEnregistrementCAB, "Date d'arrivée", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.DateEnregistrementCAB, {'attr': {'class': 'date_time2', 'value': CAB.DateEnregistrement ? CAB.DateEnregistrement|date('Y-m-d') : '' }}) }}</div> 
+                        </div>
+                    </div> 
+
+                        <div style=" display: flex;flex-wrap: wrap;" >
+
+                        <div class="create__section" style="width: 45.5% " >
+                            <label class="create__label" for="title">{{ form_label(form.AUTRE, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.AUTRE, {'attr': {'class': 'form-control','value': AUTRE.Structure }}) }}</div> 
+                        </div>
+                        <div class="create__section" style="width: 49.5%; margin-left:5%" >
+                            <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrementAUTRE, "Numéro d'enrégistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.NumeroEnregistrementAUTRE, {'attr': {'class': 'form-control','value': AUTRE.Numero  }}) }}</div> 
+                        </div>
+                    </div>
+                    
+                        <div class="create__section" >
+                            <label class="create__label" for="title">{{ form_label(form.DateEnregistrementAUTRE, "Date d'enregistrement", {'label_attr': {'class': 'foo'}}) }}</label>
+                            <div>{{ form_widget(form.DateEnregistrementAUTRE, {'attr': {'class': 'date_time2', 'value': AUTRE.DateEnregistrement ? AUTRE.DateEnregistrement|date('Y-m-d') : '' }}) }}</div> 
+                        </div>
+
+                </div>
+            {% elseif  document.mouvement == "DEPART" %}
+
+            {% elseif  document.mouvement == "INTERNE" %}
+
+            {% endif %}
+                
+            <div class="create__footer "> 
+                <div  >
+                    
+                    <div class="create__section" style="width: 20%;display: block; margin-left: 110%; margin-right: auto ">
+                        <button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+                    </div>
+                    </div>
+            </div>
+        
+        <style>
+                    .date_time{  
+                        padding: 1px;  
+                        border: solid 1px #e9ecee;
+                            border-radius: 0;
+                        background-color: #ECECEC;
+                            color: #181617;
+                        -webkit-box-shadow: none;
+                            -moz-box-shadow: none;
+                        box-shadow: none;
+                            display: block;
+                            width: 132%; 
+                    }
+
+                        .date_time1{  
+                        padding: 1px;  
+                        border: solid 1px #e9ecee;
+                            border-radius: 0;
+                        background-color: #ECECEC;
+                            color: #181617;
+                        -webkit-box-shadow: none;
+                            -moz-box-shadow: none;
+                        box-shadow: none;
+                            display: block;
+                            width: 65%; 
+                            padding:5px;
+                    }
+
+                    .date_time2{  
+                        padding: 1px;  
+                        border: solid 1px #e9ecee;
+                            border-radius: 0;
+                        background-color: #ECECEC;
+                            color: #181617;
+                        -webkit-box-shadow: none;
+                            -moz-box-shadow: none;
+                        box-shadow: none;
+                            display: block;
+                            width: 100%; 
+                            padding:5px;
+                    }
+                
+                </style>
+                
+        
+    {{ form_end(form) }} 
+</div>
+
+    <div class="create" style="width:54% ;margin-left:1%;overflow : auto; text-align : center" >
+
+    <div style=" font-size:16px;font-weight: 600;margin-bottom:5px; color : #918c8c">  Aperçu du document chargé  
+
+        <embed src="../{{document.DocumentAt ? document.DocumentAt|date('Y/m/d') : ''}}/{{document.Chemin}}" width="600" height="700" type='application/pdf'>
+        </embed>
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+<script>
+    //$('#selectTypeDoc').select2()
+
+    $('#selectTypeDoc').on('change',function(){
+        $('#newDoc').trigger("click")
+    })
+
+     
+
+
+    $(document).ready(function() {
+        //console.log($("#documents_Chemin"))
+        $('#selectTypeDoc').trigger("click")   
+
+          //Apercu desc pdf
+     // Loaded via <script> tag, create shortcut to access PDF.js exports.
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+// The workerSrc property shall be specified.
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+// Loaded via <script> tag, create shortcut to access PDF.js exports.
+var pdfjsLib = window["pdfjs-dist/build/pdf"];
+// The workerSrc property shall be specified.
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://mozilla.github.io/pdf.js/build/pdf.worker.js";
+
+$("#documents_Chemin").on("change", function (e) {
+  var file = e.target.files[0];
+  if (file.type == "application/pdf") {
+    var fileReader = new FileReader();
+    fileReader.onload = function () {
+      var pdfData = new Uint8Array(this.result);
+      // Using DocumentInitParameters object to load binary data.
+      var loadingTask = pdfjsLib.getDocument({ data: pdfData });
+      loadingTask.promise.then(
+        function (pdf) {
+          console.log("PDF loaded");
+
+          // Fetch the first page
+          var pageNumber = 1;
+          pdf.getPage(pageNumber).then(function (page) {
+            console.log("Page loaded");
+
+            var scale = 0.95;
+            var viewport = page.getViewport({ scale: scale });
+
+            // Prepare canvas using PDF page dimensions
+            var canvas = $("#pdfViewer")[0];
+            var context = canvas.getContext("2d");
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            // Render PDF page into canvas context
+            var renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function () {
+              console.log("Page rendered");
+            });
+          });
+        },
+        function (reason) {
+          // PDF loading error
+          console.error(reason);
+        }
+      );
+    };
+    fileReader.readAsArrayBuffer(file);
+  }
+});
+
+
+ 
+     });
+
+
+    
+</script>
+{% endblock %}
+ 
+

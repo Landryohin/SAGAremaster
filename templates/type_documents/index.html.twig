@@ -1,0 +1,124 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Liste des types de document
+{% endblock %}
+
+{% block main %}{% endblock %}
+
+{% block breadcrumb %}
+
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Liste des types de document</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Liste des types de document
+						</li>
+					</ol>
+				</nav>
+			</div>
+
+			<div class="col-md-6 col-sm-12 text-right">
+				<div>
+
+
+					<div>
+						<a type="submit" href="{{path('app_type_documents_new')}}" class="btn btn-success">
+							<i class="icon-copy ion-plus-round"></i>
+							&nbsp; Nouveau type de document
+						</a>
+
+					</div>
+
+
+				</div>
+			</div>
+
+		</div>
+
+
+	</div>
+{% endblock %} 
+{% block list %}
+ 
+
+<div class="card-box mb-30">
+	<div class="pd-20"></div>
+	<div class="pb-20">
+		<table class="table hover data-table-export stripe  " id="expensive">
+			<thead>
+				<tr style="font-weight : bold; text-transform : uppercase">
+					<th style="width : 5%" class="datatable-nosort">N°</th>
+					<th style="width : 10%" class="datatable-nosort">Code</th>
+					<th style="width : 25%" class="datatable-nosort">Libellé</th>
+					<th style="width : 25%" class="datatable-nosort">Direction</th>
+					<th style="width : 10%" class="datatable-nosort">Actions</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{% for type_document in type_documents %}
+					<tr>
+						<td > </td>
+
+						<td > {{ type_document.Code }}</td>
+						<td >{{ type_document.Libelle }}</td>
+						<td > {{type_document.Direction ? type_document.Direction.Code:'' }}</td>
+
+						<td>
+
+							<div class="dropdown">
+								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+									<i class="dw dw-more"></i>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+
+
+									<a class="dropdown-item" title="Voir" href="{{ path('app_type_documents_show', {'id': type_document.id}) }}" type="button">
+										<i class="icon-copy fa fa-eye" aria-hidden="true"></i>
+										Visualiser</a>
+
+
+									<a class="dropdown-item" title="Modifier" href="{{ path('app_type_documents_edit', {'id': type_document.id}) }}" type="button">
+										<i class="icon-copy fa fa-pencil-square-o" aria-hidden="true"></i>
+										Modifier</a>
+
+
+									{% if type_document.status == true %}
+										<a class="dropdown-item" title="Stoper" href="{{ path('app_type_documents_stop', {'id': type_document.id}) }}" type="button">
+
+											<i class="icon-copy fa fa-power-off" aria-hidden="true"></i>
+											Stopper</a>
+
+
+									{% else %}
+
+
+										<a class="dropdown-item" title="Mettre en service" href="{{ path('app_type_documents_play', {'id': service.id}) }}" type="button">
+
+											<i class="icon-copy ion-play"></i>
+											Mettre en service</a>
+									{% endif %}
+
+
+								</div>
+
+
+							</div>
+						</td>
+					</tr>
+
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</tr>
+
+</tr></tbody></table></div></div>{% endblock %}

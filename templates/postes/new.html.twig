@@ -1,0 +1,130 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Nouveau Poste
+{% endblock %}
+
+{% block main %}{% endblock %}
+
+{% block breadcrumb %}
+
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Nouveau Poste</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_postes_index') }}">Liste des postes</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Nouveau Poste
+						</li>
+					</ol>
+				</nav>
+			</div>
+
+
+		</div>
+
+
+	</div>
+{% endblock %}
+
+
+{% block list %}
+
+
+	<div class="pd-20 card-box mb-30">
+
+		<div class="pb-20">
+
+			<div class="clearfix">
+			 
+					<div
+						class="pull-left">
+						<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+						<p class="mb-30">
+							<b>Formulaire d'ajout d'un poste</b>
+						</p>
+					</div>
+ 
+			</div>
+
+
+			<div  >
+            
+				{{ form_start(form) }}
+
+				<div class="row">
+ 
+					<div class="col-md-6 col-sm-12 ">
+						<div class="form-group">
+							<label>{{ form_label(form.Niveau, 'Niveau', {'label_attr': {'class': ' '}}) }}</label>
+							{{ form_widget(form.Niveau, {'attr': {'class': 'custom-select2 form-control', 'value': poste.Niveau }}) }}
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-12  ">
+						<div class="form-group">
+							<label>{{ form_label(form.Type, 'Type de Poste', {'label_attr': {'class': ' '}}) }}</label>
+							{{ form_widget(form.Type, {'attr': {'class': 'custom-select2 form-control', 'value': poste.Type  }}) }}
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label class="create__label" for="title">{{ form_label(form.DateDeb, 'Date de début', {'label_attr': {'class': ''}}) }}</label>
+							{{ form_widget(form.DateDeb, {'attr': {'class': ' form-control'  }}) }}
+
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label class="create__label" for="title">{{ form_label(form.DateFin, 'Date de Fin', {'label_attr': {'class': 'foo'}}) }}</label>
+							{{ form_widget(form.DateFin, {'attr': {'class': ' form-control ' }}) }}
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label class="create__label" for="title">{{ form_label(form.Fonction, 'Fonction', {'label_attr': {'class': 'foo'}}) }}</label>
+							{{ form_widget(form.Fonction, {'attr': {'class': 'custom-select2 form-control', 'value': poste.Fonction}}) }}
+						</div>
+					</div>
+
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label class="create__label" for="title">{{ form_label(form.Agent, 'Agent', {'label_attr': {'class': 'foo'}}) }}</label>
+							{{ form_widget(form.Agent, {'attr': {'class': 'custom-select2 form-control','placeholder': "Insérez l'agent" }}) }}
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+
+							<button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+
+						</div>
+					</div>
+
+
+				</div>
+
+				{{ form_end(form) }}
+
+
+			</div>
+
+
+		</div>
+	</div>
+
+
+{% endblock %}

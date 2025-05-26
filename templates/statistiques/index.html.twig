@@ -1,0 +1,132 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Tableaux statistiques de suivi courriers DGCA
+{% endblock %}
+
+{% block main %}{% endblock %}
+
+{% block breadcrumb %}
+
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Statistiques
+					</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Tableau Général suivi courriers
+							{{user.niveau =="Admin"? "Global":user.zone}}
+						</li>
+					</ol>
+				</nav>
+			</div>
+
+
+		</div>
+
+
+	</div>
+{% endblock %}
+
+
+{% block list %}
+
+	<div class="card-box mb-30">
+		<div class="pd-20"></div>
+		<div class="pb-20">
+			<table class="table hover data-table-export stripe  " id="expensive">
+				<thead>
+					<tr style="font-weight : bold; text-transform : uppercase">
+						<th style="width : 5%" class="datatable-nosort">N°</th>
+						<th style="width : 10%" class="datatable-nosort">Origine</th>
+						<th style="width : 20%" class="datatable-nosort">Obj</th>
+						<th style="width : 10%" class="datatable-nosort">Ref</th>
+						<th style="width : 10%" class="datatable-nosort">ST</th>
+						<th style="width : 15%" class="datatable-nosort">D.AFF</th>
+						<th style="width : 15%" class="datatable-nosort">NT</th>
+						<th style="width : 20%" class="datatable-nosort">Obs</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% set parcour = 1 %}
+					{% for document in documents %}
+						{% set countAffectation = 0 %}
+						{% if document.Niveau != 'PUBLIC' and document.affectations|length > 0 and document.Reponse == null %}
+							{% for affectation in document.affectations %}
+								{% if affectation.Envoyeur in poste and affectation.status == true %}
+									<tr {{ document.Reponse ? 'text-success' : document.documents|length > 0 ? 'text-primary'}}>
+										<td></td>
+
+										<td>
+											{{ document.Poste}}
+										</td>
+										<td>
+											{{ document.Objet }}
+										</td>
+										<td>
+											{{  document.Reference }}
+										</td>
+
+										<td>{{ affectation.Receveur ?  affectation.Receveur:  affectation.Agent.nom ~' '~ affectation.Agent.prenom}}</td>
+										<td>{{ affectation.DateAffectationAt ? affectation.DateAffectationAt|date('d-m-Y') : ''}}</td>
+										<td>{{ document.Reponse or document.documents|length >0 or document.Initiateur in poste or document.mouvement == "DEPART" ? "Traité": 'En cours' }}</td>
+										<td>{{ document.Observation }}
+										</td>
+									</tr>
+									{% set countAffectation = countAffectation + 1 %}
+
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+
+
+						{% if countAffectation == 0 %}
+							<tr class="{{ document.Reponse ? 'text-success' : document.documents|length > 0 ? 'text-primary'}} ">
+								<td></td>
+								<td>{{ document.Poste}}</td>
+								<td>{{ document.Objet }}</td>
+								<td>
+									{{  document.Reference }}
+								</td>
+								<td>ND</td>
+								<td>ND</td>
+								<td>{{ document.Reponse  or document.documents|length >0 or document.Initiateur in poste or document.mouvement == "DEPART"? "Traité": 'Instance' }}</td>
+								<td>{{ document.Observation }}
+								</td>
+							</tr>
+
+						{% endif %}
+
+					{% endfor %}
+
+				</tbody>
+			</table>
+
+			<span style="font-size:12px;margin:20px; ">
+				<span>
+					<b>Legende:</b>
+				</span>
+				<b>OBJ :</b>
+				Objet ;
+				<b>REF :</b>
+				Reference;
+				<b>NUM ENR :</b>
+				Numero d'enregistrement;
+				<b>ST :</b>
+				Service traitant;
+				<b>D.AFF :</b>
+				Date d'affectation;
+				<b>NT :</b>
+				Niveau de traitement;
+				<b>OBS :</b>
+				Observation;
+			</span>
+		</div>
+	</div>
+{% endblock %}

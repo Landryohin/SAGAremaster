@@ -1,0 +1,131 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Liste des affectations
+{% endblock %}
+
+
+{% block main %}{% endblock %}
+
+
+{% block breadcrumb %}
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Liste des affectations</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Liste des affectations
+						</li>
+					</ol>
+				</nav>
+			</div>
+
+		</div>
+
+
+	</div>
+{% endblock %}
+
+{% block list %}
+
+
+	<div class="card-box mb-30">
+		<div class="pd-20"></div>
+		<div class="pb-20">
+			<table class="table hover data-table-export stripe  " id="expensive">
+				<thead>
+					<tr style="font-weight : bold; text-transform : uppercase">
+						<th style="width : 5%" class="datatable-nosort">N°</th>
+						<th style="width : 20%" class="datatable-nosort">Date Affectation</th>
+						<th style="width : 20%" class="datatable-nosort">Réference</th>
+						<th style="width : 20%" class="datatable-nosort">Objet</th>
+						<th style="width : 12%" class="datatable-nosort">Expéditeur</th>
+						<th style="width : 12%" class="datatable-nosort">Destinataire</th>
+						<th style="width : 10%" class="datatable-nosort">Actions</th>
+
+
+					</tr>
+				</thead>
+				<tbody>
+
+					{% for Affectation in Affectations %}
+
+						<tr>
+							<td></td>
+							<td>
+								{{ Affectation.DateAffectationAt ? Affectation.DateAffectationAt|date('d-m-Y') : '' }}</td>
+							<td>
+								{{  Affectation.document.Reference }}
+							</td>
+							<td>
+								{{ Affectation.document.Objet }}
+							</td>
+							<td>{{ Affectation.Envoyeur}}
+							</td>
+							<td>
+								{{  Affectation.Agent? Affectation.Agent.Prenom ~"  "~ Affectation.Agent.Nom : Affectation.Receveur ? Affectation.Receveur:""   }}
+							</td>
+							<td>
+
+								<div class="dropdown">
+									<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+										<i class="dw dw-more"></i>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+
+
+										{% if (user.niveau == "Admin" or  (Affectation.Envoyeur == user.zone or Affectation.Document.PosteOwner.Fonction == user.zone or (direction and Affectation.Envoyeur == direction.Code)))  and  Affectation.status == false %}
+											<form method="post" action="{{ path('app_Affectations_delete', {'id': Affectation.id}) }}" onsubmit="return confirm('Etes vous sûr de vouloir  supprimé cette affectation?');">
+
+												<a class="dropdown-item" href="{{ path('app_Affectations_show', {'id': Affectation.id}) }}" type="button">
+													<i class="icon-copy fa fa-eye" aria-hidden="true"></i>
+													Visualiser</a>
+
+
+												<a class="dropdown-item" href="{{ path('app_Affectations_edit', {'id': Affectation.id}) }}" type="button">
+													<i class="icon-copy fa fa-pencil-square-o" aria-hidden="true"></i>
+													Modifier</a>
+
+
+												<a class="dropdown-item" title="Valider" href="{{ path('app_Affectations_valid', {'id': Affectation.id}) }}"  type="button">
+
+													<i class="icon-copy fa fa-check-circle" aria-hidden="true"></i>
+													Valider</a>
+
+
+												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ Affectation.id) }}">
+
+
+												<a class="dropdown-item" href="#">
+													<i class="icon-copy fa fa-trash" aria-hidden="true"></i>
+													<button type="submit" style=" border: none;  outline: none; background: none; cursor: pointer;" title="Supprimer">Supprimer</button>
+												</a>
+
+
+											</form>
+
+										{% else %}
+											<a class="dropdown-item" href="{{ path('app_Affectations_show', {'id': Affectation.id}) }}" type="button">
+												<i class="icon-copy fa fa-eye" aria-hidden="true"></i>
+												Visualiser</a>
+										{% endif %}
+
+
+									</div>
+								</div>
+							</td>
+						</tr>
+
+
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}

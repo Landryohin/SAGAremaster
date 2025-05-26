@@ -1,0 +1,112 @@
+{% extends 'base2.html.twig' %}
+
+
+{% block title %}Modification de service
+{% endblock %}
+
+{% block main %}{% endblock %}
+
+{% block breadcrumb %}
+
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Modifier un service</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_services_index') }}">Liste des services</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Modifier un service
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+
+{% block list %}
+
+
+	<div class="pd-20 card-box mb-30">
+
+		<div class="pb-20">
+
+			<div class="clearfix">
+				 
+					<div
+						class="pull-left">
+						<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+						<p class="mb-30">
+							<b>Formulaire de Modification d'un service
+							</b>
+						</p>
+					</div>
+
+				 
+			</div>
+
+
+			<div  >
+
+				{{ form_start(form) }}
+
+				<div class="row">
+
+					<div class="col-md-6 col-sm-12 ">
+						<div class="form-group">
+							<label class="create__label" for="title">{{ form_label(form.Code, 'Code du service', {'label_attr': {'class': 'foo'}}) }}</label>
+							<div>{{ form_widget(form.Code, {'attr': {'class': 'form-control','placeholder': "Insérez le code du service" }}) }}</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label class="create__label" for="title">{{ form_label(form.Libelle, 'Libellé du service', {'label_attr': {'class': 'foo'}}) }}</label>
+							<div>{{ form_widget(form.Libelle, {'attr': {'class': 'form-control','placeholder': "Insérez le libellé du service" }}) }}</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-12 col-sm-12">
+						<div class="form-group">
+							<label>{{ form_label(form.Direction, 'La direction ', {'label_attr': {'class': 'foo'}}) }}</label>
+							<div>{{ form_widget(form.Direction, {'attr': {'class': 'form-control custom-select2','placeholder': "Insérer le libellé de la direction" }}) }}</div>
+
+
+						</div>
+					</div>
+
+
+					<div class="col-md-12 col-sm-12">
+						<div class="form-group">
+							<button class="create__btn-create btn btn--type-02 btn btn-warning">{{ button_label|default('Modifier') }}</button>
+						</div>
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+			{{ form_end(form) }}
+
+
+		</div>
+
+
+	</div>
+
+
+{% endblock %}

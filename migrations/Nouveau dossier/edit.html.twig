@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification de documents{% endblock %}
+
+{% block list %}
+<div style="  margin-top: 15px" >
+  <div> <a class="btn btn-success"  href="{{ path('app_documents_index') }}">Retour</a></div>
+   <div style="text-align:right; margin-top:-37px"> <a class="btn btn-danger"  href=" ">Supprimer</a></div>
+</div>
+                    {{ form_start(form) }}
+                                <div class="create">
+                                <div class="create__section">
+                                
+                                    <div class="create__title"><img src={{asset('build/images/icons/update.fb0ac4e5.svg')}}>Modification de document</div>
+                                   
+                                </div>
+                               <div style="display:flex; flex-wrap:wrap">
+                                     <div class="create__section" style="width: 47.5%; ">
+                                        <label class="create__label" for="title">{{ form_label(form.Chemin, 'Chemin', {'label_attr': {'class': 'foo'}}) }}</label>
+                                        <div>{{ form_widget(form.Chemin, {'attr': {'class': 'form-control','placeholder': "Insérer le chemin" }}) }}</div> 
+                                    </div>
+                                    <div class="create__section" style="width: 47.5%;margin-left:5%">
+                                        <label class="create__label" for="title">{{ form_label(form.Objet, 'Objet ', {'label_attr': {'class': 'foo'}}) }}</label>
+                                        <div>{{ form_widget(form.Objet, {'attr': {'class': 'form-control','placeholder': "Insérer l'objet" }}) }}</div> 
+                                    </div>
+                                    
+                                </div>
+                                 <div style="display:flex; flex-wrap:wrap">
+                                 
+                                    <div class="create__section" style="width: 47.5%;">
+                                                    <label class="create__label" for="title">{{ form_label(form.Reference, 'Référence du courrier', {'label_attr': {'class': 'foo'}}) }}</label>                                                
+                                                        <div>{{ form_widget(form.Reference, {'attr': {'class': 'form-control','placeholder': "Insérer la zone" }}) }}</div> 
+
+                                                </div>
+                                    <div class="create__section" style="width: 47.5%;margin-left:5%">
+                                        <label class="create__label" for="title">{{ form_label(form.Structure, 'Structure', {'label_attr': {'class': 'foo'}}) }}</label>
+                                        <div>{{ form_widget(form.Structure, {'attr': {'class': 'form-control','placeholder': "Insérer la structure" }}) }}</div> 
+                                    </div>
+                                </div>
+
+                              <div style="display:flex; flex-wrap:wrap">
+                                     <div style="width: 47.5%; ">
+                                    
+                              
+                                     </div>
+
+                                    <div style="width: 47.5%;margin-left:5% ">
+                         
+                                
+                                    </div>
+                                </div>
+
+
+                                <div style="display:flex; flex-wrap:wrap">
+
+                                        <div style="width: 47.5%; ">
+                                        
+                                                <div class="create__section">
+                                                    <label class="create__label" for="title">{{ form_label(form.DateArrivee, 'Référence du courrier', {'label_attr': {'class': 'foo'}}) }}</label>                                                
+                                                        <div>{{ form_widget(form.DateArrivee, {'attr': { 'class': 'date_time', 'placeholder': "Insérer la zone" }}) }}</div>  
+
+                                                </div>
+                                    
+                                        </div>
+                                        <div style="width: 47.5%;margin-left:5%  ">
+                                            
+                                                <div class="create__section">
+                                                    <label class="create__label" for="title">{{ form_label(form.TypeDocument, 'Type de document', {'label_attr': {'class': 'foo'}}) }}</label>
+
+                                                    <label class="custom-select">
+                                                                                                        
+                                                        <div>{{ form_widget(form.TypeDocument, {'attr': {'class': 'form-control','placeholder': "Insérer le type" }}) }}</div> 
+
+                                                    </label>
+                                                </div>
+                                        
+                                        </div>
+                                </div>
+
+                             
+                                <div class="create__section">
+                                    <label class="create__label" for="title">{{ form_label(form.NumeroEnregistrement, 'Numero d\'enregistrement', {'label_attr': {'class': 'foo'}}) }}</label>
+                                     <div>{{ form_widget(form.NumeroEnregistrement, {'attr': {'class': 'form-control','placeholder': "Insérer le rôle de l'utilisateur" }}) }}</div> 
+                                </div>  
+                                
+
+                                <style>
+                                        .date_time{ 
+                                            color: red;
+                                            padding: 4px;  
+                                            border: solid 1px #e9ecee;
+                                             border-radius: 0;
+                                            background-color: #ECECEC;
+                                             color: #181617;
+                                            -webkit-box-shadow: none;
+                                             -moz-box-shadow: none;
+                                            box-shadow: none;
+                                             display: block;
+                                             width: 100%;
+                                        }
+                                    
+                                    </style>
+                                  
+                                <div class="create__footer"> 
+                                    <div style="display:flex; flex-wrap:wrap">
+                                        <div class="create__section" style="width: 40%;">
+                                            <label class="create__label" for="title">{{ form_label(form.Sensibility, "Public") }}</label>
+                                            <div>{{ form_widget(form.Sensibility, {'attr': {'class': 'form-control' }}) }}</div> 
+                                        </div>
+                                        <div class="create__section" style="width: 20%;">
+                                            <button class=" btn btn-warning">{{ button_label|default('Modifier') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {{ form_end(form) }}
+                             
+{% endblock %}

@@ -1,0 +1,15 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    # form_themes: ['bootstrap_5_layout.html.twig', 'form/my_theme.html.twig']
+    globals:
+        # Nom de la variable globale
+        dg:
+            # Valeur de la variable globale
+            value: 'DGML'
+        logo:
+            # Valeur de la variable globale
+            value: 'logo-dgml.06f184b2.png'
+
+when@test:
+    twig:
+        strict_variables: true

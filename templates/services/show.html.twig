@@ -1,0 +1,221 @@
+{% extends 'base2.html.twig' %}
+{% block title %}Visualisation de services
+{% endblock %}
+
+{% block main %}{% endblock %}
+
+
+{% block breadcrumb %}
+
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Visualiser un service</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_services_index') }}">Liste des services</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Visualiser un service
+						</li>
+					</ol>
+				</nav>
+			</div>
+
+			<div class="col-md-6 col-sm-12 text-right">
+				<div>
+
+					<div>
+						<a type="submit" href="{{ path('app_services_edit', {'id': service.id}) }}" class="btn btn-warning">
+							<i class="icon-copy ion-edit"></i>
+							&nbsp; Modifier
+						</a>
+
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
+
+
+	</div>
+{% endblock %}
+
+
+{% block list %}
+
+	<div class="pd-20 card-box mb-30">
+
+		<div class="pb-20">
+
+			<div class="clearfix">
+				 
+					<div
+						class="pull-left">
+						<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+						<p class="mb-30">
+							<b>Fiche d'un service</b>
+						</p>
+					</div>
+ 
+			</div>
+
+
+			<div  >
+
+
+				<div class="row">
+
+
+					<div class="col-md-6 col-sm-12 ">
+						<div class="form-group">
+							<label class="create__label" for="title">
+								Code du service</label>
+							<input class="form-control" type="text" name="name" value="{{ service.Code }}" readonly>
+						</div>
+					</div>
+
+
+					<div class="col-md-6 col-sm-12  ">
+						<div class="form-group">
+							<label class="create__label" for="title">
+								Libellé du service
+							</label>
+							<input class="form-control" type="text" name="name" value="{{ service.Libelle }}" readonly>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+		</div>
+
+
+	</div>
+
+	<div class="pd-20 card-box mb-30">
+
+		<div class="pb-20">
+
+			<div class="clearfix">
+				<div class="pd-20   ">
+					<div
+						class="pull-left">
+						<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+						<p class="mb-30">
+							<b>Liste des divisions de la
+								{{service.Libelle}}
+							</b>
+						</p>
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="container">
+
+
+				<div class="row">
+
+					{% for division in divisions %}
+
+
+						<div class="table-responsive">
+							<table class="table table-bordered">
+
+								<tbody>
+									<tr>
+										<th scope="row">
+											<a href="{{ path('app_divisions_show', {'id': division.id}) }}" style="margin-left:20px ;font-size:18px" class="category">
+												{{ division.Libelle}}
+											</a>
+											<br>
+
+										</th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+
+					{% else %}
+						<p>Pas de divisions dans cet service.</p>
+					{% endfor %}
+
+				</div>
+
+
+			</div>
+
+
+		</div>
+	</div>
+
+
+	<div class="pd-20 card-box mb-30">
+
+		<div class="pb-20">
+
+			<div class="clearfix">
+				<div class="pd-20   ">
+					<div
+						class="pull-left">
+						<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+						<p class="mb-30">
+							<b>Liste des utilisateurs de la
+								{{service.Libelle}}
+							</b>
+						</p>
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="container">
+
+
+				<div class="row">
+
+					{% for user in users %}
+						<div class="table-responsive">
+							<table class="table table-striped">
+
+								<tbody>
+									<tr>
+										<th scope="row">
+											<a href="{{ path('app_users_show', {'id': user.id}) }}">
+
+												{{ user.Nom }}
+												{{ user.Prenom }}
+											</a>
+										</th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+
+					{% else %}
+						<p>Pas d'utilisateurs dans ce service.</p>
+					{% endfor %}
+
+				</div>
+
+
+			</div>
+
+
+		</div>
+	</div>
+{% endblock %}

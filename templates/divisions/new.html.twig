@@ -1,0 +1,111 @@
+{% extends 'base2.html.twig' %}
+
+
+{% block title %}Nouvelle division
+{% endblock %}
+
+{% block main %}{% endblock %}
+
+{% block breadcrumb %}
+
+	<div class="page-header">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="title">
+					<h4>Nouvelle division</h4>
+				</div>
+				<nav aria-label="breadcrumb" role="navigation">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{path("Accueil")}}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_divisions_index') }}">Liste des divisions</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Nouvelle division
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block list %}
+
+
+	<div class="pd-20 card-box mb-30">
+
+		<div class="pb-20">
+
+			<div class="clearfix">
+				 
+					<div
+						class="pull-left">
+						<!-- <h4 class="text-blue h4">Ajout d'un poste</h4> -->
+						<p class="mb-30">
+							<b>Formulaire d'ajout de division
+							</b>
+						</p>
+					</div>
+
+				 
+			</div>
+
+
+			<div class="container">
+
+				{{ form_start(form) }}
+
+				<div class="row">
+
+					<div class="col-md-6 col-sm-12 ">
+						<div class="form-group">
+							<label>{{ form_label(form.Code, 'Code de la division', {'label_attr': {'class': 'foo'}}) }}</label>
+							{{ form_widget(form.Code, {'attr': {'class': 'form-control','placeholder': "Insérez le code de la division" }}) }}
+
+						</div>
+					</div>
+
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<label>{{ form_label(form.Libelle, 'Libellé de la division', {'label_attr': {'class': 'foo'}}) }}</label>
+							<div>{{ form_widget(form.Libelle, {'attr': {'class': 'form-control','placeholder': "Insérez le libellé de la division" }}) }}</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-12 col-sm-12">
+						<div class="form-group">
+							<label>{{ form_label(form.Service, 'Service de la division', {'label_attr': {'class': 'foo'}}) }}</label>
+							<div>{{ form_widget(form.Service, {'attr': {'class': 'form-control custom-select2','placeholder': "Insérez le libellé de la division" }}) }}</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-6 col-sm-12">
+						<div class="form-group">
+							<button class="create__btn-create btn btn--type-02 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+
+						</div>
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+			{{ form_end(form) }}
+
+
+		</div>
+
+
+	</div>
+
+
+{% endblock %}
